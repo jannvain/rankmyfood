@@ -1,0 +1,102 @@
+<div class="menuBar">
+	<div class="leftNav">
+		<h1>
+		  	<div ng-click="subtractDay()">
+				<span class="fa fa-chevron-circle-left"></span>
+			</div>
+		</h1>	
+	</div>
+	
+	<div class="centerMenuBar">
+		<h1><dropdown placeholder="Today" list="vm.timeRanges" selected="vm.currSel" property="name"></dropdown></h1>
+	</div>
+	
+	<div class="rightNav">
+		<h1>
+			<div ng-click="addDay()">
+				<span class="fa fa-chevron-circle-right"></span>
+			</div>	
+		</h1>
+	</div>
+</div>
+
+<div class="listScroller" >  	
+  	
+  	<div style="text-align:center;">
+  	<p class="p0">Time between meals</p>
+  	
+  	
+  	
+  	<div class="mySummary">
+  		<div  ng-hide="filtered.length==0" class="mySummary connect">
+			<span>&nbsp;</span>	
+		</div>		
+		<div class="mySummary gap night">
+			<span class="fa fa-bed fa-2x"></span><br>Zzz...
+		</div>		
+	</div>
+	<div  ng-hide="filtered.length>0" class="mySummary connect">
+		<span class="fa fa-arrow-left"></span>		
+	</div>		
+	<div ng-hide="filtered.length>0" class="mySummary gap night">
+		No<br>meals<br>yet
+	</div>		
+	
+				
+  	<div class="mySummary" ng-repeat-start="meal in filtered = (myMeals.meals | day:vm.currSel)"  >
+		<div ng-hide="$index==0" class="mySummary connect">
+			<span class="fa fa-arrow-left"></span>	
+		</div>		 	
+  		<div ng-hide="$index==0" class="mySummary gap" ng-class="{veryGood: isVeryGood(meal.gap), prettyGood: isPrettyGood(meal.gap), noGood: isNoGood(meal.gap)}">
+			<span ng-show="isVeryGood(meal.gap)" class="fa fa-thumbs-up fa-2x"></span>
+			<span ng-show="isPrettyGood(meal.gap)" class="fa fa-thumbs-up fa-2x"></span>
+			<span ng-show="isNoGood(meal.gap)" class="fa fa-thumbs-down fa-2x"></span>
+			
+			<br>{{formatMealGap(meal.gap)}}
+		</div>		
+  	</div>
+  	<div class="mySummary" ng-repeat-end>
+ 		<div  class="mySummary connect">
+			<span class="fa fa-arrow-left"></span>	
+		</div>		
+		<div class="mySummary meal">
+      			<div  class="smallImage borderfix">		      	
+      				<div ng-switch on="meal.imageName">
+  							<div ng-switch-when="noimage">
+  								<ng-include src="'showSpinner'"> </ng-include>
+  							</div>
+	    				<div ng-switch-default>
+   							<ng-include src="'showImage'"> </ng-include>
+  							</div>
+					</div>
+					
+				</div>	  	
+				<div class="mySummaryCategory">{{::meal.categoryName}}</div>
+		</div>	
+  	
+  	</div>
+  	
+  	<div class="mySummary">
+		<div  class="mySummary connect">
+			<span class="fa fa-arrow-left"></span>	
+		</div>	
+		 	
+		 	<div class="mySummary gap morning">
+			<span class="fa fa-coffee fa-2x"></span><br>hmm...
+		</div>		
+	</div>  	
+ </div>
+  
+</div>
+    
+ 	<script type="text/ng-template" id="showImage">
+				  		<img class="veryXsImg borderfix" ng-src="/mealimages/xs/{{meal.imageName}}" ng-model="meal.imageName"></img>
+					  	<div ng-show="meal.hasVoted" class="hoverVoteXs">
+		      				<div class="listGrade small">{{meal.averageRankDisplayed}}</div>
+						</div>
+	</script>
+
+	<script type="text/ng-template" id="showSpinner">
+				      	<div style="margin:1em auto;text-align:center;"><span class="fa fa-refresh fa-spin fa-3x"></span></div>
+
+	</script>   

@@ -1,0 +1,51 @@
+ <form ng-submit="sendVote()">
+   		<span style="margin: 0 auto;text-align:center;">
+     	<label>
+            <input id="radio-10" class="radio-customx" value="10" name="radio-group" type="radio"  ng-model="voteData.voteValue">
+            <span class="voteRadio">10</span>
+        </label>
+     	<label>
+            <input id="radio-9" class="radio-customx" value="9" name="radio-group" type="radio"  ng-model="voteData.voteValue">
+            <span class="voteRadio">9</span>
+        </label>
+     	<label>
+            <input id="radio-8" class="radio-customx" value="8" name="radio-group" type="radio"  ng-model="voteData.voteValue">
+            <span class="voteRadio">8</span>
+        </label>
+     	<label>
+            <input id="radio-7" class="radio-customx" value="7" name="radio-group" type="radio" ng-model="voteData.voteValue">
+            <span class="voteRadio">7</span>
+        </label>
+     	<label>
+            <input id="radio-6" class="radio-customx" value="6" name="radio-group" type="radio"  ng-model="voteData.voteValue">
+            <span class="voteRadio">6</span>
+        </label>
+     	<label>
+            <input id="radio-5" class="radio-customx" value="5" name="radio-group" type="radio"  ng-model="voteData.voteValue">
+            <span class="voteRadio">5</span>
+        </label>
+     	<label>
+            <input id="radio-4" class="radio-customx" value="4" name="radio-group" type="radio"  ng-model="voteData.voteValue">
+            <span class="voteRadio">4</span>
+        </label>
+        </span>
+        <div class="mySpace"></div>
+        <span class="pure-form">
+	    <textarea rows="4" wrap="hard" ng-focus="focus('description')" ng-blur="blur('description')" ng-model="voteData.description"
+	                name="description" class="pure-input-1" placeholder="Comments on the meal?">	</textarea>		
+
+        <div class="mySpace"></div>
+        
+    <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+     <!-- div class="form-field full" style="margin: 0 auto;" -->         
+	    <button style="margin: 0 auto;text-align:center;float:left;" type="submit" class="button-primary pure-button pure-input-1-2">
+	    <span class="fa fa-check"></span> Send Vote
+	    </button>
+	    <button type="button" ng-click="closeVoteDialog()" style="margin: 0 auto;text-align:center;float:right;" class="button-highColor pure-button pure-input-2-5">
+	    <span class="fa fa-times"></span> Cancel
+	    </button>
+	    </span>
+	    <div class="mySpace"></div>
+	    
+    <!-- /div -->          
+ </form>

@@ -1,0 +1,203 @@
+$height:2.5em;
+$height2:2.5em;
+
+$spacing:10px;
+$placeholder-colour:#AAA;
+$select-colour:#a2d6fe;
+$font-size:1.0em;
+$border-colour:#666	;
+$h1Color: #a2d6fe;
+
+/* $darkBrown: #372313; */
+$darkBrown: transparent;
+
+@mixin vertical-centre ($height) {
+	height:$height;
+	line-height:$height2 !important;
+	display:inline-block;
+	vertical-align:middle;
+}
+
+@mixin border-box { box-sizing:border-box; -moz-box-sizing:border-box; }
+			
+@mixin transform($transforms) {
+	-moz-transform: $transforms;
+	-o-transform: $transforms;
+	-ms-transform: $transforms;
+	-webkit-transform: $transforms;
+    transform: $transforms;
+}	
+
+@mixin transition($transition...) {
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}
+
+// scale
+@mixin scale($scale...) {
+	 @include transform(scale($scale));
+} 
+		
+/*			
+.transition (@value1,@value2:X,...) { @value: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`; -webkit-transition: @value; -moz-transition: @value; -ms-transition: @value; -o-transition: @value; transition: @value; }
+.transform (@value1,@value2:X,...) { @value: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`; transform:@value; -ms-transform:@value; -webkit-transform:@value; -o-transform:@value; -moz-transform:@value; }
+*/			
+		
+		
+dropdown {
+	float:left;
+	display:block;
+	width:100%;
+	z-index:10;
+	>div {
+		float:left;
+		width:100%;
+		z-index:10;
+
+		>div.dropdown-display {
+			float:left;
+			width:100%;
+			background:white;
+			height:$height;
+			cursor:pointer;
+			border:solid 1px $border-colour;
+			box-sizing:border-box;
+			z-index:10;
+
+			&.dark{
+				background: $darkBrown;
+				width: inherit;
+				/*color: $select-colour;*/
+				border:solid 0px $darkBrown;
+			}
+
+			$icon-width:14px;
+			>* {
+				float:left;
+				height:100%;
+				@include vertical-centre($height);
+			}
+			
+			>span {
+				font-size:$font-size;
+				width:100%;
+				position:relative;
+				box-sizing:border-box;
+				padding-right:$icon-width+$spacing*2;
+				padding-left:$spacing;
+				
+				&.placeholder {
+					color:$placeholder-colour;
+				}
+			
+			}
+			h2{
+				text-align: center;
+				font-size: 1.6em;
+				padding: 0;
+				margin: 0;
+				color: $h1Color;
+
+			}
+		
+			i {
+				position:relative;
+				width:$icon-width;
+				margin-left:($spacing+$icon-width)*-1;
+				font-weight:bold;
+				padding-right:$spacing;
+				text-align:right;
+				line-height: 100%;
+				font-size: inherit;
+				height: 100%;
+			}
+		}
+
+		>div.dropdown-list {
+			float:left;
+			width:100%;
+			position:relative;
+			width:100%;
+			z-index:10;
+			text-align: left;
+
+			@include scale(1,0);
+			/*transform:scale(1, 0);*/
+			/*transition:transform ease 250ms;*/
+			@include transition(transform ease 250ms);
+			
+			>div {
+				position:absolute;
+				width:100%;
+				z-index:10;
+				cursor:pointer;
+				background:white;
+				
+				>div {
+					float:left;
+					width:100%;
+					padding:0 $spacing;
+					font-size:$font-size;
+					box-sizing:border-box;
+					border:solid 1px $border-colour; border-top:none;
+					
+					$icon-width:20px;
+					
+					&:hover {
+						background:#F0F0F0;
+					}
+					
+					&.selected {
+						background:$select-colour;
+						color:white;
+					}
+					
+					* {
+						@include vertical-centre($height);
+					}
+					
+					span {
+						float:left;
+						width:100%;
+						position:relative;
+						padding-right:$icon-width+$spacing;
+						box-sizing:border-box;
+						color:inherit;
+					}
+					h2{
+						/*text-align: left;*/
+						font-size: 1.6em;
+						padding: 0;
+						margin: 0;
+						color: #4fb2fe;
+
+					}
+					
+					i {
+						float:right;
+						color: #4fb2fe;
+						width:$icon-width;
+						margin-left:$icon-width*-1;
+						display:none;
+						height: inherit;
+						line-height: inherit;
+						font-size: inherit;
+					}
+					
+					&.selected i {
+						color: #eeeeee;
+						display:inline-block;
+					}
+				}
+			}
+		}
+	}
+
+	>div.show>div.dropdown-list {
+		/*transform:scale(1, 1);*/
+		@include scale(1,1);
+
+	}
+}

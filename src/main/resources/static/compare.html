@@ -1,0 +1,20 @@
+<div class="menuBar">
+	<div class="leftNew">
+		&nbsp;
+	</div>
+	<div class="centerMenuBar">
+   		<h1><dropdown placeholder="All" list="timeRanges" selected="currSel" property="name" ng-click="changeTimeRange()"></dropdown></h1>
+	</div>
+	<div class="rightNav">
+		&nbsp;
+	</div>	
+</div>
+
+<div id="listScroller" class=listScroller>
+<div class="mySpace">&nbsp;</div>
+<p class="center">Daily average meal ranking</p>
+	<div ng-cloak ng-show="dataLoaded" id="mealChart" google-chart chart="chart" style="{{cssStyle}}"></div>
+</div>
+  
+    
+    

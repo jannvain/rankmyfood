@@ -1,0 +1,17 @@
+<div>
+	<h1 style="float:left;" class="h1Title" >{{uiDate.hours}}&#58;{{uiDate.minutes}}</h1>
+	<button style="float:right;" ng-click="closeSetTime();" class="pure-button pure-input-1 pure-button-primary">OK</button>
+</div>
+<form style="clear:both;margin:0 auto;">
+		<legend>Hours:</legend>
+     	<label ng-repeat="hour in hours" ng-click="updateForm();">
+            <input id="radio-{{$index}}" class="radio-customx" value="{{hour}}" name="radio-group-time" type="radio"  ng-model="uiDate.hours">
+            <span class="radio-custom-label-time">{{hour}}</span>
+        </label>        
+		<legend>Minutes:</legend>
+
+     	<label ng-repeat="minute in minutes" ng-click="updateForm();">
+            <input id="radio-{{$index}}-min" class="radio-customx" value="{{minute}}" name="radio-group-time-min" type="radio"  ng-model="uiDate.minutes">
+            <span class="radio-custom-label-time">{{minute}}</span>
+        </label>        
+ </form>

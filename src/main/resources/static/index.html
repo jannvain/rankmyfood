@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meal Ranking</title>
+	<meta content="utf-8" http-equiv="encoding">
+
+    <link rel="stylesheet" href="css/pure/pure-min.css">
+    <link rel="stylesheet" href="css/pure/grids-responsive-min.css">
+   	<link rel="stylesheet" href="css/angular-dropdowns/dist/angular-dropdowns.css">
+    
+    <link rel="stylesheet" href="css/mealrank.css">
+    
+    <link rel="stylesheet" href="css/rankmymeal.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+
+    <link rel="stylesheet" href="css/angular-fancy-modal/dist/angular-fancy-modal.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+	<link href='http://fonts.googleapis.com/css?family=Racing+Sans+One' rel='stylesheet' type='text/css'>
+    
+</head>
+	
+<body  class="innerBody" id="mealRankApp" ng-controller="MainCtrl">
+	<div class="headerBar">
+		<div class="left" ng-cloak>
+			<h1 class="dark">{{headerData.viewTitle}}&nbsp;</h1>
+		</div>
+		<div class="right" ng-cloak>
+  			<h1  ng-switch="headerData.notInRoot">
+   				<span ng-switch-when="true">
+			  		<a class="button-transparent" href="#/">
+		  				<span class="fa fa-arrow-circle-left"></span>
+	  				</a>
+   				</span>
+   				<span ng-switch-when="false">
+	 			  	<div dropdown-menu="ddMenuOptions" dropdown-model="ddMenuSelected" class="button-transparent mod-btn-menu">
+  						<span class="fa fa-bars"></span>
+  					</div>
+   				</span>
+			</h1>
+		</div>
+	</div>
+  	
+
+	  	
+	<div ng-hide="appReady" class="rList progress">
+		<p class="p1Progress">Loading meal data <span class="fa fa-refresh fa-spin fa-1x"></span></p>
+	</div>
+	
+	<div  ng-cloak ng-show="loggingOut" class="rList progress">
+		<p class="p1Progress">Logging out<span class="fa fa-refresh fa-spin fa-1x"></span></p>
+	</div>
+
+	
+	<div class="myProgress" ng-class="{progressOff: ctrlLoaded}">
+		<p><span class="fa fa-refresh fa-spin"></span></p>
+	</div>
+
+	<div class="ngViewContainer bodyBar view-slide-in" ng-view>
+		<!--  Angular will load its different views in here. Every functionality is here except the navigation controls are
+		in header  --> 	 
+	
+	
+	</div>
+
+	<div class="footerBar"> 
+		<span class="right">	
+			<div ng-cloak class="mealClock">
+				<div class="eatBg" ng-class="{veryGood: isVeryGood(timeSinceLastMeal), prettyGood: isPrettyGood(timeSinceLastMeal), noGood: isNoGood(timeSinceLastMeal), veryBad: isVeryBad(timeSinceLastMeal)}"> 
+					<img class="eatImg" ng-src="img/eat{{isVeryBad(timeSinceLastMeal) ? 'b' : 'w'}}.png" /><div class="no">
+					<h1 ng-show="isVeryBad(timeSinceLastMeal)"><span class="fa fa-times"></span></h1>
+					
+					</div>
+				</div>
+				<h1 ng-class="{veryGoodInv: isVeryGood(timeSinceLastMeal), prettyGoodInv: isPrettyGood(timeSinceLastMeal), noGoodInv: isNoGood(timeSinceLastMeal)}">
+					{{formatTimeSinceLastMeal()}}
+				</h1>				
+			</div>
+		</span>
+	</div>
+	
+	<!-- Handling the loading of required Javascript components --> 
+	<script type="application/javascript" data-main="js/run-meal-rank"
+        src="js/requirejs/require.js"></script>
+</body>
+</html>

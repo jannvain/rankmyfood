@@ -1,0 +1,46 @@
+<div class=listScroller2>
+    
+     	<div class="bigImage">
+     		<img class="lgImg" ng-src="{{::vm.meal.src}}" imageonload />
+     		<span ng-hide="imgLoaded" class="loading outerSpin"><span class="imgWaitSpin fa fa-refresh fa-spin fa-5x"></span></span>
+      	
+      	<div ng-show="voteNow" ng-include src="'vote.html'"></div>
+
+		<div class="hoverVote">
+      		<div ng-show="vm.meal.hasVoted" class="totalGrade">{{vm.meal.averageRankDisplayed}}</div>
+		</div>
+		<div class="hoverVoteButton">
+			<a ng-show="!vm.meal.hasVoted" class="button-highColor pure-button" ng-click="vote()">
+			  			<span class="fa fa-pencil-square-o"></span>
+			  			 <br>Rank
+			</a>			
+		</div>
+     	</div>
+
+  
+     	
+     	
+  	<div class="pure-u-1">
+    	<p class="p1">{{vm.meal.description}}</p>
+  	</div>	
+  	
+  	<div>
+  		<p class="p0" ng-click="showDetails = ! showDetails">Details 
+  		<span ng-hide="showDetails" class="fa fa-chevron-down"></span>
+  		<span ng-show="showDetails" class="fa fa-chevron-up"></span>
+  		</p>
+  		<div class="mealDetails" ng-show="showDetails" ng-click="showDetails = ! showDetails">
+	    	<p class="p0">Owner: {{::vm.meal.nickName}}, Votes: {{vm.meal.voteCount}}</p>	    	
+ 			
+ 				<div ng-show="vm.meal.hasVoted" ng-repeat="ranky in vm.meal.rank"  >
+ 					<p class="p0">{{::ranky.description}}, {{::ranky.value}}</p>
+    			</div>
+		</div>
+  	
+  	</div>
+	  	
+    
+ </div>
+  
+    
+    

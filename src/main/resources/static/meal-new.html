@@ -1,0 +1,70 @@
+<div class=listScroller2>
+ 
+	<form ng-submit="processForm()" class="pure-form" style="position:relative;">
+		<div class="mySpace"></div>    
+
+		<div class="menuBar relativeMenu">
+			<div class="centerMenuBar">
+				<h1>
+					<dropdown placeholder="Snack" list="vm.categories" selected="vm.currSel" property="name"></dropdown>
+				</h1>
+			</div>
+		</div>
+
+	
+		<div class="mySpace"></div>    
+		<div  class="bigImage"  >
+	
+		<div class="ngfSimulateElement" ng-click="simulateNgfSelect($event);">
+		</div>			
+					
+		<div id="ngfElement" class="ngfElement" ngf-select ngf-change="onFileSelect($files, $event)">
+			<span ng-switch="imageSrc==''">
+				<span ng-switch-when="false">
+					<img class="lgImg" ngf-src="imageSrc" ngf-accept="'image/*'">
+	  			</span>
+	  			<span ng-switch-when="true">
+	  				<br>
+					<span class="fa fa-camera"> </span>
+					<br>Select Image
+	  			</span>
+			</span>
+		</div>
+			
+		</div>
+		
+		<div class="mySpace"></div>    
+		
+		<div class="pure-g">
+			<div class="pure-u-12-24" >
+			    	<h2  class="h2Title border" pick-a-date="formData.realDate" pick-a-date-options="vm.options" placeholder="Select Date" ng-model="formData.realDate" ng-change="updateUiDate();">
+			    		{{uiDate.date}}
+			    	</h2>
+			</div>
+			<div class="pure-u-12-24">
+				<h2  class="h2Title border" ng-click="setFancyTime()" ng-model="uiDate.time">
+					{{uiDate.time}}
+				</h2> 	   			
+			</div>
+		</div>
+		<div class="mySpace"></div>    
+		  
+		<!-- div ng-show="uploadProgress">{{uploadProgress}}</div -->
+  	
+
+	     <div class="form-fieldx fullx">     
+	         <textarea rows="2" wrap="hard" ng-focus="focus('description')" ng-blur="blur('description')" ng-model="formData.description"
+	                name="description" class="pure-input-1" placeholder="How was the meal? Any nice details to share?">	</textarea>		
+	     </div>
+		<div class="form-field full">
+		  	<button type="submit" class="button-primary pure-button pure-input-1">
+		  		<span class="fa fa-cloud"> </span>
+			 		Save Meal
+			 </button>
+		</div>
+	</form>
+	
+</div>
+  
+    
+    
