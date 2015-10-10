@@ -4,7 +4,10 @@ $baseFontColor: #744c31;
 $innerBodyPadding: 0; /*0.70em;*/
 $newHeaderHeight: 2.6em;
 $h1Color: #a2d6fe;
+/* $h1Color:rgba(26, 188, 224, 1.000); */
+
 $borderColor: #998888 /* 77666 #8b9658 */;
+$lightBorderColor: #dddddd /* 77666 #8b9658 */;
 $footerHeight: 2.4em;
 $almostBlack: #4d1f00; /*#3b2000;#372313;*/
 $prettyBlack: #7e4922;
@@ -19,6 +22,7 @@ $newMenuHeight: 2.5em;
 $innerBodyPadding2nd: 0.5em; /*0.70em;*/
 $headerHeight: 2.8em;
 $menuHeight: 2.6em;
+
 html{
 	-webkit-tap-highlight-color: rgba(0,0,0,0); 
 
@@ -32,9 +36,10 @@ html{
     box-sizing: border-box;
 
 	body{
-		background: url("/static/flowerbg4.png");
+		background: url("/resources/img/flowerbg4.png");
 		background-repeat: repeat;  
 		background: #fefefe;
+
 		/*background-attachment: fixed; */
 	}
 	
@@ -50,15 +55,22 @@ html{
 		margin-right: auto;
 		padding: $innerBodyPadding;
 		position: relative;	
+		background: #fdfdfd;
 	}
+}
+
+#loginApp, #createUserApp{
+
+	background: #ffffff;
 }
 
 .headerBar {
 	/*background: url("/resources/img/foodbg_c6c.png");*/
-	background: #ffb657;
+	background: /* rgba(255, 128, 26, 1.000);*/ #ffb657;
 	background-repeat: repeat;
 	padding:0;
 	margin: 0;
+	
 	line-height: $newHeaderHeight;
 	vertical-align: middle;
 	position: absolute;
@@ -68,18 +80,20 @@ html{
 	height: $newHeaderHeight; 
 	overflow:visible;
 	border: none;
-	border-bottom: 1px solid $borderColor;	
+	/*border-bottom: 1px solid $borderColor;	*/
 
 	h1 {
 		font-size: 1.8em;
-		color: $h1Color;
+		color: #ffffff;
+/*		color: $baseFontColor;*/
 		margin: 0;
 		padding: 0;		 
 	  	text-shadow:
-	  	-1px -1px 0 #666,  
+		none;	
+	  /*	-1px -1px 0 #666,  
 	  	1px -1px 0 #666,
 	  	-1px 1px 0 #666,
-	  	1px 1px 0 #666;	
+	  	1px 1px 0 #666;	*/
 	}
 	  	
 	.left{
@@ -117,7 +131,7 @@ html{
 	.right{
 		float: right;
 		text-align: center;
-		background: url("../img/foodbg_c6c.png");
+		background: url("/img/foodbg_c6c.png");
 		background-repeat: repeat;
 		background-position: 0, -1 * $newHeaderHeight;
 		border-top-left-radius: 150px;
@@ -479,7 +493,10 @@ $footerColor: #111111;
 
 /* Old dev stuff will be moved on above when cleaned */
 .wrap-dd-menu {
+	      text-align:right;
     padding: 10px;
+    position:relative;
+    width: 100px;
 /*    position: absolute;
     top: 0;
     left:0;
@@ -543,7 +560,7 @@ html{
 		overflow: hidden;	
 		clear: both;
 		&.top{
-			background: url("../img/foodbg_c6c.png");
+			background: url("/resources/img/foodbg_c6c.png");
 			background-repeat: repeat;
 			/*background: $highlightColor;*/
 			/*border-top-left-radius:20px;
@@ -559,7 +576,7 @@ html{
 
 		}
 		&.bottom{
-			background: url("../img/foodbg_c6c.png");
+			background: url("/resources/img/foodbg_c6c.png");
 			background-repeat: repeat;
 			background-position: 0, -1 * $headerHeight;
 			/*background: $footerColor;*/
@@ -578,12 +595,24 @@ html{
 
 	
 		}
+		&.form{
+			text-align:left;
+			border-bottom: 1px solid $lightBorderColor;	
+
+			/*border-top: 0px solid $borderColor;
+			border-bottom: 0px solid $borderColor;*/
+			background: #ffffff;		
+			padding-top: 10px;
+			padding-bottom: 10px;
+			margin: 0px;
+			
+		}		
 		&.middle{
 			text-align:left;
-			border: 1px solid $borderColor;	
+			border: 1px solid $lightBorderColor;	
 
-			border-top: 0px solid $borderColor;
-			border-bottom: 0px solid $borderColor;
+			/*border-top: 0px solid $borderColor;
+			border-bottom: 0px solid $borderColor;*/
 			
 			padding-top: 10px;
 			padding-bottom: 10px;
@@ -599,19 +628,19 @@ html{
 		    -ms-box-sizing: border-box;
 		    box-sizing: border-box;
 			text-align:left;
-			border-top: 0px solid $borderColor;
+/*			border-top: 0px solid $borderColor;
 			border-bottom: 0px solid $borderColor;
-			border: none;
+			border: none;*/
 			padding: 0px;
 			margin: 0px;
 			position:relative;	
 			/*box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);	*/	
-			/*box-shadow: 0 0 3px rgba(0,0,0,0.3);*/
-			background:rgba(255,255,255,0.0);
+			box-shadow: 0 0 1px rgba(0,0,0,0.3);
+			background:rgba(255,255,255,1.0);
 
-			border-bottom: 1px solid #dddddd;
-			padding-bottom:8px;
-			padding-top:8px;
+			/*border-bottom: 1px solid #dddddd;*/
+			padding-bottom:0px;
+			padding-top:0px;
 
 		}
 		&.progress{
@@ -638,6 +667,7 @@ html{
 	 {
 	 
 	 }
+
 	.rListMiddleSpOuter{
 		width: 100%;
 		float:left;
@@ -649,13 +679,13 @@ html{
 		
 		padding-top: 15px;
 
-		padding-top: 0px;
+		padding-top: 10px;
 		padding-bottom: 0px;
 
 	}
 
 	.rListMiddleSpOuter:last-child{
-		padding-bottom: 15px;
+		padding-bottom: 10px;
 	}
 	
 	@media only screen 
@@ -780,6 +810,14 @@ html{
 		text-align: center;
 		margin: 0;
 		padding: 0;
+		&.Orange{
+			color: $highlightColor; 
+			text-shadow: none;
+			font-size: 2.5em;
+			span{
+			color: $darkerPrimaryColor;		
+			}
+		}
 		
 	}
 
@@ -1049,13 +1087,14 @@ html{
 	.new-user-link {
 	    margin: 0.4em;
 	    margin-top: 1.4em;
-		color: $h1Color;
+		color: $darkerPrimaryColor;
+
 		font-family: 'Racing Sans One', cursive;
-	  	text-shadow:
-	   	-1px -1px 0 #000,  
+	  	text-shadow: none;
+/*	   	-1px -1px 0 #000,  
 	    1px -1px 0 #000,
 	    -1px 1px 0 #000,
-	   	1px 1px 0 #000;	    
+	   	1px 1px 0 #000;	    */
 	}
 	.categoryFilterTitle{
 		text-align: center;
@@ -1161,8 +1200,8 @@ html{
 
 
 	.form-field {
-		padding-top: 1em;
-		padding-bottom: 1em;	
+		padding-top: 0.7em;
+		padding-bottom: 0.7em;	
 		max-width:75%;
 		margin: 0 auto;
 		&.full{
@@ -1210,12 +1249,14 @@ html{
 		  color: $h1Color;
 		  padding: 0px;
 		  margin: 0px;
-
-		  text-shadow:	
-		  -1px -1px 0 #666,  
+		  &.white{
+			color: #ffffff;
+		  }
+		  text-shadow: none;	
+/*		  -1px -1px 0 #666,  
 		  1px -1px 0 #666,
 		  -1px 1px 0 #666,
-		  1px 1px 0 #666;	
+		  1px 1px 0 #666;	*/
 		  /*line-height: $newMenuHeight;*/
 		  vertical-align: middle;
 		  &.borders{

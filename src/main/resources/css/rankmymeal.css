@@ -1,5 +1,6 @@
 /* New cleaned css */
 /*0.70em;*/
+/* $h1Color:rgba(26, 188, 224, 1.000); */
 /*#3b2000;#372313;*/
 /*#f67504;*/
 /*#f67504;*/
@@ -18,7 +19,7 @@ html {
   box-sizing: border-box;
 }
 html body {
-  background: url("/static/flowerbg4.png");
+  background: url("/resources/img/flowerbg4.png");
   background-repeat: repeat;
   background: #fefefe;
   /*background-attachment: fixed; */
@@ -35,6 +36,11 @@ html .innerBody {
   margin-right: auto;
   padding: 0;
   position: relative;
+  background: #fdfdfd;
+}
+
+#loginApp, #createUserApp {
+  background: #ffffff;
 }
 
 .headerBar {
@@ -52,14 +58,19 @@ html .innerBody {
   height: 2.6em;
   overflow: visible;
   border: none;
-  border-bottom: 1px solid #998888;
+  /*border-bottom: 1px solid $borderColor;	*/
 }
 .headerBar h1 {
   font-size: 1.8em;
-  color: #a2d6fe;
+  color: #ffffff;
+  /*		color: $baseFontColor;*/
   margin: 0;
   padding: 0;
-  text-shadow: -1px -1px 0 #666,   1px -1px 0 #666, -1px 1px 0 #666, 1px 1px 0 #666;
+  text-shadow: none;
+  /*	-1px -1px 0 #666,  
+  	1px -1px 0 #666,
+  	-1px 1px 0 #666,
+  	1px 1px 0 #666;	*/
 }
 .headerBar .left {
   float: left;
@@ -96,7 +107,7 @@ html .innerBody {
 .footerBar .right {
   float: right;
   text-align: center;
-  background: url("../img/foodbg_c6c.png");
+  background: url("/img/foodbg_c6c.png");
   background-repeat: repeat;
   background-position: 0, -2.6em;
   border-top-left-radius: 150px;
@@ -417,7 +428,10 @@ html .innerBody {
 
 /* Old dev stuff will be moved on above when cleaned */
 .wrap-dd-menu {
+  text-align: right;
   padding: 10px;
+  position: relative;
+  width: 100px;
   /*    position: absolute;
       top: 0;
       left:0;
@@ -484,7 +498,7 @@ html .rList {
   clear: both;
 }
 html .rList.top {
-  background: url("../img/foodbg_c6c.png");
+  background: url("/resources/img/foodbg_c6c.png");
   background-repeat: repeat;
   /*background: $highlightColor;*/
   /*border-top-left-radius:20px;
@@ -499,7 +513,7 @@ html .rList.top {
   padding-right: 0.5em;
 }
 html .rList.bottom {
-  background: url("../img/foodbg_c6c.png");
+  background: url("/resources/img/foodbg_c6c.png");
   background-repeat: repeat;
   background-position: 0, -2.8em;
   /*background: $footerColor;*/
@@ -514,11 +528,21 @@ html .rList.bottom {
   overflow: hidden;
   z-index: 20;
 }
+html .rList.form {
+  text-align: left;
+  border-bottom: 1px solid #dddddd;
+  /*border-top: 0px solid $borderColor;
+  border-bottom: 0px solid $borderColor;*/
+  background: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 0px;
+}
 html .rList.middle {
   text-align: left;
-  border: 1px solid #998888;
-  border-top: 0px solid #998888;
-  border-bottom: 0px solid #998888;
+  border: 1px solid #dddddd;
+  /*border-top: 0px solid $borderColor;
+  border-bottom: 0px solid $borderColor;*/
   padding-top: 10px;
   padding-bottom: 10px;
   margin: 0px;
@@ -533,18 +557,18 @@ html .rList.spc {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   text-align: left;
-  border-top: 0px solid #998888;
-  border-bottom: 0px solid #998888;
-  border: none;
+  /*			border-top: 0px solid $borderColor;
+  			border-bottom: 0px solid $borderColor;
+  			border: none;*/
   padding: 0px;
   margin: 0px;
   position: relative;
   /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);	*/
-  /*box-shadow: 0 0 3px rgba(0,0,0,0.3);*/
-  background: rgba(255, 255, 255, 0);
-  border-bottom: 1px solid #dddddd;
-  padding-bottom: 8px;
-  padding-top: 8px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+  background: white;
+  /*border-bottom: 1px solid #dddddd;*/
+  padding-bottom: 0px;
+  padding-top: 0px;
 }
 html .rList.progress {
   position: absolute;
@@ -568,11 +592,11 @@ html .rListMiddleSpOuter {
   padding-right: 5px;
   /*	border: 1px solid #dddddd;*/
   padding-top: 15px;
-  padding-top: 0px;
+  padding-top: 10px;
   padding-bottom: 0px;
 }
 html .rListMiddleSpOuter:last-child {
-  padding-bottom: 15px;
+  padding-bottom: 10px;
 }
 @media only screen and (min-width: 480px), (orientation: landscape) {
   html .rListMiddleSpOuter:nth-child(even) {
@@ -662,6 +686,14 @@ html .h1Title {
   text-align: center;
   margin: 0;
   padding: 0;
+}
+html .h1Title.Orange {
+  color: #ff8a00;
+  text-shadow: none;
+  font-size: 2.5em;
+}
+html .h1Title.Orange span {
+  color: #4fb2fe;
 }
 html .h2Title {
   text-align: center;
@@ -895,9 +927,13 @@ html .totalGrade {
 html .new-user-link {
   margin: 0.4em;
   margin-top: 1.4em;
-  color: #a2d6fe;
+  color: #4fb2fe;
   font-family: 'Racing Sans One', cursive;
-  text-shadow: -1px -1px 0 #000,   1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  text-shadow: none;
+  /*	   	-1px -1px 0 #000,  
+  	    1px -1px 0 #000,
+  	    -1px 1px 0 #000,
+  	   	1px 1px 0 #000;	    */
 }
 html .categoryFilterTitle {
   text-align: center;
@@ -990,8 +1026,8 @@ html .hoverVoteXs {
   left: 5px;
 }
 html .form-field {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
   max-width: 75%;
   margin: 0 auto;
 }
@@ -1033,9 +1069,16 @@ html .button-transparent {
   color: #a2d6fe;
   padding: 0px;
   margin: 0px;
-  text-shadow: -1px -1px 0 #666,   1px -1px 0 #666, -1px 1px 0 #666, 1px 1px 0 #666;
+  text-shadow: none;
+  /*		  -1px -1px 0 #666,  
+  		  1px -1px 0 #666,
+  		  -1px 1px 0 #666,
+  		  1px 1px 0 #666;	*/
   /*line-height: $newMenuHeight;*/
   vertical-align: middle;
+}
+html .button-transparent.white {
+  color: #ffffff;
 }
 html .button-transparent.borders {
   /* background: rgba(255, 255, 255, 0.5);*/

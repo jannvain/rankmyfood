@@ -1,70 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+  <head lang="en">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Calorie Tracker</title>
-    <link rel="stylesheet" type="text/css" href="css/pure/pure-min.css">
-    <link rel="stylesheet" type="text/css" href="css/pure/grids-responsive-min.css">
-    <link rel="stylesheet" type="text/css" href="css/mealrank.css">
-    <link rel="stylesheet" type="text/css" href="css/rankmymeal.css">
+    <title>Rank my food</title>
+    <link rel="stylesheet" type="text/css" href="/js/pure/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="/js/pure/grids-responsive-min.css">
+    <!-- link rel="stylesheet" type="text/css" href="/css/mealrank.css" -->
+    <link rel="stylesheet" href="/css/rankmymeal.css">
     
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     
-	<link href='http://fonts.googleapis.com/css?family=Racing+Sans+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Racing+Sans+One' rel='stylesheet' type='text/css'>
     
-</head>
-<body class="innerBody" id="loginApp" ng-controller="BaseFormCtrl">
-
-    <div class="rList top">
-            <h1 class="h1Title" >RankMyFood	</h1>
+  </head>
+  <body class="innerBody" id="loginApp" ng-controller="BaseFormCtrl">
+    
+    <div>
+      <h1 class="h1Title Orange" ><span>R</span>ank<span>M</span>y<span>F</span>ood	</h1>
     </div>
     <div ng-hide="vm.appReady">
-		<p class="p1Progress">Restarting <span class="fa fa-refresh fa-spin fa-1x"></span> </p>
-	</div>
-        <tt-error-messages extra-styles="access-screen"></tt-error-messages>
-    <div class="rList middle" ng-show="vm.appReady" ng-controller="LoginCtrl" ng-cloak>
-	    <div ng-animate ng-hide="vm.submitted">
-	    
-	    	<div style="text-align:center;"><button ng-click="demoLogin()" class="button-highColor button-demo pure-button pure-input-1">DEMO</button></div>
-	    
-	            <form ng-submit="onLogin()" name="form" class="pure-form" novalidate>
-	                <fieldset>
-	                    <div class="form-field">
-	                        <input type="text" ng-focus="focus('username')"  ng-blur="blur('username')" ng-model="vm.username"
-	                               name="username" class="pure-input-1" placeholder="Username" required ng-minlength="5">
-	
-	                        <div class="error-messages" ng-show="isMessagesVisible('username')" ng-messages="form.username.$error" ng-cloak>
-	                            <div ng-message="required">The username is mandatory</div>
-	                            <div ng-message="minlength">must have minimum 6 characters</div>
-	                        </div>
-	                    </div>
-	                    <div class="form-field">
-	                        <input type="password" ng-focus="focus('password')"  ng-blur="blur('password')" ng-model="vm.password"
-	                               name="password" class="pure-input-1" placeholder="Password" required ng-minlength="6"
-	                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
-	                        <div class="error-messages" ng-show="isMessagesVisible('password')" ng-messages="form.password.$error" ng-cloak>
-	                            <div ng-message="required">The password is mandatory</div>
-	                            <div ng-message="minlength">must have minimum 5 characters</div>
-	                            <div ng-message="pattern">At least one number and uppercase</div>
-	                        </div>
-	                    </div>
-	                </fieldset>
-	                <div class="form-field">
-		                <button type="submit" class="button-primary pure-button pure-input-1">Log In</button>
-					</div>
-	            </form>
-		</div>    
- 		<div ng-show="vm.submitted">
-			<p class="p1Progress">Logging in <span class="fa fa-refresh fa-spin fa-1x"></span> </p>
-		</div>
-	
+      <br>
+      <br>
+      <br>
+      <p class="p1Progress">Restarting <span class="fa fa-refresh fa-spin fa-1x"></span> </p>
     </div>
-
-    <div class="rList bottom">
-	   	<a class="new-user-link" href="new-user.html">New user?</a>
+    <tt-error-messages extra-styles="access-screen"></tt-error-messages>
+    
+    
+    <div class="rList form" ng-show="vm.appReady" ng-controller="LoginCtrl" ng-cloak>
+      <div ng-animate ng-hide="vm.submitted">
+	
+	
+	<div style="text-align:center;">
+	  <br>
+	  <button ng-click="demoLogin()" class="button-highColor button-demo pure-button pure-input-1">DEMO</button>
+	  <br>
+	  <p>press demo, no need for login info</p>
+	  <br>
 	</div>
-    <script type="text/javascript" data-main="js/run-loggin-app" 
-    src="js/requirejs/require.js"></script>        
-</body>
+	
+	
+	<form ng-submit="onLogin()" name="form" class="pure-form" novalidate>
+	  <fieldset>
+	    <div class="form-field">
+	      <input type="text" ng-focus="focus('username')"  ng-blur="blur('username')" ng-model="vm.username"
+	             name="username" class="pure-input-1" placeholder="Username" required ng-minlength="5">
+	      
+	      <div class="error-messages" ng-show="isMessagesVisible('username')" ng-messages="form.username.$error" ng-cloak>
+	        <div ng-message="required">The username is mandatory</div>
+	        <div ng-message="minlength">must have minimum 6 characters</div>
+	      </div>
+	    </div>
+	    <div class="form-field">
+	      <input type="password" ng-focus="focus('password')"  ng-blur="blur('password')" ng-model="vm.password"
+	             name="password" class="pure-input-1" placeholder="Password" required ng-minlength="6"
+	             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
+	      <div class="error-messages" ng-show="isMessagesVisible('password')" ng-messages="form.password.$error" ng-cloak>
+	        <div ng-message="required">The password is mandatory</div>
+	        <div ng-message="minlength">must have minimum 5 characters</div>
+	        <div ng-message="pattern">At least one number and uppercase</div>
+	      </div>
+	    </div>
+	  </fieldset>
+	  <div class="form-field">
+	    <button type="submit" class="button-primary pure-button pure-input-1">Log In</button>
+	  </div>
+	</form>
+      </div>    
+      <div ng-show="vm.submitted">
+	<p class="p1Progress">Logging in <span class="fa fa-refresh fa-spin fa-1x"></span> </p>
+      </div>
+      
+    </div>
+    
+    <div style="text-align:center;" ng-show="vm.appReady" ng-cloak>
+      <div ng-hide="vm.submitted">
+	<a class="new-user-link" href="new-user.html">New user?</a>
+      </div>
+    </div>
+    <script type="text/javascript" data-main="/js/run-loggin-app"
+            src="/js/requirejs/require.js"></script>
+  </body>
 </html>

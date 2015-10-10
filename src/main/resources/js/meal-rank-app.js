@@ -170,11 +170,11 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	                        	 href: '#/'
 	                         }, 
 	                         {
-	                        	 text: 'Compare others',
+	                        	 text: 'Meal rankings',
 	  	                         href: '#/compare'	
 	                         }, 
 	                         {
-	                        	 text: 'MySummary',
+	                        	 text: 'Meal frequencies',
 	  	                         href: '#/mysummary'
 	                         }, 
 	                         {
@@ -397,7 +397,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	 }	    
 
 	 
-	 $scope.$emit('headerChanged', {viewTitle:"Compare", notInRoot: false});
+	 $scope.$emit('headerChanged', {viewTitle:"Rankings", notInRoot: false});
 	 // For storing User model
 	 $scope.um = {};
 	 // For storing Group members model
@@ -517,7 +517,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
                                    function ($rootScope, $scope, $routeParams, $fancyModal, MealService, 
                                 		   NewUserService, NewMealService, TimeService, $timeout) {
 	  console.log("In MealSummaryCtrl: " + $routeParams.mealId);
-	  $scope.$emit('headerChanged', {viewTitle:"Summary", notInRoot: false});
+	  $scope.$emit('headerChanged', {viewTitle:"Meal frequencies", notInRoot: false});
 	  $scope.showNewMealButton = false;
 	  TimeService.resetCurrentDate();
 

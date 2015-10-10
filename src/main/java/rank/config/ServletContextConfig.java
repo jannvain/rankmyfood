@@ -51,8 +51,8 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
 
-        registry.addResourceHandler("/mealimages/xs/**").addResourceLocations("file:/Users/vainio6/rankme/pic/xs/");
-        registry.addResourceHandler("/mealimages/lg/**").addResourceLocations("file:/Users/vainio6/rankme/pic/lg/");
+        registry.addResourceHandler("/mealimages/xs/**").addResourceLocations("file:/Users/vainio6/rankme/pic/xs/", "/mnt/mydata/mealimages/");
+        registry.addResourceHandler("/mealimages/lg/**").addResourceLocations("file:/Users/vainio6/rankme/pic/lg/", "/mnt/mydata/mealimages/");
 
     }
     
