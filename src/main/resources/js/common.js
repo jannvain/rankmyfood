@@ -38,7 +38,7 @@ angular.module('common', ['ngMessages'])
 
             $http({
                 method: 'POST',
-                url: '/authenticate',
+                url: '/eatingchallenge/authenticate',
                 data: postData,
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -47,7 +47,7 @@ angular.module('common', ['ngMessages'])
             })
             .then(function(response) {
                 if (response.data == 'ok') {
-                	window.location.replace('/index.html');
+                	window.location.replace('index.html');
                 }
                 else {
                     $scope.vm.errorMessages = [];
@@ -68,7 +68,8 @@ angular.module('common', ['ngMessages'])
 
             $http({
                 method: 'POST',
-                url: '/authenticate',
+                url: '/eatingchallenge/authenticate',
+
                 data: postData,
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -77,7 +78,8 @@ angular.module('common', ['ngMessages'])
             })
             .then(function(response) {
                 if (response.data == 'ok') {
-                	window.location.replace('/index.html');
+                	window.location.replace('index.html');
+
                 }
                 else {
                     $scope.vm.errorMessages = [];

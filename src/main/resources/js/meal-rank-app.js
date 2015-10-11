@@ -186,7 +186,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	                         }, 
 	                         {
 	                           text: 'LOGOUT',
-	                           href: '/logout'
+	                           href: 'logout'
 	                         }
 	                       ];
 
@@ -621,7 +621,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 		   $scope.viewTitle = $scope.vm.meal.categoryName; 
 		   $scope.vm.meal.voteCount = $scope.vm.meal.rank.length;
            $scope.vm.meal.averageRankDisplayed = $scope.plotRank($scope.vm.meal.averageRank, 1);
-           $scope.vm.meal.src = "/mealimages/lg/" + $scope.vm.meal.imageName;
+           $scope.vm.meal.src = "mealimages/lg/" + $scope.vm.meal.imageName;
            
 		   $scope.$emit('headerChanged', {viewTitle:$scope.vm.meal.categoryName, notInRoot: true});
 		   $scope.$emit('progressUpdate', {message: ""});
@@ -656,7 +656,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
   			$scope.viewTitle = $scope.vm.meal.categoryName; 
   			$scope.vm.meal.voteCount = $scope.vm.meal.rank.length;
   			$scope.vm.meal.averageRankDisplayed = $scope.plotRank($scope.vm.meal.averageRank, 1);
-  			$scope.vm.meal.src = "/mealimages/lg/" + $scope.vm.meal.imageName;
+  			$scope.vm.meal.src = "mealimages/lg/" + $scope.vm.meal.imageName;
   		});		   
   		
   	}
@@ -771,7 +771,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
             	
             	setTimeout(function(){
                     $fancyModal.close();       
-            		window.location.replace('/resources/meal-rank-app.html');
+            		window.location.replace('meal-rank-app.html');
             		}, 1000); 
             	
             });

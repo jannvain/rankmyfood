@@ -36,7 +36,7 @@ html{
     box-sizing: border-box;
 
 	body{
-		background: url("/resources/img/flowerbg4.png");
+		background: url("../img/flowerbg4.png");
 		background-repeat: repeat;  
 		background: #fefefe;
 
@@ -65,7 +65,7 @@ html{
 }
 
 .headerBar {
-	/*background: url("/resources/img/foodbg_c6c.png");*/
+	/*background: url("img/foodbg_c6c.png");*/
 	background: /* rgba(255, 128, 26, 1.000);*/ #ffb657;
 	background-repeat: repeat;
 	padding:0;
@@ -131,7 +131,7 @@ html{
 	.right{
 		float: right;
 		text-align: center;
-		background: url("/img/foodbg_c6c.png");
+		background: url("../img/foodbg_c6c.png");
 		background-repeat: repeat;
 		background-position: 0, -1 * $newHeaderHeight;
 		border-top-left-radius: 150px;
@@ -560,7 +560,7 @@ html{
 		overflow: hidden;	
 		clear: both;
 		&.top{
-			background: url("/resources/img/foodbg_c6c.png");
+			background: url("../img/foodbg_c6c.png");
 			background-repeat: repeat;
 			/*background: $highlightColor;*/
 			/*border-top-left-radius:20px;
@@ -576,7 +576,7 @@ html{
 
 		}
 		&.bottom{
-			background: url("/resources/img/foodbg_c6c.png");
+			background: url("../img/foodbg_c6c.png");
 			background-repeat: repeat;
 			background-position: 0, -1 * $headerHeight;
 			/*background: $footerColor;*/

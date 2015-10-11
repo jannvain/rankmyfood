@@ -19,7 +19,7 @@ html {
   box-sizing: border-box;
 }
 html body {
-  background: url("/resources/img/flowerbg4.png");
+  background: url("../img/flowerbg4.png");
   background-repeat: repeat;
   background: #fefefe;
   /*background-attachment: fixed; */
@@ -44,7 +44,7 @@ html .innerBody {
 }
 
 .headerBar {
-  /*background: url("/resources/img/foodbg_c6c.png");*/
+  /*background: url("img/foodbg_c6c.png");*/
   background: #ffb657;
   background-repeat: repeat;
   padding: 0;
@@ -107,7 +107,7 @@ html .innerBody {
 .footerBar .right {
   float: right;
   text-align: center;
-  background: url("/img/foodbg_c6c.png");
+  background: url("../img/foodbg_c6c.png");
   background-repeat: repeat;
   background-position: 0, -2.6em;
   border-top-left-radius: 150px;
@@ -498,7 +498,7 @@ html .rList {
   clear: both;
 }
 html .rList.top {
-  background: url("/resources/img/foodbg_c6c.png");
+  background: url("../img/foodbg_c6c.png");
   background-repeat: repeat;
   /*background: $highlightColor;*/
   /*border-top-left-radius:20px;
@@ -513,7 +513,7 @@ html .rList.top {
   padding-right: 0.5em;
 }
 html .rList.bottom {
-  background: url("/resources/img/foodbg_c6c.png");
+  background: url("../img/foodbg_c6c.png");
   background-repeat: repeat;
   background-position: 0, -2.8em;
   /*background: $footerColor;*/

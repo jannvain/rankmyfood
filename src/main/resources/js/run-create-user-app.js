@@ -24,7 +24,7 @@ require.config({
             deps: ['angular']
         },
         common: {
-          deps: ['angular', 'csrfInterceptor', 'angularMessages']
+          deps: ['angular', 'angularMessages']
         },
         createUserApp: {
             deps: [ 'common']

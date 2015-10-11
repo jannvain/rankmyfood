@@ -61,8 +61,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        CsrfTokenResponseHeaderBindingFilter csrfTokenFilter = new CsrfTokenResponseHeaderBindingFilter();
-        http.addFilterAfter(csrfTokenFilter, CsrfFilter.class);
+	//        CsrfTokenResponseHeaderBindingFilter csrfTokenFilter = new CsrfTokenResponseHeaderBindingFilter();
+        //http.addFilterAfter(csrfTokenFilter, CsrfFilter.class);
                 
        
    /*     
@@ -74,7 +74,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 */
     	 
 			http
-            .csrf().disable()
+
+			.csrf().disable()
 			.authorizeRequests()
 			.antMatchers("/js/**").permitAll()
 			.antMatchers("/css/**").permitAll()

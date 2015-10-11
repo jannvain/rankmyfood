@@ -111,7 +111,7 @@ angular.module('frontendServices', [])
             return time ? '1970/01/01 ' + time : null;
         }
 
-        $http.get('/api/meal/',{
+        $http.get('api/meal/',{
             params: {
                 groupname: groupname,
                 pageNumber: pageNumber
@@ -135,7 +135,7 @@ angular.module('frontendServices', [])
             return time ? '1970/01/01 ' + time : null;
         }
 
-        $http.get('/api/rankstat/',{
+        $http.get('api/rankstat/',{
             params: {
                 groupname: groupname,
                 pageNumber: pageNumber
@@ -160,7 +160,7 @@ angular.module('frontendServices', [])
             return time ? '1970/01/01 ' + time : null;
         }
 
-        $http.get('/api/meal/',{
+        $http.get('api/meal/',{
             params: {
                 username: username,
                 pageNumber: pageNumber
@@ -185,7 +185,7 @@ angular.module('frontendServices', [])
             return time ? '1970/01/01 ' + time : null;
         }
 
-        $http.get('/api/rankstat/',{
+        $http.get('api/rankstat/',{
             params: {
                 username: username,
                 pageNumber: pageNumber
@@ -222,7 +222,7 @@ angular.module('frontendServices', [])
         else{
         	console.log("Get HTTP userdata");
 
-        	$http.get('/api/user')
+        	$http.get('api/user')
 	            .then(function (response) {
 	                if (response.status == 200) {
 	                    deferred.resolve(response.data);
@@ -246,7 +246,7 @@ angular.module('frontendServices', [])
         }
         else{
 
-	        $http.get('/api/groupmembers/',{
+	        $http.get('api/groupmembers/',{
 	            params: {
 	                groupname: groupname
 	            }
@@ -297,11 +297,11 @@ angular.module('frontendServices', [])
     service.logout = function () {
         $http({
             method: 'POST',
-            url: '/logout'
+            url: 'logout'
         })
         .then(function (response) {
             if (response.status == 200) {
-            	window.location.replace('/resources/public/login.html');
+            	window.location.replace('login.html');
             //window.location.reload();
             }
             else {
@@ -320,7 +320,7 @@ angular.module('frontendServices', [])
         	getMealDetails: function(mealId, scope){
                 var deferred = $q.defer();
 
-                $http.get('/api/meal/'+mealId)
+                $http.get('api/meal/'+mealId)
                 .then(function (response) {
                     if (response.status == 200) {
                         deferred.resolve(response.data);
@@ -337,7 +337,7 @@ angular.module('frontendServices', [])
         	
             getCategories: function() {
                 var deferred = $q.defer();
-                $http.get('/api/categories')
+                $http.get('api/categories')
                     .then(function (response) {
                         if (response.status == 200) {
                         	userData = response.data;
@@ -358,7 +358,7 @@ angular.module('frontendServices', [])
                     return time ? '1970/01/01 ' + time : null;
                 }
 
-                $http.get('/api/meal/',{
+                $http.get('api/meal/',{
                     params: {
                         username: username,
                         pageNumber: pageNumber
@@ -382,7 +382,7 @@ angular.module('frontendServices', [])
                     return time ? '1970/01/01 ' + time : null;
                 }
 
-                $http.get('/api/meal/',{
+                $http.get('api/meal/',{
                     params: {
                         groupname: groupname,
                         pageNumber: pageNumber
@@ -406,7 +406,7 @@ angular.module('frontendServices', [])
                     return time ? '1970/01/01 ' + time : null;
                 }
 
-                $http.get('/api/meal/',{
+                $http.get('api/meal/',{
                     params: {
                         fromDate: fromDate,
                         toDate: toDate,
@@ -432,7 +432,7 @@ angular.module('frontendServices', [])
 
                 $http({
                     method: 'DELETE',
-                    url: '/api/meal',
+                    url: 'api/meal',
                     data: deletedMealIds,
                     headers: {
                         "Content-Type": "application/json"
@@ -455,7 +455,7 @@ angular.module('frontendServices', [])
 
                 $http({
                     method: 'POST',
-                    url: '/api/meal',
+                    url: 'api/meal',
                     data: dirtyMeals,
                     headers: {
                         "Content-Type": "application/json",
@@ -478,7 +478,7 @@ angular.module('frontendServices', [])
 
                 $http({
                     method: 'POST',
-                    url: '/api/newmeal',
+                    url: 'api/newmeal',
                     data: meal,
                     headers: {
                         "Content-Type": "application/json",
@@ -501,7 +501,7 @@ angular.module('frontendServices', [])
 
                 $http({
                     method: 'POST',
-                    url: '/api/newrank',
+                    url: 'api/newrank',
                     data: rank,
                     headers: {
                         "Content-Type": "application/json",

@@ -12,6 +12,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -41,17 +43,23 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+
+
+
+	String rootDir;
+
+	//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
  //       registry.addResourceHandler("/api/user/**").addResourceLocations("/api/user/");
  //       registry.addResourceHandler("/api/meal/**").addResourceLocations("/api/meal/");
-        registry.addResourceHandler("/api/**").addResourceLocations("/api/");
+        registry.addResourceHandler("/api/**").addResourceLocations("classpath:/api/");
+        registry.addResourceHandler("/authenticate/**").addResourceLocations("classpath:/authenticate/");
         registry.addResourceHandler("/img/**").addResourceLocations("classpath:/img/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/", "classpath:/bower_components/");
         registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/", "classpath:/bower_components/");
 
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
 
-        registry.addResourceHandler("/mealimages/**").addResourceLocations("file:/Users/vainio6/rankme/pic/", "/mnt/mydata/mealimages/");
+        registry.addResourceHandler("/mealimages/**").addResourceLocations("file:/Users/vainio6/rankme/pic/", "file:/mnt/mydata/mealimages/");
 
     }
     

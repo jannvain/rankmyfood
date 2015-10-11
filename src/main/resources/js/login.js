@@ -1,6 +1,6 @@
-angular.module('loginApp', ['common', 'spring-security-csrf-token-interceptor'])
+angular.module('loginApp', ['common'])
     .controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
-
+	
   
         
         $scope.demoLogin = function(){
