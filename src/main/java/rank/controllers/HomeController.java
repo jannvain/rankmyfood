@@ -8,7 +8,20 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home() {
-    	        return "index.html";
+	return "index.html";
+    }
+    
+    @RequestMapping(value = "/{[path:[^\\.]*}")
+    public String redirect() {
+    	return "forward:/";
     }
 
+
+    @RequestMapping(value = "/meal/{[path:[^\\.]*}")
+    public String redirectmeals() {
+    	return "forward:/";
+    }
+    
 }
+
+

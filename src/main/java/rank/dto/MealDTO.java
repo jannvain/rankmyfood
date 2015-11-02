@@ -44,6 +44,7 @@ public class MealDTO {
     private String nickName;
 
     private long userId;
+    private int gender;
     private  Collection<RankCompactDTO> ranks;
     private Boolean hasVoted=false;
     private float averageRank;
@@ -54,7 +55,7 @@ public class MealDTO {
 
     public MealDTO(Long id, Date date, Time time, String description, 
     		String categoryName, String imageName, 
-    		String userName, String nickName, long userId, Collection<Rank> ranks) {
+		   String userName, String nickName, long userId, int gender, Collection<Rank> ranks) {
         this.id = id;
         this.date = date;
         this.time = time;
@@ -65,6 +66,7 @@ public class MealDTO {
         this.nickName = nickName;
 
         this.userId = userId;
+        this.gender = gender;
         this.ranks = mapFromRanksEntitiesC(ranks, userId);
         
         
@@ -78,7 +80,7 @@ public class MealDTO {
 
     public MealDTO(Long id, Date date, Time time, String description, 
     		String categoryName, String imageName, 
-    		String userName, String nickName, long userId, Collection<Rank> ranks, long currentUserId) {
+		   String userName, String nickName, long userId, Collection<Rank> ranks, long currentUserId, int gender) {
         this.id = id;
         this.date = date;
         this.time = time;
@@ -89,11 +91,13 @@ public class MealDTO {
         this.nickName = nickName;
 
         this.userId = userId;
+        this.gender = gender;
         this.ranks = mapFromRanksEntitiesC(ranks, userId);        
         
         float ave = 0.0F;
         for (Rank rank : ranks) {
         	ave += rank.getValue();
+		//		System.out.println(rank.getOwnerId() + "  " + currentUserId);
         	if(rank.getOwnerId()==currentUserId)
         		this.hasVoted = true;
         }
@@ -113,7 +117,7 @@ public class MealDTO {
                 meal.getImageName(), meal.getUserName(), meal.getUser().getNickname(), 
                 meal.getUser().getId(), 
                 meal.getRank(),
-                currentUserId);
+			   currentUserId, meal.getUser().getGender());
     }
 
     public static List<MealDTO> mapFromMealsEntities(List<Meal> meals, long currentUserId) {
@@ -127,6 +131,14 @@ public class MealDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     public Date getDate() {

@@ -1,0 +1,19 @@
+<form ng-submit="sendDelete(vm.meal)">
+  <div class="pure-form">
+    <p class="p0 bigcenter">Delete this meal?</p>
+    <div class="pure-g">
+      <div  class="pure-u-10-24">
+	<button type="submit" class="button-red pure-button pure-input-1">
+	  <span class="fa fa-check"></span> Delete
+	</button>	  
+      </div>
+      <div  class="pure-u-4-24">
+      </div>
+      <div  class="pure-u-10-24">
+	<button type="button" ng-click="closeDeleteDialog()" class="button-highColor pure-button pure-input-1" style="margin: 0.7em 0 0;">
+	  <span class="fa fa-times"></span> Cancel
+	</button>
+      </div>
+    </div>
+  </div>
+</form>

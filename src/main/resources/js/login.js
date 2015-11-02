@@ -1,25 +1,31 @@
 angular.module('loginApp', ['common'])
     .controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
-	
-  
-        
+	        
         $scope.demoLogin = function(){
-        	$scope.vm.userName = "janne";
-        	$scope.vm.password = "Password2";
-        	$scope.directLogin("janne", "Password2");
+	    $scope.setProgressMessage("Logging in");
+            $scope.vm.username = "janne";
+            $scope.vm.password = "Password2";
+            $scope.vm.email = "janne@janne.fi";
+	    console.log("DEMO LOGIN " + $scope.vm.username);
+	    $scope.credentials = $scope.vm;
+	    $scope.newLogin($scope.vm);
         }
  
         
         $scope.onLogin = function () {
-            console.log('Attempting login with username ' + $scope.vm.username + ' and password ' + $scope.vm.password);
+	    $scope.setProgressMessage("Logging in");
+            console.log('Attempting login with username ' + $scope.vm.username + ' and password ' + $scope.vm.password + "form valid:" + $scope.form.$invalid);
             if ($scope.form.$invalid) {
-                $scope.vm.errorMessages = [];
-                $scope.vm.errorMessages.push({description: "Fill in the fields first!"});
+		$scope.setErrorMessage("Complete the fields first!");
+		$scope.setProgressMessage("");
                 return;
             }
-
-            $scope.login($scope.vm.userName, $scope.vm.password);
+	    $scope.setStatusMessage("Logging in...");
+            $scope.newLogin($scope.vm);
 
         };
-        $scope.vm.appReady = true; // Disable wait spinner        
+    	$scope.$emit('headerChanged', {viewTitle:"Login", notInRoot: false});
+//	$scope.$emit('finishLoadingCtrl', {message: ""});
+        $scope.setProgressMessage("");
+
     }]);

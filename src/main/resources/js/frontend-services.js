@@ -1,7 +1,40 @@
 
 
 angular.module('frontendServices', [])
-.factory('TimeService', ['$rootScope', function($rootScope) {
+    .factory('StatusService', function() {
+	
+	
+	var progressMessage = "Authenticating";
+	var inAppTransit = true;
+
+	return{
+	    isInAppTransit: function(){
+		return inAppTransit;
+	    },
+	    getProgressMessage: function(){
+		return progressMessage;
+	    }
+	}
+    })
+
+    .factory('LoginService', function() {
+	
+	var hasAuthenticated = false;
+
+	return{
+	    hasAuthenticated: function(){
+		return hasAuthenticated;
+	    },
+	    setAuthenticated: function(bool){
+		hasAuthenticated = bool;
+	    },
+	    hello: function(){
+		return "hello";
+	    }
+	}
+    })
+
+    .factory('TimeService', ['$rootScope', function($rootScope) {
 	timeService = {};
 	timeService.pad = function(a,b){return(1e15+a+"").slice(-b)}
 
@@ -128,6 +161,32 @@ angular.module('frontendServices', [])
 
         return deferred.promise;
     }           
+
+    mealService.searchGroupGapStat =  function(groupname, pageNumber) {
+        var deferred = $q.defer();
+
+        function prepareTime(time) {
+            return time ? '1970/01/01 ' + time : null;
+        }
+
+        $http.get('api/gapstat/',{
+            params: {
+                groupname: groupname,
+                pageNumber: pageNumber
+            }
+        })
+        .then(function (response) {
+            if (response.status == 200) {
+                deferred.resolve(response.data);
+            }
+            else {
+                deferred.reject('Error retrieving list of meals');
+            }
+        });
+
+        return deferred.promise;
+    }           
+
     mealService.searchGroupRanks =  function(groupname, pageNumber) {
         var deferred = $q.defer();
 
@@ -161,6 +220,31 @@ angular.module('frontendServices', [])
         }
 
         $http.get('api/meal/',{
+            params: {
+                username: username,
+                pageNumber: pageNumber
+            }
+        })
+        .then(function (response) {
+            if (response.status == 200) {
+                deferred.resolve(response.data);
+            }
+            else {
+                deferred.reject('Error retrieving list of meals');
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    mealService.searchMyGapStat = function(username, pageNumber) {
+        var deferred = $q.defer();
+
+        function prepareTime(time) {
+            return time ? '1970/01/01 ' + time : null;
+        }
+
+        $http.get('api/gapstat/',{
             params: {
                 username: username,
                 pageNumber: pageNumber
@@ -215,24 +299,32 @@ angular.module('frontendServices', [])
     service.getUserInfo = function() {
         var deferred = $q.defer();
         
-        if(service.userData){
+        if(service.userData&&false){
         	console.log("Get cached userdata");
         	deferred.resolve(service.userData);
         }
         else{
-        	console.log("Get HTTP userdata");
-
-        	$http.get('api/user')
-	            .then(function (response) {
-	                if (response.status == 200) {
+            console.log("Get HTTP userdata");
+	    
+            $http.get('api/user')
+	        .then(
+		    function (response) {
+			if (response.status == 200) {
 	                    deferred.resolve(response.data);
-	                	service.userData = response.data;
-	
-	                }
-	                else {
+	                    service.userData = response.data;
+			    
+			}
+			else {
 	                    deferred.reject('Error retrieving user info ' + response.status);
-	                }
-	        });
+			}
+	            },
+		    function(response){
+			console.log("API/USER not available, login again");
+			console.log(response);
+		
+		    }
+		    
+		);
         }
         return deferred.promise;
     }
@@ -286,12 +378,16 @@ angular.module('frontendServices', [])
     }
     service.loadMyGroupMembers = function(scope, groupname) {
     	service.searchGroupMembers(groupname).then(function (data) {
-   		 scope.gm = data;
-   		 if(scope.gm[0].nickName != "ALL"){
-   			scope.gm.unshift({"nickName":"Not ranked","groupName":"ALL", "ranked": true});
-   			 scope.gm.unshift({"nickName":"ALL","groupName":"ALL", "ranked": false});
+   	    scope.gm = data;
+//   	    if(scope.gm[0].nickName != "ALL"){
+//   		scope.gm.unshift({"nickName":"Not ranked","groupName":"ALL", "ranked": true});
+		
+//   		scope.gm.unshift({"nickName":"ALL","groupName":"ALL", "ranked": false});
+		
+		//		     for(var i=0;i<50;i++)
+	    //   			 scope.gm.unshift({"nickName":"User " + i,"groupName":"ALL", "ranked": false});
    		
-   		 }
+ //  	    }
     	});
     }
     service.logout = function () {
@@ -301,7 +397,8 @@ angular.module('frontendServices', [])
         })
         .then(function (response) {
             if (response.status == 200) {
-            	window.location.replace('login.html');
+		$location.path('/login');       
+///            	window.location.replace('login.html');
             //window.location.reload();
             }
             else {
@@ -314,7 +411,7 @@ angular.module('frontendServices', [])
 	
 }
 ])
-    .service('MealService', ['$http', '$q', function($http, $q) {
+    .factory('MealService', ['$http', '$q', '$location',  function($http, $q, $location) {
         return {
         	        	
         	getMealDetails: function(mealId, scope){
@@ -431,8 +528,8 @@ angular.module('frontendServices', [])
                 var deferred = $q.defer();
 
                 $http({
-                    method: 'DELETE',
-                    url: 'api/meal',
+                    method: 'POST',
+                    url: 'api/deletemeal',
                     data: deletedMealIds,
                     headers: {
                         "Content-Type": "application/json"
@@ -441,6 +538,7 @@ angular.module('frontendServices', [])
                 .then(function (response) {
                     if (response.status == 200) {
                         deferred.resolve();
+			$location.path('/latest');       
                     }
                     else {
                         deferred.reject('Error deleting meals');

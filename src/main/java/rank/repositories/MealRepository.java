@@ -37,6 +37,9 @@ public class MealRepository {
     @PersistenceContext
 	private EntityManager em; // = emF.createEntityManager();
 
+    public void flush(){
+	em.flush();
+    }
     /**
      *
      * counts the matching meals, given the bellow criteria
@@ -108,6 +111,14 @@ public class MealRepository {
         em.remove(delete);
     }
 
+    public void myDelete(Long id) {
+
+	Meal meal = em.find(Meal.class, id);
+	meal.setDeleted(true);
+	//	em.commit();//implicitly flushes if flush mode is COMMIT or AUTO.
+	flush();
+    }
+
     /**
      *
      * finds a meal given its id
@@ -124,8 +135,24 @@ public class MealRepository {
 
         return meals;
     }
+
+    public List<Meal> findMealByUserName2(String username) {
+        List<Meal> meals = em.createNamedQuery(Meal.FIND_BY_USER_REVERSE, Meal.class)
+                .setParameter("username", username)
+                .getResultList();
+
+        return meals;
+    }
     public List<Meal> findMealByGroupName(String groupname) {
         List<Meal> meals = em.createNamedQuery(Meal.FIND_BY_UGROUP, Meal.class)
+                .setParameter("groupname", groupname)
+                .getResultList();
+
+        return meals;
+    }
+
+    public List<Meal> findMealByGroupName2(String groupname) {
+        List<Meal> meals = em.createNamedQuery(Meal.FIND_BY_UGROUP_BY_OWNER, Meal.class)
                 .setParameter("groupname", groupname)
                 .getResultList();
 

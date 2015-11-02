@@ -45,23 +45,26 @@ public class UserService {
      * @param password - the user plain text password
      */
     @Transactional
-    public void createUser(String username, String email, String password) {
+    public Boolean createUser(String username, String email, String password, int gender) {
 
         assertNotBlank(username, "Username cannot be empty.");
-        assertMinimumLength(username, 6, "Username must have at least 6 characters.");
+        assertMinimumLength(username, 5, "Username must have at least 6 characters.");
         assertNotBlank(email, "Email cannot be empty.");
         assertMatches(email, EMAIL_REGEX, "Invalid email.");
         assertNotBlank(password, "Password cannot be empty.");
         assertMatches(password, PASSWORD_REGEX, "Password must have at least 6 characters, with 1 numeric and 1 uppercase character.");
+        // assertNotBlank(gender, "Gender cannot be empty.");
 
         if (!userRepository.isUsernameAvailable(username)) {
-            throw new IllegalArgumentException("The username is not available.");
+            // throw new IllegalArgumentException("The username is not available.");
+	    return false;
         }
         	
-        Group ownGroup = groupRepository.findGroupByGroupname("Public");
-        User user = new User(username, new BCryptPasswordEncoder().encode(password), email, ownGroup, "USER");
+        Group ownGroup = groupRepository.findGroupByGroupname("TutSgn");
+        User user = new User(username, new BCryptPasswordEncoder().encode(password), email, ownGroup, "USER", gender);
 
         userRepository.save(user);
+	return true;
     }
 
     @Transactional(readOnly = true)

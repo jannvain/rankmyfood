@@ -17,12 +17,22 @@ public class UserInfoDTO {
     private String nickName;
 
     private String groupName;
+    private int gender;
 
-    public UserInfoDTO(String userName, String nickName, String groupName) {
+    public UserInfoDTO(String userName, String nickName, String groupName, int gender) {
         this.userName = userName;
         this.nickName = nickName;
 
         this.groupName = groupName;
+	this.gender = gender;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     public String getUserName() {
@@ -49,7 +59,7 @@ public class UserInfoDTO {
     }
 
     public static UserInfoDTO mapFromUserInfoEntity(User user) {
-        return new UserInfoDTO(user.getUsername(), user.getNickname(), user.getGroup().getName());
+        return new UserInfoDTO(user.getUsername(), user.getNickname(), user.getGroup().getName(), user.getGender());
     }
 
     public static List<UserInfoDTO> mapFromUsersEntities(List<User> users) {

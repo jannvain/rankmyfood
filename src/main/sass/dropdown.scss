@@ -3,14 +3,14 @@ $height2:2.5em;
 
 $spacing:10px;
 $placeholder-colour:#AAA;
-$select-colour:#a2d6fe;
+$select-colour:rgba(225, 225,  225, 1.0);
 $font-size:1.0em;
 $border-colour:#666	;
-$h1Color: #a2d6fe;
+$h1Color: rgba(70, 200, 255, 1.0); /* Light Blue */
 
 /* $darkBrown: #372313; */
 $darkBrown: transparent;
-
+$almostWhiteColor: #ffffff;
 @mixin vertical-centre ($height) {
 	height:$height;
 	line-height:$height2 !important;
@@ -51,12 +51,15 @@ dropdown {
 	display:block;
 	width:100%;
 	z-index:10;
+
 	>div {
+
 		float:left;
 		width:100%;
 		z-index:10;
 
 		>div.dropdown-display {
+
 			float:left;
 			width:100%;
 			background:white;
@@ -85,8 +88,10 @@ dropdown {
 				width:100%;
 				position:relative;
 				box-sizing:border-box;
-				padding-right:$icon-width+$spacing*2;
-				padding-left:$spacing;
+				/* padding-right:$icon-width+$spacing*2;
+				padding-left:$spacing;*/
+				padding-right:0;
+				padding-left:0;
 				
 				&.placeholder {
 					color:$placeholder-colour;
@@ -98,7 +103,7 @@ dropdown {
 				font-size: 1.6em;
 				padding: 0;
 				margin: 0;
-				color: $h1Color;
+				color: $almostWhiteColor;
 
 			}
 		
@@ -108,7 +113,7 @@ dropdown {
 				margin-left:($spacing+$icon-width)*-1;
 				font-weight:bold;
 				padding-right:$spacing;
-				text-align:right;
+				text-align:left;
 				line-height: 100%;
 				font-size: inherit;
 				height: 100%;
@@ -120,6 +125,7 @@ dropdown {
 			width:100%;
 			position:relative;
 			width:100%;
+
 			z-index:10;
 			text-align: left;
 

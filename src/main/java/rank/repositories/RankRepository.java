@@ -7,7 +7,10 @@ import rank.models.User;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
+
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
+
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -24,12 +27,16 @@ import java.util.Map;
  *
  */
 @Repository
-public class RankRepository {
+public class RankRepository{
 
     private static final Logger LOGGER = Logger.getLogger(RankRepository.class);
 
     @PersistenceContext
     EntityManager em;
+    
+    public void flush(){
+	em.flush();
+    }
     public void delete(Long deletedRankId) {
         Rank delete = em.find(Rank.class, deletedRankId);
         em.remove(delete);
@@ -72,6 +79,8 @@ public class RankRepository {
     }    
     
     public Rank save(Rank rank) {
-        return em.merge(rank);
+	Rank newRank = em.merge(rank);
+	flush();
+	return newRank;
     }
 }

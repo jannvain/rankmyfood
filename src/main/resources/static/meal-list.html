@@ -1,95 +1,142 @@
 <div class="menuBar">
-	<div class="leftNew">
-	 		<a href="#/newmeal" ng-click="newButtonClicked = !newButtonClicked">	
-	 			<h1>
-				<span  class="fa-stack fa-lg">
-					<span class="fa fa-cutlery fa-stack-2x"></span>
-					<span class="fa fa-plus-square fa-stack-1x text-danger"></span>
-				</span>
-				</h1>
-			</a>
-	
-	</div>
-	
-	<div class="centerMenuBar">
-   		<h1><dropdown placeholder="All" list="gm" selected="vm.currSel" property="nickName"></dropdown></h1>
-	</div>
-	
-	<div class="rightNav">
-		&nbsp;
-	</div>
-	
+  <div class="leftNew">
+    <a href="newmeal" ng-click="newButtonClicked = !newButtonClicked">	
+      <h1>
+	<span  class="fa-stack fa-lg">
+	  <span class="fa fa-cutlery fa-stack-2x"></span>
+	  <span class="fa fa-plus-square fa-stack-1x stack-plus"></span>
+	</span>
+      </h1>
+    </a>
+    
+  </div>
+  
+  <div class="centerMenuBar" ng-cloak>
+
+    <h1><dropdown placeholder="All" list="listFilter" selected="vm.currSel" property="name"></dropdown></h1> 
+  </div>
+  
+  <div class="rightNav">
+    <a  ng-click="refreshMealList()">	
+      <h1>
+	  <span class="fa fa-refresh fa-1x"></span>
+      </h1>
+    </a>
+  </div>
+  
 </div>
 
-	    	   
-	<tt-error-messages></tt-error-messages>
+
+<tt-error-messages></tt-error-messages>
+
+<!-- div class="info-messages ng-cloak" ng-style="{'opacity': vm.infoMessages.length > 0 ? 1 : 0, 'z-index': vm.infoMessages.length > 0 ? 10 : -10,
+     display: vm.infoMessages.length>0 ? 'block' : 'none'}">
+     <img class="info-icon" src="img/info-icon.png">
+     <div class="messages-group">
+       <div ng-repeat="info in vm.infoMessages">{{info.description}}</div>
+     </div>
+</div-->
+
+
+<div class="listScroller">
+  <!-- div  ng-cloak class="rListMiddleSpOuter" ng-repeat="meal in filtered = (vm.meals | excludeDeleted | ranked:vm.currSel | rankrange: vm.currSel | limitTo : showNumOfItems)"  -->
+
+  <div  ng-cloak class="rListMiddleSpOuter" ng-repeat="meal in filtered = (vm.meals | rankrange:vm.currSel | limitTo : showNumOfItems)"  >
     
-    <div class="info-messages" ng-style="{'opacity': vm.infoMessages.length > 0 ? 1 : 0, 'z-index': vm.infoMessages.length > 0 ? 10 : -10,
-	 	display: vm.infoMessages.length>0 ? 'block' : 'none'}">
-    	<img class="info-icon" src="img/info-icon.png">
-      	<div class="messages-group">
-			<div ng-repeat="info in vm.infoMessages">{{info.description}}</div>
-      	</div>
+    <div   class="rList middle spc">
+      <a  class="link-spanner" href="meal/{{meal.id}}">
+	
+	<div class="pure-g">
+	  <div   class="pure-u-10-24">
+	    <div  class="smallImage">		      	
+	      <div ng-switch on="meal.imageName">
+	   	<div ng-switch-when="noimage">
+	   	  <ng-include src="'showSpinner'"> </ng-include>
+    		</div>
+		<div ng-switch-default>
+		  <ng-include src="'showImage'"> </ng-include>
+    		</div>
+	      </div>
+	    </div>	  		
+	    
+	  </div>
+	  <div class="pure-u-14-24">
+	   
+	    <div class="pure-g detailsHeader">
+	      <div class="pure-u-9-24">
+		<p class="p0 bigbig">{{meal.time}}</p>
+	      </div>
+	      <div class="pure-u-15-24">
+		<p class="p0 bigbigright">{{showDate(meal.date)}}</p>
+	      </div>
+	    </div>
+	    
+	    <!--div class="pure-g">
+	      <div class="pure-u-23-24"-->
+		<!--p class="p0 big">{{meal.categoryName}}</p --> 
+	      <!-- /div>
+	    </div -->
+
+	    <div class="pure-g">
+	      <div class="pure-u-18-24">
+		<p class="p0 big">{{meal.nickName | limitTo : 20}}</p>
+	      </div>
+	      <div class="pure-u-6-24">
+		<p class="p1 big">
+
+
+		  <span class="fa-stack fa-1x">
+		    <i class="fa fa-comment fa-stack-2x"></i>
+		    <strong class="fa-stack-1x fa-inverse">{{meal.voteCount}}</strong>
+		  </span>
+
+
+		  <!--span class="fa fa-comment"> {{meal.voteCount}}</span -->
+		</p>
+
+	      </div>
+	    </div>
+
+	  </div>
+	</div>		
+      </a>
+      
     </div>
+    
+  </div>
+  <div class="mySpace">&nbsp;</div>
+  <div ng-cloak class="button-primary pure-button pure-input-1" ng-click="moreItems()" ng-show="showNumOfPages<vm.totalPages" >
+    MORE... ({{showNumOfPages}}/{{vm.totalPages}})
+  </div>
+  <div ng-cloak ng-show="showNumOfPages==vm.totalPages" >
+    END OF LIST ({{showNumOfPages}}/{{vm.totalPages}})
+  </div>
+  
+  <div class="mySpace">&nbsp;</div>
+  
+</div>
 
-  	
-  	<div class=listScroller>
-  		<div ng-show="newButtonClicked" class="RList progress">Creating new meal...</div>
-  		<div ng-show="detailButtonClicked" class="RList progress">Opening meal details...</div>
-   		<div  class="rListMiddleSpOuter" ng-repeat="meal in filtered = (vm.meals | excludeDeleted | ranked:vm.currSel | user:vm.currSel.nickName | limitTo : showNumOfItems)"  >
-            
-			<div   class="rList middle spc">
-	        	<a  class="link-spanner" href="#/meal/{{::meal.id}}">
 
-				<div class="pure-g">
-					<div   class="pure-u-10-24">
-		      			<div  class="smallImage">		      	
-		      				<div ng-switch on="meal.imageName">
-	   							<div ng-switch-when="noimage">
-	   								<ng-include src="'showSpinner'"> </ng-include>
-    							</div>
-			    				<div ng-switch-default>
-		   							<ng-include src="'showImage'"> </ng-include>
-    							</div>
-							</div>
-						</div>	  		
-		  			
-					</div>
-					<div class="pure-u-14-24">
-						<p class="p0 big"><span style="text-align:right;float:right;">{{::meal.time}}</span></p>
-						<p class="p0 big">{{::meal.categoryName}}</p> 
-						<p class="p0 big"><span style="text-align:right;float:right;">{{::showDate(meal.date)}}	</span></p>
-						<p class="p0 big">{{::meal.nickName}}</p>	
 
-						<p class="p1 big"><span style="text-align:right;float:right;">{{::meal.voteCount}}	</span></p>
-						<p class="p0 big">Votes:</p>							
-						
-					</div>
-				</div>		
-				</a>
-	
-	 		</div>
+<script type="text/ng-template" id="showImage">
+  <img class="xsImg" ng-src="mealimages/xs/{{meal.imageName}}" ng-model="meal.imageName"></img>
+  <div ng-show="meal.hasVoted" class="hoverVoteXs">
 
-		</div>
-		<div class="mySpace">&nbsp;</div>
-		<div class="button-primary pure-button pure-input-1" ng-click="moreItems()" ng-show="showNumOfPages<vm.totalPages" >MORE... ({{showNumOfPages}}/{{vm.totalPages}})</div>
-		<div ng-show="showNumOfPages==vm.totalPages" >END OF LIST ({{showNumOfPages}}/{{vm.totalPages}})</div>
 
-		<div class="mySpace">&nbsp;</div>
+    <div class="listGrade">
+      <span class="fa-stack fa-lg">
+	<i class="fa fa-star fa-stack-2x"></i>
+	<strong class="fa-stack-1x fa-inverse"><span style="font-size:75%;">{{meal.averageRankDisplayed}}</span></strong>
+      </span>
+      
 
-	</div>
-	
-	
-	
-	<script type="text/ng-template" id="showImage">
-				  		<img class="xsImg" ng-src="mealimages/xs/{{meal.imageName}}" ng-model="meal.imageName"></img>
-					  	<div ng-show="meal.hasVoted" class="hoverVoteXs">
-		      				<div class="listGrade">{{meal.averageRankDisplayed}}</div>
-						</div>
-	</script>
+    <!--  {{meal.averageRankDisplayed}} -->
+    </div>
+  </div>
+</script>
 
-	<script type="text/ng-template" id="showSpinner">
-				      	<div style="margin:1em auto;text-align:center;"><span class="fa fa-refresh fa-spin fa-3x"></span></div>
+<script type="text/ng-template" id="showSpinner">
+  <div style="margin:1em auto;text-align:center;"><span class="fa fa-refresh fa-spin fa-3x"></span></div>
+  
+</script>
 
-	</script>
-	

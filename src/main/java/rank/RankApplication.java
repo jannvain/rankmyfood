@@ -17,12 +17,16 @@ public class RankApplication extends SpringBootServletInitializer{
 
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-      return application.sources(RankApplication.class);
+      return application.sources(applicationClass)
+	  .profiles("production");
+
   }
+    private static Class<RankApplication> applicationClass = RankApplication.class;
 
     public static void main(String[] args) {
     	 SpringApplication app = new SpringApplication(RankApplication.class);
          app.setShowBanner(false);
+
          app.run(args);         
     }
 }

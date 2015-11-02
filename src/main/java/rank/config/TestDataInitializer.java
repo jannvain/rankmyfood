@@ -55,13 +55,16 @@ public class TestDataInitializer {
         
         Group defaultGroup2 = new Group("Myfamily", "Family group");
         session.persist(defaultGroup2);        
+
+        Group defaultGroup3 = new Group("TutSgn", "TUT SGN Eating challenge");
+        session.persist(defaultGroup3);        
         
         
         User user = new User("janne", "$2a$10$x9vXeDsSC2109FZfIJz.pOZ4dJ056xBpbesuMJg3jZ.ThQkV119tS", "test@email.com", 
-        		defaultGroup, "USER");
+			     defaultGroup, "USER", 0);
 
         User user2 = new User("ritva", "$2a$10$TZYYROEHeGsmkCSYuf0yBOLCNRh7ulr2wtcDcYw0.G4NyQx1.wJM2", "test123@test.fi", 
-        		defaultGroup, "USER");
+			      defaultGroup, "USER", 1);
 
         
         
@@ -115,6 +118,10 @@ public class TestDataInitializer {
         Meal meal2b =  new Meal(user2, currentDate, new Time(15, 0, 0), "Salmon soup", defaultCategory4, "mealimage11.jpg");
 
 
+        Meal meal1c =  new Meal(user2,yesterday, new Time(13, 0, 0), "Coffee and Wiener too", defaultCategory, "mealimage6.jpg");
+        Meal meal2c =  new Meal(user2, yesterday, new Time(18, 15, 0), "Salmon soup", defaultCategory4, "mealimage4.jpg");
+
+
         session.persist(meal1);
         session.persist(meal2);
         session.persist(meal3);
@@ -128,11 +135,14 @@ public class TestDataInitializer {
         session.persist(meal11);
         session.persist(meal1b);
         session.persist(meal2b);
+
+        session.persist(meal1c);
+        session.persist(meal2c);
         
         LinkedList<Integer> rbuf1 = new LinkedList<Integer>(Arrays.asList(7,6,7,8,7));
         LinkedList<Integer> rbuf2 = new LinkedList<Integer>(Arrays.asList(8,9,8,7,7));
 
-        for(int i=2;i<90;i++){
+        for(int i=2;i<42;i++){
             Date date = new Date(currentDate.getYear(), currentDate.getMonth(), currentDate.getDate()-i);
             date.setHours(12);
             date.setMinutes(0);
@@ -140,16 +150,21 @@ public class TestDataInitializer {
             int rd1 = rand.nextInt((11 - 2) + 1) + 2;
             int rd2 = rand.nextInt((11 - 2) + 1) + 2;
 
-            Meal tmpMeal1 =  new Meal(user, date, new Time(07, 15, 0), "Halloumi salad", defaultCategory2, "mealimage" + rd1 + ".jpg");
-            Meal tmpMeal2 =  new Meal(user2,date, new Time(10, 0, 0), "Coffee and Wiener too", defaultCategory, "mealimage" + rd2 + ".jpg");
+            Meal tmpMeal1 =  new Meal(user, date, new Time(07, 30, 0), "Halloumi salad", defaultCategory2, "mealimage" + rd1 + ".jpg");
+            Meal tmpMeal2 =  new Meal(user2,date, new Time(10, 15, 0), "Coffee and Wiener too", defaultCategory, "mealimage" + rd2 + ".jpg");
             session.persist(tmpMeal1);
             session.persist(tmpMeal2);
             int randomNum1 = rand.nextInt((10 - 6) + 1) + 6;
             int randomNum2 = rand.nextInt((10 - 5) + 1) + 5;
             rbuf1.add((int)randomNum1);
-            rbuf2.add((int)randomNum2);
-            
-  
+            rbuf2.add((int)randomNum2);  
+
+
+
+            Meal tmpMeal3 =  new Meal(user, date, new Time(11, 15+rand.nextInt(7), 0), "Halloumi salad for ever", defaultCategory2, "mealimage" + rd1 + ".jpg");
+	    Meal tmpMeal4 =  new Meal(user2,date, new Time(14, 10+rand.nextInt(10), 0), "Coffee and Wiener again", defaultCategory, "mealimage" + rd2 + ".jpg");
+            session.persist(tmpMeal3);
+            session.persist(tmpMeal4);
             
             float ave1=0;
             float ave2=0;

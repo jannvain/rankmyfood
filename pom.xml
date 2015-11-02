@@ -6,7 +6,7 @@
 	<groupId>org.janne</groupId>
 	<artifactId>rankmyfood</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>RankMyFood</name>
 	<description>RankMyFood collaborative food diary</description>
@@ -87,7 +87,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>rankmyfood</finalName>
+		<finalName>eatingchallenge</finalName>
     	<pluginManagement>
 	   		<plugins>
 				<plugin>
@@ -99,10 +99,10 @@
     	</pluginManagement>
 
 		<plugins>
-			<plugin>
+			<!--plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			</plugin-->
 			<plugin>
 		       	<groupId>nl.geodienstencentrum.maven</groupId>
 		       	<artifactId>sass-maven-plugin</artifactId>

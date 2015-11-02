@@ -24,14 +24,24 @@ import java.util.Collection;
  * The Meal JPA entity
  *
  */
+
 @NamedQueries({
 @NamedQuery(
         name = Meal.FIND_BY_USER,
-        query = "select m from Meal m where m.user.username = :username order by m.date desc, m.time desc"
+        query = "select m from Meal m where m.user.username = :username and m.deleted = false order by m.date desc, m.time desc"
 ),
 @NamedQuery(
+        name = Meal.FIND_BY_USER_REVERSE,
+        query = "select m from Meal m where m.user.username = :username and m.deleted = false order by m.date asc, m.time desc"
+), 
+
+@NamedQuery(
         name = Meal.FIND_BY_UGROUP,
-        query = "select m from Meal m  where m.user.ugroup.name = :groupname order by m.date desc, m.time desc"
+        query = "select m from Meal m  where m.user.ugroup.name = :groupname and m.deleted = false order by m.date desc, m.time desc"
+	    ),
+@NamedQuery(
+        name = Meal.FIND_BY_UGROUP_BY_OWNER,
+        query = "select m from Meal m  where m.user.ugroup.name = :groupname and m.deleted = false order by m.date asc, m.user.username desc, m.time desc"
 )
 })
  
@@ -40,7 +50,9 @@ import java.util.Collection;
 public class Meal extends AbstractEntity {
 
     public static final String FIND_BY_USER = "meals.findByUser";
+    public static final String FIND_BY_USER_REVERSE = "meals.findByUserReverse";
     public static final String FIND_BY_UGROUP = "meals.findByUgroup";
+    public static final String FIND_BY_UGROUP_BY_OWNER = "meals.findByUgroupByOwner";
 
     @ManyToOne
     private User user;
@@ -56,13 +68,14 @@ public class Meal extends AbstractEntity {
 
     private String description;
     private String imageName;
-
+    private boolean deleted;
     @JsonManagedReference
     @OneToMany(fetch=FetchType.EAGER, mappedBy="meal")
     private Collection<Rank> rank = new ArrayList<Rank>();
 
     public Meal() {
  //       this.rank = new ArrayList<Rank>();
+	deleted = false;
     }
 
     public Meal(User user, Date date, Time time, String description, Category category, String imageName ) {
@@ -74,9 +87,18 @@ public class Meal extends AbstractEntity {
         this.description = description;
         this.category = category;
         this.imageName = imageName;
+	this.deleted = false;
 //        this.rank = new ArrayList<Rank>();        
     }
 
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Date getDate() {
         return date;

@@ -43,13 +43,14 @@ public class User extends AbstractEntity {
     private String passwordDigest;
     private String email;
     private String role;
+    private int gender;
 
 
     public User() {
 
     }
 
-    public User(String username, String passwordDigest, String email, long ownerId, Group group, String role) {
+    public User(String username, String passwordDigest, String email, long ownerId, Group group, String role, int gender) {
         this.username = username;
         this.nickname = username;
         this.passwordDigest = passwordDigest;
@@ -57,8 +58,9 @@ public class User extends AbstractEntity {
         setOwnerId(ownerId);
         this.ugroup = group;
         this.role = role;
+	this.gender = gender;
     }
-    public User(String username, String passwordDigest, String email, Group group, String role) {
+    public User(String username, String passwordDigest, String email, Group group, String role, int gender) {
         this.username = username;
         this.nickname = username;
         this.passwordDigest = passwordDigest;
@@ -66,8 +68,9 @@ public class User extends AbstractEntity {
         setOwnerId(0L);
         this.ugroup = group;
         this.role = role;
+	this.gender = gender;
     }
-    public User(String username, String passwordDigest, String email, String role) {
+    public User(String username, String passwordDigest, String email, String role, int gender) {
         this.username = username;
         this.nickname = username;
   
@@ -76,10 +79,24 @@ public class User extends AbstractEntity {
         setOwnerId(0L);
         this.ugroup = null;
         this.role = role;
+	this.gender = gender;
     }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setNIckname(String nickname) {
@@ -89,9 +106,7 @@ public class User extends AbstractEntity {
         return nickname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+
 
     public String getPasswordDigest() {
         return passwordDigest;

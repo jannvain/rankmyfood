@@ -37,7 +37,7 @@ public class UserController {
     @ResponseBody
     public UserInfoDTO getUserInfo(Principal principal) {
         User user = userService.findUserByUsername(principal.getName());
-        return user != null ? new UserInfoDTO(user.getUsername(), user.getNickname(), user.getGroup().getName()) : null;
+        return user != null ? new UserInfoDTO(user.getUsername(), user.getNickname(), user.getGroup().getName(), user.getGender()) : null;
     }
 
     @RequestMapping(value="/api/groupmembers", method = RequestMethod.GET)
@@ -52,8 +52,12 @@ public class UserController {
     
     @RequestMapping(value="/api/user", method = RequestMethod.POST)
     public ResponseEntity<String>  createUser(@RequestBody NewUserDTO user) {
-        userService.createUser(user.getUsername(), user.getEmail(), user.getPlainTextPassword());
-        return new ResponseEntity<>("User created", HttpStatus.OK);
+        Boolean succeed = userService.createUser(user.getUsername(), user.getEmail(), user.getPlainTextPassword(), user.getGender());
+
+	if(succeed)
+	    return new ResponseEntity<>("User created", HttpStatus.OK);
+	else
+	    return new ResponseEntity<>("The username is not available", HttpStatus.CONFLICT);
     }
 
 

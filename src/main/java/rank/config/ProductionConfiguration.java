@@ -24,20 +24,20 @@ import java.util.Map;
  *
  */
 @Configuration
-@Profile("development")
+@Profile("production")
 @EnableTransactionManagement
-public class DevelopmentConfiguration {
+public class ProductionConfiguration {
 
-    @Bean(initMethod = "init")
-    public TestDataInitializer initTestData() {
-        return new TestDataInitializer();
-    }
+    //@Bean(initMethod = "init")
+    //public TestDataInitializer initTestData() {
+    //return new TestDataInitializer();
+    // }
 
     @Bean(name = "datasource")
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/rankmyfoodtest");
+        dataSource.setUrl("jdbc:mysql://localhost/rankmyfood");
         dataSource.setUsername("root");
         dataSource.setPassword("***REMOVED***");
         return dataSource;
@@ -53,7 +53,7 @@ public class DevelopmentConfiguration {
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Map<String, Object> jpaProperties = new HashMap<String, Object>();
-        jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
+        jpaProperties.put("hibernate.hbm2ddl.auto", "validate");
         jpaProperties.put("hibernate.show_sql", "false");
         jpaProperties.put("hibernate.format_sql", "true");
         jpaProperties.put("hibernate.use_sql_comments", "true");
@@ -65,23 +65,3 @@ public class DevelopmentConfiguration {
 
 }
 
-
-/*
- spring.datasource.url=jdbc:mysql://localhost/rankme
-spring.datasource.username=root
-spring.datasource.password=***REMOVED***
-spring.datasource.driverClassName=com.mysql.jdbc.Driver
-
-# Specify the DBMS
-spring.jpa.database = MYSQL
-
-# Show or not log for each sql query
-spring.jpa.show-sql = true
-
-# Hibernate settings are prefixed with spring.jpa.hibernate.*
-spring.jpa.hibernate.ddl-auto = update
-spring.jpa.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
-spring.jpa.hibernate.naming_strategy = org.hibernate.cfg.ImprovedNamingStrategy
-
-server.port=8080
- * */

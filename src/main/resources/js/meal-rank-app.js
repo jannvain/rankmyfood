@@ -12,127 +12,185 @@ Date.prototype.subtractDays = function(days)
     dat.setDate(dat.getDate() - days);
     dat.setHours(0);
     dat.setMinutes(1);
-
+    
     return dat;
 }
 
-var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate', 'mealList', 
-                               'angular-datepicker', 'frontendServices', 'ngDropdowns'])
-
-.value('googleChartApiConfig', {
-            version: '1.0',
-            optionalSettings: {
-                packages: ['corechart'] /*,
-                language: 'en'*/
-            }
+var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate', 
+					 'mealList', 'common', 'loginApp', 'mealCompare',
+					 'mealSummary', 'newUserApp', 
+					 'angular-datepicker', 'frontendServices',
+					 'ngDropdowns', 'auth'])
+    .value('googleChartApiConfig', {
+	version: '1.1',
+	optionalSettings: {
+            packages: ['corechart'] /*,
+				      language: 'en'*/
+        }
     })                               
-   .filter('day', function () {
-    return function (input, filter) {
-        return _.filter(input, function (item) {
+    .filter('day', function () {
+	return function (input, filter) {
+            return _.filter(input, function (item) {
         	// console.log("in filter");
         	// console.log(filter.from);
         	// console.log(filter.to);
         	// console.log(item.date);
-
+		
         	if(filter.from == "all")
-        		return true;
+        	    return true;
         	else
-        		return ((filter.from >= item.date)&&(filter.to<=item.date))? true: false;
-        });
-    }
-})
-.config(function($routeProvider, $httpProvider) {
-
+        	    return ((filter.from >= item.date)&&(filter.to<=item.date))? true: false;
+            });
+	}
+    })
+    .config(function($locationProvider, $routeProvider, $httpProvider) {
+	
+	$locationProvider.html5Mode(true);
+	
 	// console.log("ROUTINT");
 	// console.log($routeProvider);
-	$routeProvider.when('/', {
+	$routeProvider
+	    .when('/latest', {
 		templateUrl : 'meal-list.html',
 		controller : 'MealListCtrl',
 		notInroot: false,
 		viewTitle: 'RankMyFood',
-	}).when('/meal/:mealId', {
+	    }). when('/login', {
+		templateUrl : 'nov2015.html',
+	    controller : 'BaseFormCtrl',
+		notInroot: false,
+		viewTitle: 'RankMyFood',
+	    }). when('/nov2015', {
+		templateUrl : 'nov2015.html',
+	    controller : 'BaseFormCtrl',
+		notInroot: false,
+		viewTitle: 'RankMyFood',
+	    }). when('/new-user', {
+		templateUrl : 'new-user.html',
+		controller : 'BaseFormCtrl',
+		notInroot: false,
+		viewTitle: 'RankMyFood',
+	    }).when('/meal/:mealId', {
 		templateUrl : 'meal-details.html',
 		controller : 'MealDetailCtrl',
 		viewTitle: '...',
 		notInRoot: true
-	}).when('/newmeal', {
+	    }).when('/newmeal', {
 		templateUrl : 'meal-new.html',
 		controller : 'MealNewCtrl',
 		viewTitle: '...',
 		notInRoot: true
-	}).when('/compare', {
+	    }).when('/compare', {
 		templateUrl : 'compare.html',
-		controller : 'MealCompareCtrl',
+	    controller : 'MealCompareCtrl',
 		viewTitle: '...',
 		notInRoot: true
-	})
-	.when('/settings', {
+	    })
+	    .when('/settings', {
 		templateUrl : 'settings.html',
 		controller : 'SettingsCtrl',
 		viewTitle: '...',
 		notInRoot: true
-	}).when('/mysummary', {
+	    }).when('/mysummary', {
 		templateUrl : 'mysummary.html',
 		controller : 'MealSummaryCtrl',
 		viewTitle: '...',
 		notInRoot: true
-	}).when('/logout', {
-		templateUrl : 'login.html',
-		//controller : 'MealDetailCtrl',
+	    }).when('/logout', {
+		templateUrl : 'nov2015.html',
+		controller : 'BaseFormCtrl',
 		notInRoot: false
-	}).otherwise('/'	);
-
-    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-
-  })
-  .factory('header',function(){
-  return {notInRoot:false,
+	    }).when('/', {
+		templateUrl : 'login.html',
+		controller : 'BaseFormCtrl',
+		notInRoot: false
+	    }).otherwise('/'	);
+    
+	$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+	
+    })
+    .factory('header',function(){
+	return {notInRoot:false,
 	  	viewTitle: 'RankMyFood'};
-})
-.run(['$rootScope', '$location', '$http', '$route',
-      function ($rootScope, $location, $http, $route) {
-	
- 
-    
-    $rootScope.$on('$locationChangeStart', function (event, next, current) {
-        // console.log($location.path());
-        // redirect to login page if trying to access
-        // a secure page and not logged in
-        var nextRoute = $route.routes[$location.path()];
-        
-            // console.log("Routing: " + nextRoute);
-            
-    }
-    );	
-    
-    
-   angular.element(document).on("click", function(e) {
-	$rootScope.$broadcast("documentClicked", angular.element(e.target));
-	});
-	
-		}])	
- .controller('MainCtrl', ['$rootScope', '$scope' , 'NewUserService', 'TimeService', '$timeout',
-                          function ($rootScope, $scope, NewUserService, TimeService, $timeout) {
-	 console.log("In MainCtrl");
-	 $scope.loggingOut = false;
-	 $scope.progressMesssage={"message": ""};
-	 $scope.ctrlLoaded=false;
-	 
+    })
+    .run(['$rootScope', '$location', '$http', '$route', 'LoginService', 'NewUserService', 'auth',
+	  function ($rootScope, $location, $http, $route, LoginService, NewUserService, auth) {
+	      
+	      auth.init('/latest', '/login', '/logout', '/new-user');
+	      
+	      /*    
+		    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+		    console.log($location.path());
+		    
+		    // redirect to login page if trying to access
+		    // a secure page and not logged in
+		    var nextRoute = $route.routes[$location.path()];
+		    console.log("Routing: " + nextRoute);        
+		    console.log(NewUserService.userData);
+		    if(!LoginService.hasAuthenticated){
+		    //            $location.path('login');
+		    console.log("HAS TO LOGIN");
+		    }
+		    else
+		    console.log("READY TO GO");
+		    }
+		    );	
+  */  
+	      
+	      angular.element(document).on("click", function(e) {
+		  $rootScope.$broadcast("documentClicked", angular.element(e.target));
+	      });
+	      
+	  }])	
+    .controller('MainCtrl', ['$rootScope', '$scope' , 'NewUserService', 'TimeService', 'StatusService', 'auth', '$timeout', function ($rootScope, $scope, NewUserService, TimeService, StatusService, auth, $timeout) {
+	console.log("In MainCtrl");
+	// console.log("MAIN AUTH: " + auth.authenticated);
+	// Cleaned up settings
+        $scope.authenticated = function() {
+            return auth.authenticated;
+        }
+
+        $scope.ctrlLoaded = false;
+	$scope.progressMessage={message: ""};
+//	 $scope.$on('progressUpdate', function(event, data) { 
+	 $scope.$on('finishLoadingCtrl', function(event, data) { 
+	     $scope.ctrlLoaded = false;
+	 });
+
+	 $scope.setProgressMessage = function(message){
+	     $scope.progressMessage.message = message;
+	     if(message=="")
+		 $scope.ctrlLoaded = true;
+	     else
+		 $scope.ctrlLoaded = false;
+	 }
+
+	$scope.setProgressMessage("Initializing");
+	// Cleaned up ends
+
+	$scope.loggingOut = false;
+
+
+
+	$rootScope.showMealClock = true;
+
+	$scope.status = StatusService;
+			      
 	 $scope.$on('$routeChangeStart', function(next, current) { 
-		 $scope.ctrlLoaded=false;
+//		 $scope.ctrlLoaded=false;
 	 });
 	 
 	  $rootScope.isVeryGood = function(gap){
 		  var ngap = parseInt(gap);
-		  return (ngap>=180)&&(ngap<=300) ? true : false;
+		  return (ngap>=180)&&(ngap<=240) ? true : false;
 	  }
 	  $rootScope.isPrettyGood = function(gap){
 		  var ngap = parseInt(gap);
-		  return ((ngap>=120)&&(ngap<180))||((ngap>=300)&&(ngap<=360)) ? true : false;
+		  return ((ngap>=120)&&(ngap<180))||((ngap>=240)&&(ngap<=300)) ? true : false;
 	  }
 	  $rootScope.isNoGood = function(gap){
 		  var ngap = parseInt(gap);
-		  return (ngap<120)||(ngap>360) ? true : false;
+		  return (ngap<120)||(ngap>300) ? true : false;
 	  }
 	  $rootScope.isVeryBad = function(gap){
 		  var ngap = parseInt(gap);
@@ -161,26 +219,26 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	 }
 
 	 /* Get logged in user data, we need his/her groupname to fetch data from other group members */
-	 NewUserService.updateUserInfo($scope);
+//	 NewUserService.updateUserInfo($scope);
 	 
   	/* Main menu links */
 	 $scope.ddMenuOptions = [
 	                         {
 	                        	 text: 'Latest meals',
-	                        	 href: '#/'
+	                        	 href: 'latest'
 	                         }, 
 	                         {
 	                        	 text: 'Meal rankings',
-	  	                         href: '#/compare'	
+	  	                         href: 'compare'	
 	                         }, 
 	                         {
 	                        	 text: 'Meal frequencies',
-	  	                         href: '#/mysummary'
+	  	                         href: 'mysummary'
 	                         }, 
-	                         {
+/*	                         {
 	                        	 text: 'Setttings',
-	                        	 href: '#/settings'
-	                         }, 
+	                        	 href: 'settings'
+	                         }, */
 		                     {
 	                           divider: true
 	                         }, 
@@ -197,14 +255,9 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	 
 	 $scope.$on('headerChanged', function(event, data) { 
 		 $scope.headerData = data;
-		 $scope.appReady=true;
 	 });
 
-	 $scope.$on('progressUpdate', function(event, data) { 
-		 $scope.progressMessage = data;
-		 $scope.ctrlLoaded = true;
 
-	 });
 
 	 $scope.plotRank = function(ave, ind){
 		 // console.log("PLOTTING AVE RANK " + "( " +ind + " ) " + ave );
@@ -231,7 +284,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	 }	  
 	                          
 	 $scope.logout = function () {
-		 console.log("LOGOUT B");
+		 // console.log("LOGOUT B");
 		 $scope.loggingOut = true;
 		 NewUserService.logout();
 	 }	  
@@ -242,350 +295,62 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
  
  .controller('AppCtrl', function($scope) {
      
-     
+     $rootScope.showMealClock = true;
 
- }) .controller('MealCompareCtrl', ['$rootScope', '$scope' , '$routeParams', '$fancyModal', 'MealService', 'NewUserService', 
-                                    'NewMealService', 'TimeService', 'googleChartApiPromise', '$timeout',
-                                   function ($rootScope, $scope, $routeParams, $fancyModal, MealService, NewUserService, 
-                                		   NewMealService, TimeService, googleChartApiPromise, $timeout) {
-	 console.log("In MealCompareCtrl: ");
-	 $scope.showNewMealButton = false;
-	 $scope.dataLoaded = false;
-
-	 $scope.chart = {};
-
-	  TimeService.resetCurrentDate();
-	  
-	  $scope.timeRanges = [
-	          {
-	        	  "name":"All",
-	        	  "from": $scope.oldestDate, 
-	        	  "to": TimeService.currentDate00(), 
-	        	  "format":  "MMM d", 
-	        	  "gridCount": 6,
-	        	  "pointSize": 0
-	          },           
-			  {
-	        	  "name":"Last month",
-	        	  "from": TimeService.currentDate.subtractDays(29), 
-	        	  "to": TimeService.currentDate00(), 
-	        	  "format":  "MMM d", 
-	        	  "gridCount": 6,
-	        	  "pointSize": 0
-			  },
-			  {
-				  "name": "Last week",
-				  "from": TimeService.currentDate.subtractDays(6), 
-				  "to": TimeService.currentDate00(), 
-				  "format":  "EEE", 
-				  "gridCount": 7,
-				  "pointSize": 10	
-			  }
-				
-			  ];
-	  $scope.currSel = $scope.timeRanges[0];
-	  $scope.prevSel = {};
-  
-	$scope.changeTimeRange = function(){
-		
-		if( $scope.currSel == $scope.prevSel)
-			return;
-		
-		
-		console.log("Change range from " + $scope.currSel.from + " to " + $scope.currSel.to);
-		$scope.chart.options.hAxis.gridlines.count = $scope.currSel.gridCount;
-		var tst = $scope.currSel.from;
-		tst.setDate(tst.getDate()-1);
-		tst.setHours(23);
-		tst.setMinutes(59);
-		tst.setSeconds(0);
-		$scope.chart.options.hAxis.viewWindow.min = tst;
-		$scope.chart.options.hAxis.viewWindow.max = $scope.currSel.to;
-		$scope.chart.options.hAxis.format = $scope.currSel.format;
-		$scope.chart.options.hAxis.baseline = $scope.oldestDate;
-		$scope.chart.options.pointSize = $scope.currSel.pointSize;
-		$scope.prevSel = $scope.currSel;
-			
-	}
-
-	var wd = document.getElementById("listScroller").offsetWidth;
-	var hd = document.getElementById("listScroller").clientHeight;
-	console.log("W " + wd + " H " + hd);
-	$scope.cssStyle="width:100%;height:100%;";
-		
-	 $scope.chart.options ={
-			 height: (hd/4)*3,
-			 
-	 
-			 legend: {position: 'top', maxLines: 5, textStyle: {color: '#4d1f00'}},
-             fontName: 'Racing Sans One',
-             fontSize: 16,
-             backgroundColor: { fill:'transparent' },
-			 interpolateNulls: true,
-             colors: ['#ff8a00', '#4fb2fe', '#00a7e2', '#01dc1c'],
-             
-             pointSize: 0,
-             series: {
-                   0: { pointShape: 'circle' },
-                   1: { pointShape: 'square' },
-                   2: { pointShape: 'triangle' },
-                   3: { pointShape: 'diamond' },
-                   4: { pointShape: 'star' },
-                   5: { pointShape: 'polygon' }
-             },
-
-             chartArea: 
-             {
-            	 backgroundColor: { fill:'#fdfdfd', stroke: '#666', strokeWidth: 1},
-            	 // top: 80,
-            	 height: '40%',
-            	 is3D: false,
-            	 width: '70%'
-             },
-			 vAxis:{
-				 textStyle:{color: '#4d1f00', is3D: false},
-                 gridlines: {color: '#ccc', count:7	},
-                 baselineColor: '#4d1f00',
-                 baseline: 4,
-                 is3D: false,
-                 textPosition : 'out',
-                 fontSize: 16,
-
-                 viewWindowMode:'explicit',
-                 viewWindow:{ max:10, min:4 }
-			 },
-			 hAxis:{
-				 textStyle:{color: '#4d1f00'},
-                 gridlines: {color: '#ccc', count:6},
-                  baselineColor: '#4d1f00',
-                  baseline: $scope.oldestDate,
-                  fontSize: 14,
-                  format: 'MMM d',
-                  showTextEvery: 1,
-                  direction:1, 
-                  slantedText:true, 
-                  slantedTextAngle:90,	
-                  viewWindowMode:'explicit',
-                  viewWindow:{ max:$scope.currSel.to, min:$scope.currSel.from }
-				/* 
-				    baseline: 1,
-     */	
-                    },
-				 
-	}
-	 init();
-
-	 function init(){
-		 googleChartApiPromise.then(chartApiSuccess);
-	 }
-	 function chartApiSuccess(){
-		 $scope.chart.type = 'LineChart';
-		 $scope.othersData = new google.visualization.DataTable();
-		 $scope.myData = new google.visualization.DataTable();
-		 var cd = new google.visualization.DataTable();
-		 cd.addColumn('number', 'Date');
-		 cd.addColumn('number', 'Me');
-		 //$scope.chart.data = cd;
-
-		 $scope.myData.addColumn('number', 'Date');
-		 $scope.myData.addColumn('number', 'Me');
-		 $scope.othersData.addColumn('number', 'Date');
-		 $scope.othersData.addColumn('number', 'Others');
-		 
-		 console.log("Google chart Api loaded");
-		 dataLoad();
-	 }	    
-
-	 
-	 $scope.$emit('headerChanged', {viewTitle:"Rankings", notInRoot: false});
-	 // For storing User model
-	 $scope.um = {};
-	 // For storing Group members model
-	 $scope.gm = {};
-    
-     function dataLoad(){ 
-	     NewUserService.updateUserInfoPromise().then(function(data){
-	     	$scope.um = data;
-	
-	     	 NewMealService.searchMyRanks($scope.um.userName, 1).then(function(data){
-	       		$scope.myRanks = data; 
-	       		// console.log("Search my ranks");
-//	       		console.log(data);
-	       		$scope.myData.addRows(data);
-	       		
-	       		
-		     	 NewMealService.searchGroupRanks($scope.um.groupName, 1).then(function(data){
-			       		$scope.groupRanks = data; 
-			       		$scope.othersData.addRows(data);
-			       		var dataTable = google.visualization.data.join($scope.myData, $scope.othersData,
-			       				'full', [[0,0]], [1], [1]);
-			       		
-				 
-			       		console.log($scope.groupRanks);
-			       		console.log($scope.myRanks);
-			       		
-			       		var oldestStamp = Math.min($scope.groupRanks[0][0], $scope.groupRanks[0][0]);
-			       		
-			       		$scope.oldestDate = new Date(oldestStamp);
-			       		$scope.oldestDate.setHours(0);
-			       		$scope.oldestDate.setMinutes(0);
-
-			       		// console.log($scope.oldestDate);
-			       		
-			       		var view = new google.visualization.DataView(dataTable);
-
-			       		view.setColumns([{
-			       		    type: 'date',
-			       		    label: dataTable.getColumnLabel(0),
-			       		    calc: function (dt, row) {
-			       		        var timestamp = dt.getValue(row, 0); // convert to milliseconds
-			       		        var date = new Date(timestamp);
-			       		        //console.log("A " + new Date(timestamp).toISOString());
-			       		        date.setHours(0);
-			       		        date.setMinutes(1);
-			       		        date.setSeconds(0);
-
-			       		        //console.log("B " + date);
-
-			       		        return date;
-			       		        //return new Date(2015, 7, 28, 12, 0, 0, 0);
-			       		    	//return dt.getValue(row, 0);
-			       		    }
-			       		}, 
-			       		
-			       		{
-			       		    type: 'number',
-			       		    label: dataTable.getColumnLabel(1),
-			       		    calc: function (dt, row) {
-			       		        var timestamp = dt.getValue(row, 1); // convert to milliseconds
-			       		        return timestamp;
-			       		    }
-			       		}, 
-			       		
-			       		{
-			       		    type: 'number',
-			       		    label: dataTable.getColumnLabel(2),
-			       		    calc: function (dt, row) {
-			       		        var timestamp = dt.getValue(row, 2); // convert to milliseconds
-			       		        return timestamp;
-			       		    }
-			       		}
-			       		]);
-
-			       		$scope.timeRanges[0].from = $scope.oldestDate;
-			       		$scope.currSel = $scope.timeRanges[0];
-			       		$scope.changeTimeRange();
-			       		// console.log(view);
-
-			          	// Create a formatter.
-				       	// This example uses object literal notation to define the options.
-				     //  	var formatter = new google.visualization.DateFormat({formatType: 'long'});
-	
-				       	// Reformat our data.
-				       //	formatter.format(dataTable, 1);
-   		
-			       		
-			       		$scope.chart.options.displayed=false;
-			       		$scope.chart.data = view;
-			       		$scope.dataLoaded = true;
-			       		// $scope.prepareData(0, $scope.groupMeals);
-			       		// console.log($scope.groupRanks);
-			          	$scope.$emit('progressUpdate', {message: ""});
-
-			     });
-		     	 
-	       	 });
-	     	 
-
-	     	 
-
-	
-	     });
-     }	
-
- }])
+ })
   .controller('SettingsCtrl', ['$rootScope', '$scope' , '$routeParams', '$fancyModal', 'MealService', '$timeout',
                                    function ($rootScope, $scope, $routeParams, $fancyModal, MealService, $timeout) {
-	  console.log("In SettingsCtrl: " + $routeParams.mealId);
+	  // console.log("In SettingsCtrl: " + $routeParams.mealId);
   		$scope.$emit('headerChanged', {viewTitle:"Settings", notInRoot: false});
   		 $scope.showNewMealButton = false;
-     	$scope.$emit('progressUpdate', {message: ""});
+
+	  $rootScope.showMealClock = true;
+     	// $scope.$emit('finishLoadingCtrl', {message: ""});
+				       $scope.setProgressMessage("");
 
  }])
-  .controller('MealSummaryCtrl', ['$rootScope', '$scope' , '$routeParams', '$fancyModal', 'MealService', 
-                                  'NewUserService', 'NewMealService', 'TimeService', '$timeout',
-                                   function ($rootScope, $scope, $routeParams, $fancyModal, MealService, 
-                                		   NewUserService, NewMealService, TimeService, $timeout) {
-	  console.log("In MealSummaryCtrl: " + $routeParams.mealId);
-	  $scope.$emit('headerChanged', {viewTitle:"Meal frequencies", notInRoot: false});
-	  $scope.showNewMealButton = false;
-	  TimeService.resetCurrentDate();
 
-	  $scope.vm = {currSel: {"name":"Today","from": TimeService.getCurrentDate(), "to": TimeService.getCurrentDate()}};
-	  $scope.vm.timeRanges = [
-			  {"name":"Today","from": TimeService.getCurrentDate(), "to": TimeService.getCurrentDate()},
-			  {"name":"Week","from":"all", "to": "all"},
-			  {"name":"Month","from":"all", "to": "all"},
-			  {"name":"All","from":"all", "to": "all"}			
-			  ];
-		 
-	  $scope.myMeals = {};
-	  $scope.formatDate = function(date){
-		  return TimeService.niceDateDisplay(date);
-	  }
-	  $scope.formatMealGap = function(gap){
-		  return TimeService.minutesToHoursAndMinutesDisplay(gap);
-	  }
-	  
-	  
-	  $scope.addDay = function(){
-		  TimeService.daysForward(1);
-		  // console.log(timeService.getCurrentDate());	  
-		  $scope.vm.currSel = {"name":$scope.formatDate(TimeService.getCurrentDate()),"from": TimeService.getCurrentDate(), "to": TimeService.getCurrentDate()};
-	  }
-	  $scope.subtractDay = function(){
-		  TimeService.daysBack(1);
-		  // console.log(timeService.getCurrentDate());
-		  $scope.vm.currSel = {"name":$scope.formatDate(TimeService.getCurrentDate()),"from": TimeService.getCurrentDate(), "to": TimeService.getCurrentDate()};
-	  }
-	  NewUserService.updateUserInfoPromise().then(function(data){
-	     	$scope.um = data;
-	     	 NewMealService.searchMyMeals($scope.um.userName, 1).then(function(data){
-                 $scope.imageNames=[];
-                 var inmin = data.meals[0].time.split(":"); // in minutes
-                 $scope.prevTime = parseInt(inmin[0])*60 + parseInt(inmin[1]); // in minutes
-                 $scope.myMeals.meals = _.map(data.meals, function (meal) {
-                      meal.selected = false;
-                     meal.averageRankDisplayed = $scope.plotRank(meal.averageRank, 1);
-                     $scope.imageNames.push(meal.imageName); 
-                     meal.imageName="noimage";
-                     var inmin = meal.time.split(":"); // in minutes
+    .controller('MealDetailCtrl', ['$rootScope', '$scope' , '$routeParams', '$fancyModal', 'NewUserService', 'MealService', 'TimeService', '$timeout', function ($rootScope, $scope, $routeParams, $fancyModal, NewUserService, MealService, TimeService, $timeout) {
+	console.log("In MealDetailCtrl: " + $routeParams.mealId);	
+	$scope.showNewMealButton = false;
+	$rootScope.showMealClock = false;
 
-                     meal.gap = $scope.prevTime - (parseInt(inmin[0])*60 + parseInt(inmin[1]));
-                     $scope.prevTime = parseInt(inmin[0])*60 + parseInt(inmin[1]);
-                     return meal;
-                 });
-                 $rootScope.timeSinceLastMeal = $rootScope.updateTimeSinceLastMeal( $scope.myMeals.meals, $scope.um);
+	$scope.user = NewUserService.userData;
+	$scope.showDate = function(date){
+	    if(date)
+		return TimeService.niceDateDisplay(date);
+	    else
+		return "";
+	}
+        
 
-                 for(var i=0;i<$scope.imageNames.length;i++){
-                	 $scope.myMeals.meals[i].imageName = $scope.imageNames[i]; 
-                 }	
-             	$scope.$emit('progressUpdate', {message: ""});
+  	$scope.deleteMeal = function(meal){
+  	    console.log("Confirm delete");
+  	    $fancyModal.open({showCloseButton: false,  themeClass: 'voteTheme', templateUrl: 'confirm.html', scope: $scope });
+  	    
+  	}
+  	$scope.closeDeleteDialog = function(){
+	    $fancyModal.close();   
+  	    console.log("Cancel delete");	    
+	}
+	
+	$scope.sendDelete = function(meal){
+	    console.log("Deleting Meal: " + meal.id);
+  	    $fancyModal.close();       
+	    $scope.setProgressMessage("DElETING");
+	    MealService.deleteMeals([meal.id]);
 
-	     		 
-	     	 });
-	     });
-	        
+	}
 
- }])
-  .controller('MealDetailCtrl', ['$rootScope', '$scope' , '$routeParams', '$fancyModal', 'MealService', '$timeout',
-                                 function ($rootScope, $scope, $routeParams, $fancyModal, MealService, $timeout) {
-	  console.log("In MealDetailCtrl: " + $routeParams.mealId);	
-	  	$scope.showNewMealButton = false;
-
-	   $scope.notInRoot = $routeParams.notInRoot,
-	   $scope.loggingOut = false;
-
+	$scope.displayGender = function(gender){
+	    if(gender==0)
+		return "male fa-1x malecss";
+	    else
+		return "female fa-1x femalecss";
+	}
+	$scope.notInRoot = $routeParams.notInRoot,
+	$scope.loggingOut = false;
+	
 	   $scope.hours=["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", 
 	                 "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", ];
 	   $scope.minutes=["00", "15", "30", "45" ];
@@ -612,23 +377,28 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	            errorMessages: [],
 	            infoMessages: []
 	        };
-	   MealService.getMealDetails($scope.vm.mealId, $scope)
-	   .then(function (data) {
-		   
-		   $scope.vm.errorMessages = [];
-		   // console.log(data);
-		   $scope.vm.meal = data;
-		   $scope.viewTitle = $scope.vm.meal.categoryName; 
-		   $scope.vm.meal.voteCount = $scope.vm.meal.rank.length;
-           $scope.vm.meal.averageRankDisplayed = $scope.plotRank($scope.vm.meal.averageRank, 1);
-           $scope.vm.meal.src = "mealimages/lg/" + $scope.vm.meal.imageName;
-           
-		   $scope.$emit('headerChanged', {viewTitle:$scope.vm.meal.categoryName, notInRoot: true});
-		   $scope.$emit('progressUpdate', {message: ""});
 
-	   });
-                    
 
+
+	   $scope.fetchMealDetails = function(){
+	       MealService.getMealDetails($scope.vm.mealId, $scope)
+		   .then(function (data) {
+		       
+		       $scope.vm.errorMessages = [];
+		       // console.log(data);
+		       $scope.vm.meal = data;
+		       $scope.viewTitle = $scope.vm.meal.categoryName; 
+		       $scope.vm.meal.voteCount = $scope.vm.meal.rank.length;
+		       $scope.vm.meal.averageRankDisplayed = $scope.plotRank($scope.vm.meal.averageRank, 1);
+		       $scope.vm.meal.src = "mealimages/lg/" + $scope.vm.meal.imageName;
+		       
+		       $scope.$emit('headerChanged', {viewTitle:$scope.vm.meal.categoryName, notInRoot: true});
+		       // $scope.$emit('finishLoadingCtrl', {message: ""});
+		       		    $scope.setProgressMessage("");
+		   });
+           }
+
+	$scope.fetchMealDetails();			     
   	markAppAsInitialized();
   	
   	$scope.vote = function(){
@@ -648,37 +418,31 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
   		// console.log("Voting " + $scope.voteData.voteValue);
   		MealService.rankMeal($scope.voteData, $scope)
   		.then(function (data) {
-  			$fancyModal.close();       
-	
-  			$scope.vm.errorMessages = [];
-  			// console.log(data);
-  			$scope.vm.meal = data;
-  			$scope.viewTitle = $scope.vm.meal.categoryName; 
-  			$scope.vm.meal.voteCount = $scope.vm.meal.rank.length;
-  			$scope.vm.meal.averageRankDisplayed = $scope.plotRank($scope.vm.meal.averageRank, 1);
-  			$scope.vm.meal.src = "mealimages/lg/" + $scope.vm.meal.imageName;
+  		    $fancyModal.close();       
+		    $scope.fetchMealDetails();			     	
   		});		   
   		
   	}
     function markAppAsInitialized() {
-        if ($scope.vm.appReady == undefined) {
-            $scope.vm.appReady = true;
-        }
-       //  console.log($scope.vm.appReady);
 
     }
 	  //    $http.get('/resource/').success(function(data) {
 //      $scope.greeting = data;
 //    })
-  }]).controller('MealNewCtrl', ['$rootScope', '$scope' , 'Upload', '$http', '$routeParams', 'MealService', 'NewUserService', '$timeout', '$fancyModal',
-                                 function ($rootScope, $scope, Upload, $http, $routeParams, MealService, NewUserService, $timeout, $fancyModal) {
+  }]).controller('MealNewCtrl', ['$rootScope', '$scope' , '$location', 'Upload', '$http', '$routeParams', 'MealService', 'NewUserService', '$timeout', '$fancyModal',
+                                 function ($rootScope, $scope, $location, Upload, $http, $routeParams, MealService, NewUserService, $timeout, $fancyModal) {
 	  $scope.showDetails = false;
 	  $scope.showNewMealButton = false;
 
+          $scope.imageChanged = function(){
+	      // console.log("IMG CHANGE ");
+
+}
 	  console.log("In MealNewCtrl");
 	  $scope.vm = {currSel: {"name":"Snack","description":""}};
 	  loadCategories();
 	  $scope.imageSrc = "";
+	  $rootScope.showMealClock = false;
 
 	 /* Set default time and date to the current time instance */
 	  $scope.uploadProgress = 0;
@@ -726,7 +490,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	} 
     $scope.updateUiDate = function(date) {
     	$scope.uiDate.date =  date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
-    	console.log("WATCH");
+    	// console.log("WATCH");
     }
     $scope.$watch('formData.realDate', function() {$scope.uiDate.date =  $scope.formData.realDate.getDate() + "." + ($scope.formData.realDate.getMonth() + 1) + "." + $scope.formData.realDate.getFullYear();}, true);
 
@@ -735,11 +499,11 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 			formatSubmit: 'yyyy/mm/dd', // ISO formatted date
 			closeOnSelect: true,
 			onClose: function(e){
-				console.log("Close Pick a Date");
+				// console.log("Close Pick a Date");
 			}
 	}
   	$scope.setFancyTime = function(){
-			console.log("Set Time");
+			// console.log("Set Time");
 			$fancyModal.open({ showCloseButton: false, templateUrl: 'settime.html', scope: $scope });
   	};
 
@@ -749,11 +513,17 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
     	$scope.savePrompt = " Saving meal ";
 		$fancyModal.open({ showCloseButton: false, templateUrl: 'savemealdialog.html', scope: $scope });
 
-        var file = $scope.selectedFile[0];
-        
+//        var file = $scope.selectedFile[0];
+        var file = $scope.selectedFile;
+
+        //$fancyModal.close();               
+        //window.location.replace('index.html');
+	// console.log("FILES " + $scope.selectedFile);
+	// console.log("FILES " + $scope.selectedFile[0]);
+	
         $scope.formData.categoryName = $scope.vm.currSel.name;
             $scope.upload = Upload.upload({
-                url: '/api/uploadmeal',
+                url: 'api/uploadmeal',
                 method: 'POST',
                 data: angular.toJson($scope.formData),
                 file: file
@@ -770,8 +540,19 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
             	$scope.savePrompt = " Saved! ";
             	
             	setTimeout(function(){
-                    $fancyModal.close();       
-            		window.location.replace('meal-rank-app.html');
+                    $fancyModal.close();
+		    // console.log("BACK TO LATEST");
+
+
+		    $rootScope.$apply(function() {
+			
+			$location.path("/latest");
+			// console.log($location.path());
+		    });
+
+
+		    // console.log("BACK TO LATEST 2");   
+//            		window.location.replace('index.html');
             		}, 1000); 
             	
             });
@@ -780,7 +561,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 
     $scope.simulateNgfSelect = function($event){
     	$event.stopPropagation();	
-		console.log("NG CLICK");
+		// console.log("NG CLICK");
 
     	// console.log($event);
     	el = document.getElementById("ngfElement");
@@ -803,8 +584,11 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 
     		$scope.formData.imageName = $files[0];
     		$scope.imageSrc = $files[0];
-    		
+
+	    
     	   	var file = $files;
+
+
     	   	EXIF.getData(file, function(){
    			 // console.log("READ EXIF");
    			 // console.log(this);
@@ -842,7 +626,8 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 	    });	   
 	    	  
 	  $scope.$emit('headerChanged', {viewTitle:"New Meal", notInRoot: true});
-	  $scope.$emit('progressUpdate', {message: ""});
+	  // $scope.$emit('finishLoadingCtrl', {message: ""});
+				     $scope.setProgressMessage("");
 
   }])
 .directive('imageonload', function() {
@@ -931,6 +716,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 			scope.$watch("selected", function(value) {
 				scope.isPlaceholder = scope.selected[scope.property] === undefined;
 				scope.display = scope.selected[scope.property];
+
 			});
 		}
 	}

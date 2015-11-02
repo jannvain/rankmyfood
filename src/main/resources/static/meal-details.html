@@ -1,46 +1,101 @@
-<div class=listScroller2>
-    
-     	<div class="bigImage">
-     		<img class="lgImg" ng-src="{{::vm.meal.src}}" imageonload />
-     		<span ng-hide="imgLoaded" class="loading outerSpin"><span class="imgWaitSpin fa fa-refresh fa-spin fa-5x"></span></span>
-      	
-      	<div ng-show="voteNow" ng-include src="'vote.html'"></div>
-
-		<div class="hoverVote">
-      		<div ng-show="vm.meal.hasVoted" class="totalGrade">{{vm.meal.averageRankDisplayed}}</div>
-		</div>
-		<div class="hoverVoteButton">
-			<a ng-show="!vm.meal.hasVoted" class="button-highColor pure-button" ng-click="vote()">
-			  			<span class="fa fa-pencil-square-o"></span>
-			  			 <br>Rank
-			</a>			
-		</div>
-     	</div>
-
+<div class="listScroller2 detailedMealView">
   
-     	
-     	
-  	<div class="pure-u-1">
-    	<p class="p1">{{vm.meal.description}}</p>
-  	</div>	
-  	
-  	<div>
-  		<p class="p0" ng-click="showDetails = ! showDetails">Details 
-  		<span ng-hide="showDetails" class="fa fa-chevron-down"></span>
-  		<span ng-show="showDetails" class="fa fa-chevron-up"></span>
-  		</p>
-  		<div class="mealDetails" ng-show="showDetails" ng-click="showDetails = ! showDetails">
-	    	<p class="p0">Owner: {{::vm.meal.nickName}}, Votes: {{vm.meal.voteCount}}</p>	    	
- 			
- 				<div ng-show="vm.meal.hasVoted" ng-repeat="ranky in vm.meal.rank"  >
- 					<p class="p0">{{::ranky.description}}, {{::ranky.value}}</p>
-    			</div>
-		</div>
-  	
-  	</div>
-	  	
+  <div class="bigImage">
+    <img class="lgImg ng-cloak" ng-src="{{::vm.meal.src}}" imageonload />
+    <span ng-hide="imgLoaded" class="loading outerSpin"><span class="imgWaitSpin fa fa-refresh fa-spin fa-5x"></span></span>
     
- </div>
+    <div ng-show="voteNow" ng-include src="'vote.html'"></div>
+    
+    <div class="hoverVote ng-cloak">
+      <div ng-show="vm.meal.hasVoted" class="totalGrade">
+	<!--	{{vm.meal.averageRankDisplayed}} -->
+
+	<span class="fa-stack fa-lg">
+	  <i class="fa fa-star fa-stack-2x"></i>
+	  <strong class="fa-stack-1x fa-inverse"><span style="font-size:0.65em;">{{vm.meal.averageRankDisplayed}}</span></strong>
+	</span>
+
+      </div>
+    </div>
+    <div class="hoverVoteButton ng-cloak" >
+      <a ng-show="!vm.meal.hasVoted" class="button-highColor pure-button" ng-click="vote()">
+	<span class="fa fa-pencil-square-o"></span>
+	<br>Rank
+      </a>			
+    </div>
+  </div>  
+
+
+  <div class="pure-g detailsHeader">
+    <div class="pure-u-9-24">
+      <p class="p0 bigbigleft">{{vm.meal.time}}</p>
+    </div>
+    <div class="pure-u-15-24">
+      <p class="p0 bigbigright">{{showDate(vm.meal.date)}}</p>
+    </div>
+  </div>
   
+  <div class="pure-g ng-cloak">
+    <div class="pure-u-1"> 
+      <p class="p0 bigleft">{{vm.meal.description}}</p>
+    </div>
+  </div>	
+  
+  <div class="pure-g">
+    <div class="pure-u-18-24">
+      <p class="p0 bigbigleft">{{vm.meal.nickName}} <span class="fa fa-{{displayGender(vm.meal.gender)}}"></span></p>	
+    </div>
+    <div class="pure-u-6-24">
+      <p class="p1 big">
+
+	<span class="fa-stack fa-1x">
+	  <i class="fa fa-comment fa-stack-2x"></i>
+	  <strong class="fa-stack-1x fa-inverse">{{vm.meal.voteCount}}</strong>
+	</span>
+	
+      </p>    
+    </div>
+  </div>
+  
+ 
+  <div>
+    <h2 class="highLight" ng-click="showDetails = ! showDetails">Comments 
+      <span ng-hide="showDetails" class="fa fa-chevron-down"></span>
+      <span ng-show="showDetails" class="fa fa-chevron-up"></span>
+    </h2>
+    <div class="mealDetails" ng-show="showDetails" ng-click="showDetails = ! showDetails">
+      <div ng-show="vm.meal.hasVoted" ng-repeat="ranky in vm.meal.rank"  >
+	
+	<div class="pure-g">
+	  <div   class="pure-u-20-24">
+ 	    <p class="p0 bigFloatLeft" ng-show='ranky.description==""'>-,</p>
+ 	    <p class="p0 bigFloatLeft" ng-hide='ranky.description==""'>{{::ranky.description}},</p>	    
+	  </div>
+	  <div   class="pure-u-4-24">
+ 	    <p clas="p0 bigFloatRight">{{::ranky.voteValue}}</p>	    
+	  </div>
+	</div>
+      </div>
+      <div ng-hide="vm.meal.hasVoted">
+ 	<p class="p0 bigleft">You have to rank the meal yourself before seeing comments from others</p>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <div class="mySpaceBig"></div>    
+  <div ng-show="vm.meal.userName==user.userName" class="form-field full" style="float:right;">
+    <button ng-click="deleteMeal(vm.meal)" class="button-red pure-button pure-input-1">
+      <span class="fa fa-trash"> </span>
+      Delete Meal
+    </button>
+  </div>
+
+
+  <div class="mySpaceBig"></div>    
+  
+</div>
+
     
     

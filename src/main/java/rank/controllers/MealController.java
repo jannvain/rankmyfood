@@ -87,8 +87,7 @@ public class MealController {
         MealDTO response = new MealDTO(mealId, meal.getDate(), meal.getTime(), 
         		meal.getDescription(), meal.getCategory().getName(), 
         		meal.getImageName(), 
-        		meal.getUserName(), meal.getUser().getNickname(), meal.getUser().getId(), meal.getRank(),
-        		user.getId());
+				       meal.getUserName(), meal.getUser().getNickname(), meal.getUser().getId(), meal.getRank(), user.getId(), meal.getUser().getGender());
 
 
         return response;
@@ -182,6 +181,7 @@ public class MealController {
  
         return result;
     }
+
     @RequestMapping(value="/api/rankstat", method = RequestMethod.GET, params={"username", "pageNumber"})   
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -279,16 +279,21 @@ public class MealController {
         DebugDTO cto = new DebugDTO(ids.get("username"), "hai", file.getSize());
         System.out.println(String.format("############### receive %s ", file.getOriginalFilename()));
         
-        String filePath = "/Users/vainio6/rankme/pic/lg/" + file.getOriginalFilename(); //Please note that I am going to remove hardcoaded path to get it from resource/property file
-        String filePath2 = "/Users/vainio6/rankme/pic/xs/" + file.getOriginalFilename(); //Please note that I am going to remove hardcoaded path to get it from resource/property file
+	//        String filePath = "/Users/vainio6/rankme/pic/lg/" + file.getOriginalFilename(); //Please note that I am going to remove hardcoded path to get it from resource/property file
+	//  String filePath2 = "/Users/vainio6/rankme/pic/xs/" + file.getOriginalFilename(); //Please note that I am going to remove hardcodded path to get it from resource/property file
+
+        String filePath = "/mnt/mydata/mealimages/lg/" + file.getOriginalFilename(); //Please note that I am going to remove hardcoded path to get it from resource/property file
+        String filePath2 = "/mnt/mydata/mealimages/xs/" + file.getOriginalFilename(); //Please note that I am going to remove hardcodded path to get it from resource/property file
+
+
         File dest = new File(filePath);
         file.transferTo(dest);
         BufferedImage image = ImageIO.read( dest ); 
-        image = resize(image, Method.SPEED, 128, OP_ANTIALIAS, OP_BRIGHTER);
+        image = resize(image, Method.ULTRA_QUALITY /* was SPEED */, 128, OP_ANTIALIAS, OP_BRIGHTER);
         
         File dest2 = new File(filePath2);
         
-        ImageIO.write(image, "PNG", dest2);
+        ImageIO.write(image, "jpg", dest2);
         
         
         String dateStr = ids.get("date");
@@ -339,7 +344,8 @@ public class MealController {
         		savedMeal.getDescription(), savedMeal.getCategory().getName(), 
         		savedMeal.getImageName(), savedMeal.getUserName(), 
         		savedMeal.getUser().getNickname(),
-        		savedMeal.getUser().getId(), savedMeal.getRank(), user.getId());
+			   savedMeal.getUser().getId(), savedMeal.getRank(), user.getId(),
+			   user.getGender());
         
     }
 
@@ -358,7 +364,7 @@ public class MealController {
         		updatedMeal.getDescription(), updatedMeal.getCategory().getName(), 
         		updatedMeal.getImageName(), updatedMeal.getUserName(), 
         		updatedMeal.getUser().getNickname(),
-        		updatedMeal.getUser().getId(), updatedMeal.getRank(), user.getId());
+			   updatedMeal.getUser().getId(), updatedMeal.getRank(), user.getId(), user.getGender());
     	
     }
     
@@ -370,10 +376,16 @@ public class MealController {
      */
     
     @RequestMapping(value="/api/meal", method = RequestMethod.DELETE)       
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-//    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
     public void deleteMeals(@RequestBody List<Long> deletedMealIds) {
+        mealService.deleteMeals(deletedMealIds);
+    }
+
+    @RequestMapping(value="/api/deletemeal", method = RequestMethod.POST)       
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void mynotReallyDeletingMealsButSettingFlagOnly(@RequestBody List<Long> deletedMealIds) {
         mealService.deleteMeals(deletedMealIds);
     }
 
@@ -385,7 +397,49 @@ public class MealController {
         List<Category> categories = mealService.findCategories();
         return CategoryDTO.mapFromCategoryEntities(categories);
      }
+
+
+
+
+
+    @RequestMapping(value="/api/gapstat", method = RequestMethod.GET, params={"username", "pageNumber"})   
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public List<Object[]>  searchMyGapStat(
+            Principal principal,
+            @RequestParam(value = "pageNumber") Integer pageNumber,
+            @RequestParam(value = "username", required = false) String userName
+    		) 
     
+    {
+    	List<Object[]> result;
+
+    	User user = userService.findUserByUsername(principal.getName());
+  	
+    	result = mealService.findMyGapStat(userName, pageNumber);
+ 
+        return result;
+    }
+
+    @RequestMapping(value="/api/gapstat", method = RequestMethod.GET, params={"groupname", "pageNumber"})   
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public List<Object[]> searchMyGroupGapStat(
+            Principal principal,
+            @RequestParam(value = "pageNumber") Integer pageNumber,
+            @RequestParam(value = "groupname", required = false) String groupName
+    		) 
+    
+    {
+    	List<Object[]> result;
+
+    	User user = userService.findUserByUsername(principal.getName());
+  	
+    	result = mealService.findGroupGapStat(groupName, principal.getName(), pageNumber);
+
+        return result;
+    }       
+
     /**
      *
      * error handler for backend errors - a 400 status code will be sent back, and the body

@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
@@ -152,7 +153,8 @@ public class MealService {
     @Transactional
     public void deleteMeals(List<Long> deletedMealIds) {
         notNull(deletedMealIds, "deletedMealsId is mandatory");
-        deletedMealIds.stream().forEach((deletedMealId) -> mealRepository.delete(deletedMealId));
+	System.out.println("DELETE " + deletedMealIds.get(0));
+        deletedMealIds.stream().forEach((deletedMealId) -> mealRepository.myDelete(deletedMealId));
     }
 
     /**
@@ -168,12 +170,16 @@ public class MealService {
      */
 
     @Transactional
-    public void saveRank(String username, RankDTO rankdto){
+    public Meal saveRank(String username, RankDTO rankdto){
         Meal meal = null;
         meal = mealRepository.findMealById(rankdto.getmealId());
         User user = userRepository.findUserByUsername(username);
 
         rankRepository.save(new Rank(user.getId(), meal, rankdto.getVoteValue(), rankdto.getDescription()));
+	mealRepository.flush();
+        meal = mealRepository.findMealById(rankdto.getmealId());
+
+	return meal ;
     }
     
     
@@ -243,5 +249,108 @@ public class MealService {
 	    	return(formattedDate);
 	    }
 
-}
 
+
+    @Transactional(readOnly = true)
+    public List<Object[]> findMyGapStat2(String username, int pageNumber) {
+        List<Object[]> gaps = new ArrayList<Object[]>();
+        List<Meal> meals = mealRepository.findMealByUserName(username);
+        // System.out.println(String.format("My gaps: %d ", meals.size()));
+	if(meals.size()<2)
+	    return gaps;
+	Object[] tmp = new Object[2];	
+	tmp[0] = meals.get(0).getDate();
+	tmp[1] = 0L;
+	long div = 0L;
+	for(int i=1;i<meals.size();i++){
+	    // System.out.println(meals.get(i).getDate());
+	    // System.out.println(meals.get(i).getTime());
+	    // System.out.println(meals.get(i-1).getTime());
+	    if(meals.get(i).getDate().compareTo(meals.get(i-1).getDate()) == 0){
+		tmp[1] = (long) tmp[1] + (long)((meals.get(i-1).getTime().getTime() -
+						 meals.get(i).getTime().getTime())/60000L);
+		div += 1L;
+	    }
+	    else{
+		if((long)tmp[1]>0L){
+		    tmp[1] = (long)tmp[1] / div;
+		    gaps.add(tmp);
+		}
+		tmp = new Object[2];	
+		tmp[0] = meals.get(i).getDate();
+		tmp[1] = 0L;		
+	    }
+
+
+	}
+	if((long)tmp[1]>0L){
+	    tmp[1] = (long)tmp[1] / div;
+		gaps.add(tmp);
+	}
+	return gaps;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Object[]> findMyGapStat(String username, int pageNumber) {
+        List<Meal> meals = mealRepository.findMealByUserName2(username);
+	return getMealGaps(meals, "");
+    }    
+
+    private List<Object[]> getMealGaps(List<Meal> meals, String username){
+        List<Object[]> gaps = new ArrayList<Object[]>();
+	if(meals.size()<2)
+	    return gaps;
+	Iterator<Meal> mealList = meals.iterator();
+	
+	Meal prevMeal = mealList.next();
+	Meal currMeal;
+
+
+	Meal meal;
+	long div = 0L;
+	Object[] tmp = new Object[2];	
+	tmp[0] = prevMeal.getDate();
+	tmp[1] = 0L;
+	
+
+	while(mealList.hasNext()){
+	    currMeal = mealList.next();
+	    div = 0L;
+	    tmp = new Object[2];	
+	    tmp[0] = prevMeal.getDate();
+	    tmp[1] = 0L;
+	    while((currMeal != null)  && (currMeal.getDate().compareTo(prevMeal.getDate()) == 0)){
+
+		if ((currMeal.getUserName().compareTo(prevMeal.getUserName()) == 0) &&
+		    ((currMeal.getUserName().compareTo(username) != 0) &&
+		     (prevMeal.getUserName().compareTo(username) != 0))){
+		    
+		    tmp[1] = (long) tmp[1] + 
+			(long)((prevMeal.getTime().getTime() -
+				currMeal.getTime().getTime())/60000L);		    
+		    div++;
+		    // System.out.println((long)tmp[1]);
+		}
+		
+		prevMeal = currMeal;
+		currMeal = mealList.hasNext() ? mealList.next() : null;
+	    }
+	    if((long)tmp[1]>0){
+		tmp[1] = (long)tmp[1] / div;
+		gaps.add(tmp);
+	    }
+	    prevMeal = currMeal;
+	}
+
+
+	
+	return gaps;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Object[]> findGroupGapStat(String groupname, String username, int pageNumber) {
+        List<Meal> meals = mealRepository.findMealByGroupName2(groupname);
+	return getMealGaps(meals, username);
+    }    
+
+}

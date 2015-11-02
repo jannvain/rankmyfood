@@ -1,13 +1,46 @@
-angular.module('common', ['ngMessages'])
-    .controller('BaseFormCtrl', ['$scope', '$http', function ($scope, $http) {
-
+angular.module('common', ['ngMessages', 'auth'])
+    .controller('BaseFormCtrl', ['$scope', '$rootScope', '$http', '$location', 'LoginService', 'auth', function ($scope, $rootScope, $http, $location, LoginService, auth) {
+	
         var fieldWithFocus;
 
+
+	$rootScope.showMealClock = true;
         $scope.vm = {
             submitted: false,
-            appReady: false,
             errorMessages: []
         };
+	
+	
+	$scope.credentials = {};
+	
+        $scope.authenticated = function() {
+            return auth.authenticated;
+        }
+	
+        $scope.newLogin = function(credentials) {
+	    console.log("IN NEW LOGIN " + credentials.username);
+            auth.authenticate(credentials, function(authenticated) {
+                if (authenticated) {
+//		    $scope.setProgressMessage("");
+                    console.log("Login succeeded")
+		    $scope.setStatusMessage("Login succeeded");
+                    $scope.error = false;
+                } else {
+		    $scope.setProgressMessage("");
+                    console.log("Login failed")
+		    $scope.setErrorMessage("Wrong username or password");
+                    $scope.vm.username = "";
+                    $scope.vm.password = "";
+                    $scope.error = true;
+                }
+            })
+        };
+	
+        $scope.new_logout = function() {
+            auth.clear();
+        }
+	
+/*******************/
 
         $scope.focus = function (fieldName) {
             fieldWithFocus = fieldName;
@@ -30,71 +63,24 @@ angular.module('common', ['ngMessages'])
             return 'username=' + username + '&password=' + password + '&email=' + email;
         }
 
-     $scope.directLogin = function (userName, password) {
-        	
-        	var email = "janne@kk.fi";
-        	var postData = 'username=' + userName + '&password=' + password + '&email=' + email;
-          	$scope.vm.submitted = true;
+        $scope.setErrorMessage = function(desc){
+            $scope.vm.statusMessages = [];
+            $scope.vm.errorMessages = [];
+            $scope.vm.errorMessages.push({description: desc});
+	};
 
-            $http({
-                method: 'POST',
-                url: '/eatingchallenge/authenticate',
-                data: postData,
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Login-Ajax-call": 'true'
-                }
-            })
-            .then(function(response) {
-                if (response.data == 'ok') {
-                	window.location.replace('index.html');
-                }
-                else {
-                    $scope.vm.errorMessages = [];
-                    $scope.vm.errorMessages.push({description: 'Access denied'});
-                    $scope.vm.username = "";
-                    $scope.vm.password = "";
+        $scope.setStatusMessage = function(desc){
+            $scope.vm.statusMessages = [];
+            $scope.vm.errorMessages = [];
+            $scope.vm.statusMessages.push({description: desc});
+	};
 
-                    $scope.vm.submitted = false;
-                }
-            });
+        $scope.resetAllMessages = function(){
+            $scope.vm.statusMessages = [];
+            $scope.vm.errorMessages = [];
+	};
 
-        };
-        
-        $scope.login = function (username, password) {
-        	$scope.vm.submitted = true;
 
-            var postData = $scope.preparePostData();
-
-            $http({
-                method: 'POST',
-                url: '/eatingchallenge/authenticate',
-
-                data: postData,
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Login-Ajax-call": 'true'
-                }
-            })
-            .then(function(response) {
-                if (response.data == 'ok') {
-                	window.location.replace('index.html');
-
-                }
-                else {
-                    $scope.vm.errorMessages = [];
-                    $scope.vm.errorMessages.push({description: 'Access denied'});
-                    $scope.vm.username = "";
-                    $scope.vm.password = "";
-
-                    $scope.vm.submitted = false;
-                }
-            });
-
-        }
-        
-        
-     
         
     }])
     .directive('checkPasswordsMatch', function () {
@@ -110,6 +96,7 @@ angular.module('common', ['ngMessages'])
             }
         };
     })
+
       .directive('ttErrorMessages', function() {
         return {
             restrict: 'E',
@@ -117,5 +104,14 @@ angular.module('common', ['ngMessages'])
                 scope.extraStyles = attrs.extraStyles;
             },
             templateUrl: 'error-messages.html'
+        }
+    })
+      .directive('ttStatusMessages', function() {
+        return {
+            restrict: 'E',
+            link: function(scope, element, attrs) {
+                scope.extraStyles = attrs.extraStyles;
+            },
+            templateUrl: 'status-messages.html'
         }
     });

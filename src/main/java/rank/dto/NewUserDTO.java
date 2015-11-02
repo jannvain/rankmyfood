@@ -10,9 +10,19 @@ public class NewUserDTO {
     private String username;
     private String email;
     private String plainTextPassword;
-
+    private int gender;
     public NewUserDTO() {
     }
+
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
 
     public String getUsername() {
         return username;

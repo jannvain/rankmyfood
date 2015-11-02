@@ -25,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  *
  */
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 // @Import({ SecurityConfig.class })
 @ComponentScan("meal.rank.app.controllers")
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
@@ -51,8 +51,9 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 	//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
  //       registry.addResourceHandler("/api/user/**").addResourceLocations("/api/user/");
  //       registry.addResourceHandler("/api/meal/**").addResourceLocations("/api/meal/");
-        registry.addResourceHandler("/api/**").addResourceLocations("classpath:/api/");
-        registry.addResourceHandler("/authenticate/**").addResourceLocations("classpath:/authenticate/");
+        registry.addResourceHandler("/api/**").addResourceLocations("/api/");
+        registry.addResourceHandler("/meal/**").addResourceLocations("/meal/");
+        registry.addResourceHandler("/authenticate/**").addResourceLocations("/authenticate/");
         registry.addResourceHandler("/img/**").addResourceLocations("classpath:/img/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/", "classpath:/bower_components/");
         registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/", "classpath:/bower_components/");

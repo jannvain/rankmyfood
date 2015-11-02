@@ -1,107 +1,83 @@
-<!DOCTYPE html>
-<html>
-  <head lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create User Calorie Tracker</title>
-    <link rel="stylesheet" href="css/pure/pure-min.css">
-    <link rel="stylesheet" href="css/pure/grids-responsive-min.css">
-    <link rel="stylesheet" href="css/mealrank.css">
-    <link rel="stylesheet" href="css/rankmymeal.css">
-    
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    
-    <link href='http://fonts.googleapis.com/css?family=Racing+Sans+One' rel='stylesheet' type='text/css'>
-    
-  </head>
-  <body class="innerBody" id="createUserApp" ng-controller="BaseFormCtrl" >
-    
-    <div>
-      <h1 class="h1Title Orange" ><span>R</span>ank<span>M</span>y<span>F</span>ood	</h1>
+<div class="listScroller2">
+  <div class="rList form ng-cloak" ng-controller="NewUserCtrl">
+    <div class="form-field">
+      <tt-error-messages extra-styles="access-screen"></tt-error-messages>
+      <tt-status-messages extra-styles="access-screen"></tt-status-messages>
     </div>
-    <div ng-hide="vm.appReady">
-      <br>
-      <br>
-      <br>
-      <p class="p1Progress">Preparing new user <span class="fa fa-refresh fa-spin fa-1x"></span> </p>
-    </div>  	    
-    <tt-error-messages extra-styles="access-screen"></tt-error-messages>
-    
-    <div class="rList form" ng-show="vm.appReady" ng-cloak>
+    <div class="login-container">
       
-      <div ng-hide="vm.submitted" class="login-container">
-	
-	<form name="form" ng-submit="createUser()" class="pure-form login-form" novalidate ng-controller="NewUserCtrl">
-          <fieldset>
-            <div class="form-field">
-              <input type="text" ng-focus="focus('username')" ng-blur="blur('username')" ng-model="vm.username"
-                     name="username" class="pure-input-1" placeholder="Username" required ng-minlength="6">
-	      
-              <div class="error-messages" ng-show="isMessagesVisible('username')" ng-messages="form.username.$error"
-                   ng-cloak>
-		<div ng-message="required">The username is mandatory</div>
-		<div ng-message="minlength">must have minimum 6 characters</div>
-              </div>
-            </div>
-            <div class="form-field">
-              <input type="email" ng-focus="focus('email')" ng-blur="blur('email')" ng-model="vm.email"
-                     name="email" class="pure-input-1" placeholder="Email" required>
-	      
-              <div class="error-messages" ng-show="isMessagesVisible('email')" ng-messages="form.email.$error"
-                   ng-cloak>
-		<div ng-message="required">The email is mandatory</div>
-		<div ng-message="email">must be a valid email</div>
-              </div>
-            </div>
-            <div class="form-field">
-              <input type="password" ng-focus="focus('password')" ng-blur="blur('password')"
-                     ng-model="vm.password" name="password" class="pure-input-1" placeholder="Password"
-                     required ng-minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
-	      
-              <div class="error-messages" ng-show="isMessagesVisible('password')" ng-messages="form.password.$error"
-                   ng-cloak>
-		<div ng-message="required">The password is mandatory</div>
-		<div ng-message="minlength">must have minimum 6 characters</div>
-		<div ng-message="pattern">At least one number and uppercase</div>
-              </div>
-            </div>
-            <div class="form-field">
-              <input type="password" ng-focus="focus('confirmPassword')" ng-blur="blur('confirmPassword')"
-                     ng-model="vm.confirmPassword" name="confirmPassword" class="pure-input-1"
-                     placeholder="Confirm Password" required ng-minlength="6"
-                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" check-passwords-match>
-	      
-              <div class="error-messages" ng-show="isMessagesVisible('confirmPassword')"
-                   ng-messages="form.confirmPassword.$error" ng-cloak>
-		<div ng-message="required">The password is mandatory</div>
-		<div ng-message="minlength">must have minimum 6 characters</div>
-		<div ng-message="pattern">At least one number and uppercase</div>
-		<div ng-message="checkPasswordsMatch">Passwords must match</div>
-              </div>
-            </div>
-          </fieldset>
+      <form name="form" ng-submit="createUser()" class="pure-form login-form" novalidate>
+	<fieldset>
           <div class="form-field">
-            <button type="submit" class="button-primary pure-button pure-input-1">Create User</button>
+            <input type="text" ng-focus="focus('username')" ng-blur="blur('username')" ng-model="vm.username"
+                   name="username" class="pure-input-1" placeholder="Username" required ng-minlength="5">
+	    
+            <div class="error-messages" ng-show="isMessagesVisible('username')" ng-messages="form.username.$error">
+	      <div ng-message="required">The username is mandatory</div>
+	      <div ng-message="minlength">must have minimum 5 characters</div>
+            </div>
           </div>
-	</form>
-      </div>
-      <div ng-show="vm.submitted">
-	<p class="p1Progress">Creating new user...</p>
-      </div>        
-      <div ng-show="vm.created">
-	<p class="p1Progress">user {{vm.username}} created!</p>
-      </div>        
+          <div class="form-field">
+            <input type="email" ng-focus="focus('email')" ng-blur="blur('email')" ng-model="vm.email"
+                   name="email" class="pure-input-1" placeholder="Email" required>
+	    
+            <div class="error-messages" ng-show="isMessagesVisible('email')" ng-messages="form.email.$error">
+	      <div ng-message="required">The email is mandatory</div>
+	      <div ng-message="email">must be a valid email</div>
+            </div>
+          </div>
+          <div class="form-field">
+            <input type="password" ng-focus="focus('password')" ng-blur="blur('password')"
+                   ng-model="vm.password" name="password" class="pure-input-1" placeholder="Password"
+                   required ng-minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
+	    
+            <div class="error-messages" ng-show="isMessagesVisible('password')" ng-messages="form.password.$error">
+	      <div ng-message="required">The password is mandatory</div>
+	      <div ng-message="minlength">must have minimum 6 characters</div>
+	      <div ng-message="pattern">At least one number and uppercase</div>
+            </div>
+          </div>
+          <!-- div class="form-field">
+            <input type="password" ng-focus="focus('confirmPassword')" ng-blur="blur('confirmPassword')"
+                   ng-model="vm.confirmPassword" name="confirmPassword" class="pure-input-1"
+                   placeholder="Confirm Password" required ng-minlength="6"
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" check-passwords-match>
+	    
+            <div class="error-messages" ng-show="isMessagesVisible('confirmPassword')"
+		 ng-messages="form.confirmPassword.$error">
+	      <div ng-message="required">The password is mandatory</div>
+	      <div ng-message="minlength">must have minimum 6 characters</div>
+	      <div ng-message="pattern">At least one number and uppercase</div>
+	      <div ng-message="checkPasswordsMatch">Passwords must match</div>
+            </div>
+          </div -->
+
+          <div class="form-field">
+   	    <span style="margin: 0 auto;text-align:center;">
+     	      <label class="maleLabel">
+		<input id="gender-male" class="radio-gender" value="0" name="radio-gender" type="radio"  ng-model="vm.gender">
+		<span class="maleRadio">male</span>
+              </label>
+     	      <label class="femaleLabel">
+		<input id="gender-female" class="radio-gender" value="1" name="radio-gender" type="radio"  ng-model="vm.gender">
+		<span class="femaleRadio">female</span>
+              </label>
+	      </span>
+	  </div>
+
+	</fieldset>
+	<div class="form-field">
+          <button type="submit" class="button-primary pure-button pure-input-1">Create User</button>
+	</div>
+	
+      </form>
       
     </div>
     
-    <div style="text-align:center;" ng-show="vm.appReady" ng-cloak>
-      <a class="new-user-link" href="login.html">Already a user?</a>
-      
+    <div style="text-align:center;" ng-hide="vm.submitted">
+      <a class="new-user-link" href="login">Already a user?</a>  
     </div>
     
-    <script type="text/javascript" data-main="js/run-create-user-app"
-            src="js/requirejs/require.js"></script>
+  </div>
     
-    
-  </body>
-</html>
+</div>

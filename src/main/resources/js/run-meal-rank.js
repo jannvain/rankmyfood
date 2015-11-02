@@ -7,10 +7,10 @@
 require.config({
 	waitSeconds: 200,
     paths: {
-        angular: 'angular/angular',
-        angularMessages: 'angular-messages/angular-messages',
-        angularRoute: 'angular-route/angular-route',
-        angularAnimate: 'angular-animate/angular-animate',
+        angular: 'angular/angular.min',
+        angularMessages: 'angular-messages/angular-messages.min',
+        angularRoute: 'angular-route/angular-route.min',
+        angularAnimate: 'angular-animate/angular-animate.min',
         angularFancyModal: 'angular-fancy-modal/dist/angular-fancy-modal',
         angularDropdowns: 'angular-dropdowns/dist/angular-dropdowns',
         angularGoogleChart: 'angular-google-chart/ng-google-chart',
@@ -19,13 +19,19 @@ require.config({
         ngFileUploadShim: 'ng-file-upload/ng-file-upload-shim',
         
         csrfInterceptor: 'spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
-        lodash: "lodash/lodash",
+        lodash: "lodash/lodash.min",
         mealList: 'meal-list',        
+        mealCompare: 'meal-compare',        
+        mealSummary: 'meal-summary',        
         frontendServices: 'frontend-services',
         angularDatepicker: 'angular-datepicker',
         exif: 'exif-js/exif',
         
-        mealRankApp: "meal-rank-app"
+        mealRankApp: "meal-rank-app",
+        common: 'common',
+        auth: 'auth',
+        newUserApp: 'new-user',
+        loginApp: 'login'
     },
     shim: {
         angular: {
@@ -75,11 +81,29 @@ require.config({
         },
 
         mealList: {
-            deps: [ 'lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate', 'frontendServices']
+            deps: [ 'lodash', 'angular', 'angularRoute', 'angularAnimate', 'frontendServices']
         },
-        
+        mealCompare: {
+            deps: [ 'lodash', 'angular', 'angularRoute', 'angularAnimate', 'frontendServices']
+        },
+        mealSummary: {
+            deps: [ 'lodash', 'angular', 'angularRoute', 'angularAnimate', 'frontendServices']
+        },
+
+        common: {
+          deps: ['angular', 'angularMessages', 'auth']
+        },
+        auth: {
+          deps: ['angular', 'frontendServices']
+        },
+        newUserApp: {
+          deps: ['common', 'angular']
+        },
+        loginApp: {
+            deps: [ 'angular', 'csrfInterceptor', 'common']
+        },        
         mealRankApp: {
-            deps: [ 'lodash', 'angular', 'angularGoogleChart', 'exif', 'angularDropdowns', 'ngFileUpload', 'ngFileUploadShim', 'angularMessages', 'angularRoute', 'angularAnimate', 'angularDatepicker', 'angularFancyModal', 'frontendServices', 'mealList']
+            deps: [ 'lodash', 'angular', 'angularGoogleChart', 'exif', 'angularDropdowns', 'ngFileUpload', 'ngFileUploadShim', 'angularRoute', 'angularAnimate', 'angularDatepicker', 'angularFancyModal', 'frontendServices', 'mealList', 'mealCompare', 'mealSummary', 'common', 'newUserApp', 'loginApp', 'auth']
         }
     }
 });
