@@ -27,6 +27,8 @@ angular.module('mealSummary', [])
     $scope.myMeals = {};
     // For storing User model
     $scope.um = {};
+
+    $scope.dropdownControl = {};
     
     TimeService.resetCurrentDate();
     $scope.$emit('headerChanged', {viewTitle:"Meal Frequency", notInRoot: false});
@@ -75,11 +77,11 @@ angular.module('mealSummary', [])
     $scope.prevSel = null;
 
     $scope.changeTimeRange = function(){
-	if( $scope.currSel == $scope.prevSel)
+	if( $scope.prevSel && $scope.currSel.from == $scope.prevSel)
 	    return;
 	console.log("Change range from " + $scope.currSel.from + " to " + $scope.currSel.to);
 
-	if($scope.currSel.name != "Today"){
+	if($scope.currSel.name == "All"){
 	    $scope.chart.options.hAxis.gridlines.count = $scope.currSel.gridCount;
 	    var tst = $scope.currSel.from;
 	    tst.setDate(tst.getDate()-1);
@@ -102,7 +104,7 @@ angular.module('mealSummary', [])
 		
 	    }
 	}
-	$scope.prevSel = $scope.currSel;
+	$scope.prevSel = $scope.currSel.from;
 
     }
 
@@ -265,17 +267,20 @@ angular.module('mealSummary', [])
     }
     $scope.addDay = function(){
 	TimeService.daysForward(1);
+	$scope.currSel.from = TimeService.currentDate;
+	$scope.currSel.to =  TimeService.currentDate;
+
 	$scope.currSel.name = $scope.formatDate(TimeService.getCurrentDate());
-	$scope.currSel.from = TimeService.getCurrentDate();
-	$scope.currSel.to =  TimeService.getCurrentDate();
+	$scope.dropdownControl.select($scope.currSel.name);
+
     }
     $scope.subtractDay = function(){
 	TimeService.daysBack(1);
+	$scope.currSel.from = TimeService.currentDate;
+	$scope.currSel.to =  TimeService.currentDate;
 
 	$scope.currSel.name = $scope.formatDate(TimeService.getCurrentDate());
-	$scope.currSel.from = TimeService.getCurrentDate();
-	$scope.currSel.to =  TimeService.getCurrentDate();
-
+	$scope.dropdownControl.select($scope.currSel.name);
     }
     
     dataLoad = function(){
@@ -309,7 +314,7 @@ angular.module('mealSummary', [])
 		    dataTable.addColumn('number', 'orange band 2');
 		    dataTable.addColumn('number', 'red band 2');
 		    
-		    for(var i=1; i < nr;i++){
+		    for(var i=0; i < nr;i++){
 			dataTable.setCell(i,3, 120);
 			dataTable.setCell(i,4, 60);
 			dataTable.setCell(i,5, 60);

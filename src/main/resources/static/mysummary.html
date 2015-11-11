@@ -8,7 +8,7 @@
   </div>
   
   <div class="centerMenuBar">
-    <h1><dropdown placeholder="Today" list="timeRanges" selected="currSel" property="name"
+    <h1><dropdown control="dropdownControl"  placeholder="Today" list="timeRanges" selected="currSel" property="name"
 		  ng-click="changeTimeRange()"></dropdown></h1>
   </div>
   
@@ -22,7 +22,7 @@
 </div>
 
 <div id="listScroller" class="listScroller ng-cloak" >  	
-    <p class="p0">Time between meals</p>  	
+    <p class="p0 bigcenter">Time between meals</p>  	
   <div ng-show="currSel.stat">
 	<div class="ng-cloak" ng-show="dataLoaded" id="mealChart" google-chart chart="visibleChart" style="{{cssStyle}}"></div>
   </div>

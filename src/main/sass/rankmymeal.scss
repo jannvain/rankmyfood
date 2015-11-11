@@ -37,6 +37,7 @@ $TUT_primaryColorTr: rgba(70, 200, 255, 0.3); /* Light Blue transparency */
 
 $TUT_secondaryColor: rgba(180, 220, 0, 1.0); /* Light Green */
 $TUT_secondaryColorTr: rgba(180, 220, 0, 0.3); /* Light Green */
+$TUT_secondaryColorTr2: #ffffff; /*#aaaaaa;*/
 
 $TUT_reddishColor: rgba(234, 103, 12, 1.0); /* Red orange */
 
@@ -48,6 +49,8 @@ $TUT_baseFontColor: $TUT_blackColor;
 
 $primaryColor: $TUT_primaryColor;
 $secondaryColor: $TUT_secondaryColor;
+$secondaryColorTr: $TUT_secondaryColorTr;
+$secondaryColorTr2: $TUT_secondaryColorTr2;
 $ReddishColor: $TUT_reddishColor;
 $whiteColor: $TUT_whiteColor;
 $blackColor: $TUT_blackColor;
@@ -58,7 +61,9 @@ borders are alike
  */
 
 $headerBarColor: $primaryColor;
-$menuBarColor: $secondaryColor;
+
+$menuBarColor: rgba(180, 220, 0, 0.1); /* Light Green */
+$menuBarColor: #fdfdfd;
 
 $borderColor: #998888 /* 77666 #8b9658 */;
 $lightBorderColor: #dddddd /* 77666 #8b9658 */;
@@ -136,7 +141,15 @@ $neutralBackgroundColor: $TUTWhite;
 }
 
 
+	@-webkit-viewport{width:device-width}
+	@-moz-viewport{width:device-width}
+	@-ms-viewport{width:device-width}
+	@-o-viewport{width:device-width}
+	@viewport{width:device-width}
+
 html{
+
+
 
 	font-family: $fontFamily;
 	font-weight: $fontWeightNormal;
@@ -365,11 +378,14 @@ html{
 	vertical-align: middle;
 	line-height: $newMenuHeight;
 	background: $menuBarColor;
-	
+	border-bottom: 1px solid #aaaaaa;
+
 	color: $whiteColor;
 	font-size:1.0em;
 	&.relativeMenu{
 		position: relative;
+		color: $whiteColor;
+/*		background: $secondaryColor;*/
 	}
 	.leftNew{
 		float: left;
@@ -378,8 +394,11 @@ html{
 		border-right: 0px solid $whiteColor;
 		h2 {
 			color: $whiteColor;
+			color: $secondaryColor;
 		}
 		.stack-plus{
+
+			color: $whiteColor;
 			color: $primaryColor;
 			line-height: 3.5em;
 		}
@@ -390,6 +409,7 @@ html{
 			vertical-align: middle;	
 			line-height: $newMenuHeight;
 			color: $whiteColor;
+			color: $secondaryColor;
 			text-align:center;	
 			/*float:left; */
 			text-shadow:
@@ -411,6 +431,7 @@ html{
 		height: $newMenuHeight;
 		padding-left: 0.5em;
 		h1 {
+			color: $secondaryColor;
 			font-size: 1.5em;
 			padding: 0;
 			margin: 0;
@@ -428,6 +449,7 @@ html{
 		h1 {
 			font-size: 1.5em;
 			padding: 0;
+			color: $secondaryColor;
 			margin: 0;
 			/*float:left; */
 			text-shadow:none;
@@ -446,7 +468,7 @@ html{
 		padding: 0;			
 		text-align: center;
 		h1 {
-			color: $whiteColor;
+			color: $primaryColor;
 			text-align:center;	
 			/*float:left; */
 			text-shadow:none;

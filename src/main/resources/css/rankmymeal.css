@@ -24,11 +24,13 @@
 /* Light Blue transparency */
 /* Light Green */
 /* Light Green */
+/*#aaaaaa;*/
 /* Red orange */
 /* Selected theme */
 /* Colors for main elements like menu bars and UI elements, and theme independent
 borders are alike
  */
+/* Light Green */
 /* Sizing issues */
 /*0.70em;*/
 /*0.70em;*/
@@ -72,6 +74,21 @@ borders are alike
   line-height: 2.0em;
 }
 
+@-webkit-viewport {
+  width: device-width;
+}
+@-moz-viewport {
+  width: device-width;
+}
+@-ms-viewport {
+  width: device-width;
+}
+@-o-viewport {
+  width: device-width;
+}
+@viewport {
+  width: device-width;
+}
 html {
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
@@ -275,12 +292,15 @@ html .innerBody {
   height: 2.5em;
   vertical-align: middle;
   line-height: 2.5em;
-  background: #b4dc00;
+  background: #fdfdfd;
+  border-bottom: 1px solid #aaaaaa;
   color: white;
   font-size: 1.0em;
 }
 .menuBar.relativeMenu {
   position: relative;
+  color: white;
+  /*		background: $secondaryColor;*/
 }
 .menuBar .leftNew {
   float: left;
@@ -290,8 +310,10 @@ html .innerBody {
 }
 .menuBar .leftNew h2 {
   color: white;
+  color: #b4dc00;
 }
 .menuBar .leftNew .stack-plus {
+  color: white;
   color: #46c8ff;
   line-height: 3.5em;
 }
@@ -302,6 +324,7 @@ html .innerBody {
   vertical-align: middle;
   line-height: 2.5em;
   color: white;
+  color: #b4dc00;
   text-align: center;
   /*float:left; */
   text-shadow: none;
@@ -321,6 +344,7 @@ html .innerBody {
   padding-left: 0.5em;
 }
 .menuBar .leftNav h1 {
+  color: #b4dc00;
   font-size: 1.5em;
   padding: 0;
   margin: 0;
@@ -337,6 +361,7 @@ html .innerBody {
 .menuBar .rightNav h1 {
   font-size: 1.5em;
   padding: 0;
+  color: #b4dc00;
   margin: 0;
   /*float:left; */
   text-shadow: none;
@@ -353,7 +378,7 @@ html .innerBody {
   text-align: center;
 }
 .menuBar .centerMenuBar h1 {
-  color: white;
+  color: #46c8ff;
   text-align: center;
   /*float:left; */
   text-shadow: none;

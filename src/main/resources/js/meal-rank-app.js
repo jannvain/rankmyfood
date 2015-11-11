@@ -433,7 +433,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
                                  function ($rootScope, $scope, $location, Upload, $http, $routeParams, MealService, NewUserService, $timeout, $fancyModal) {
 	  $scope.showDetails = false;
 	  $scope.showNewMealButton = false;
-
+	 $scope.newView = true;
           $scope.imageChanged = function(){
 	      // console.log("IMG CHANGE ");
 
@@ -658,67 +658,74 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
         }
     };
 })
-.directive("dropdown", function($rootScope) {
+    .directive("dropdown", function($rootScope) {
 	return {
-		restrict: "E",
-		templateUrl: "dropdown.html",
-		scope: {
-			placeholder: "@",
-			list: "=",
-			selected: "=",
-			property: "@"
+	    restrict: "E",
+	    templateUrl: "dropdown.html",
+	    scope: {
+		placeholder: "@",
+		list: "=",
+		selected: "=",
+		property: "@",
+		control: "="
 		},
-		link: function(scope) {
-			scope.listVisible = false;
-			scope.clickRegistered = false;
-			scope.isPlaceholder = true;
+	    link: function(scope) {
+		scope.listVisible = false;
+		scope.clickRegistered = false;
+		scope.isPlaceholder = true;
 
-			scope.select = function(item) {
-				scope.isPlaceholder = false;
-				scope.selected = item;
-			};
-
-			scope.isSelected = function(item) {
-				return item[scope.property] === scope.selected[scope.property];
-			};
-
-			scope.show = function() {
-				if(scope.listVisible){
-					scope.clickRegistered = false;
-					scope.listVisible = false;
-
-					return;
-				}
-
-				scope.listVisible = true;
-				scope.clickRegistered =true;
-				// console.log("CLICK");
-			};
-
-			$rootScope.$on("documentClicked", function(inner, target) {
-				// console.log("CLICK 2");
-				if(scope.clickRegistered){
-					scope.clickRegistered = false;
-					return;
-				}
-				if(!scope.listVisible)
-					return;
-				scope.$apply(function() {
-					scope.listVisible = false;
-				});
-				/*				console.log($(target[0]).is(".dropdown-display.clicked") || $(target[0]).parents(".dropdown-display.clicked").length > 0);
-				if (!$(target[0]).is(".dropdown-display.clicked") && !$(target[0]).parents(".dropdown-display.clicked").length > 0)
-					scope.$apply(function() {
-						scope.listVisible = false;
-					});*/
-			});
-
-			scope.$watch("selected", function(value) {
-				scope.isPlaceholder = scope.selected[scope.property] === undefined;
-				scope.display = scope.selected[scope.property];
-
-			});
+		scope.internalControl = scope.control || {};
+		scope.internalControl.select = function(item) {
+		    scope.isPlaceholder = false;
+		    scope.display =  item;
 		}
+		
+		scope.select = function(item) {
+		    scope.isPlaceholder = false;
+		    scope.selected = item;
+		};
+		
+		scope.isSelected = function(item) {
+		    return item[scope.property] === scope.selected[scope.property];
+		};
+		
+		scope.show = function() {
+		    if(scope.listVisible){
+			scope.clickRegistered = false;
+			scope.listVisible = false;
+			
+			return;
+		    }
+		    
+		    scope.listVisible = true;
+		    scope.clickRegistered =true;
+		    // console.log("CLICK");
+		};
+		
+		$rootScope.$on("documentClicked", function(inner, target) {
+		    // console.log("CLICK 2");
+		    if(scope.clickRegistered){
+			scope.clickRegistered = false;
+			return;
+		    }
+		    if(!scope.listVisible)
+			return;
+		    scope.$apply(function() {
+			scope.listVisible = false;
+		    });
+		    /*				console.log($(target[0]).is(".dropdown-display.clicked") || $(target[0]).parents(".dropdown-display.clicked").length > 0);
+						if (!$(target[0]).is(".dropdown-display.clicked") && !$(target[0]).parents(".dropdown-display.clicked").length > 0)
+						scope.$apply(function() {
+						scope.listVisible = false;
+						});*/
+		});
+		
+		scope.$watch("selected", function(value) {
+		    scope.isPlaceholder = scope.selected[scope.property] === undefined;
+		    scope.display = scope.selected[scope.property];
+		    
+		});
+	    }
 	}
-});
+    });
 

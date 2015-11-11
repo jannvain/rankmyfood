@@ -275,21 +275,26 @@ public class MealController {
          Map<String, String> ids;
         ids = mapper.readValue(json, HashMap.class);
         
-        
+        Date dt = new Date();
+
+        DateFormat fileFormat = new SimpleDateFormat("HHmmddMMyyyy" /*"yyyy/MM/dd"*/, Locale.ENGLISH);
+        String fdate = "ec" + dt.getDate() + dt.getMonth() + dt.getMinutes() + dt.getSeconds();
+
+	String fileName = fdate  + file.getOriginalFilename();
         DebugDTO cto = new DebugDTO(ids.get("username"), "hai", file.getSize());
-        System.out.println(String.format("############### receive %s ", file.getOriginalFilename()));
+        System.out.println(String.format("############### receive %s ", fileName));
         
 	//        String filePath = "/Users/vainio6/rankme/pic/lg/" + file.getOriginalFilename(); //Please note that I am going to remove hardcoded path to get it from resource/property file
 	//  String filePath2 = "/Users/vainio6/rankme/pic/xs/" + file.getOriginalFilename(); //Please note that I am going to remove hardcodded path to get it from resource/property file
-
-        String filePath = "/mnt/mydata/mealimages/lg/" + file.getOriginalFilename(); //Please note that I am going to remove hardcoded path to get it from resource/property file
-        String filePath2 = "/mnt/mydata/mealimages/xs/" + file.getOriginalFilename(); //Please note that I am going to remove hardcodded path to get it from resource/property file
+	
+        String filePath = "/mnt/mydata/mealimages/lg/" + fileName; //Please note that I am going to remove hardcoded path to get it from resource/property file
+        String filePath2 = "/mnt/mydata/mealimages/xs/" + fileName; //Please note that I am going to remove hardcodded path to get it from resource/property file
 
 
         File dest = new File(filePath);
         file.transferTo(dest);
         BufferedImage image = ImageIO.read( dest ); 
-        image = resize(image, Method.ULTRA_QUALITY /* was SPEED */, 128, OP_ANTIALIAS, OP_BRIGHTER);
+        image = resize(image, Method.ULTRA_QUALITY /* was SPEED */, 160, OP_ANTIALIAS, OP_BRIGHTER);
         
         File dest2 = new File(filePath2);
         
@@ -321,7 +326,7 @@ public class MealController {
         //Time time = Time.parse(timeStr, formattert);        
         
         Meal savedMeal = mealService.saveMeal(principal.getName(), null, date, time, ids.get("description"),
-        		ids.get("categoryName"), file.getOriginalFilename());
+        		ids.get("categoryName"), fileName);
         
         return cto;
     }
