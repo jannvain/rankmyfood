@@ -28,13 +28,15 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 				      language: 'en'*/
         }
     })                               
+
+
     .filter('day', function () {
 	return function (input, filter) {
             return _.filter(input, function (item) {
-        	// console.log("in filter");
-        	// console.log(filter.from);
-        	// console.log(filter.to);
-        	// console.log(item.date);
+        	//console.log("in filter");
+        	// console.log("Ff " + filter.from);
+        	 //console.log("Ft " + filter.to);
+        	//console.log("I " + item.date);
 		
         	if(filter.from == "all")
         	    return true;
@@ -390,7 +392,7 @@ var app = angular.module('mealRankApp', ['ngRoute',  'ngFileUpload', 'ngAnimate'
 		       $scope.viewTitle = $scope.vm.meal.categoryName; 
 		       $scope.vm.meal.voteCount = $scope.vm.meal.rank.length;
 		       $scope.vm.meal.averageRankDisplayed = $scope.plotRank($scope.vm.meal.averageRank, 1);
-		       $scope.vm.meal.src = "mealimages/lg/" + $scope.vm.meal.imageName;
+		       $scope.vm.meal.src = "mealimages/md/" + $scope.vm.meal.imageName;
 		       
 		       $scope.$emit('headerChanged', {viewTitle:$scope.vm.meal.categoryName, notInRoot: true});
 		       // $scope.$emit('finishLoadingCtrl', {message: ""});

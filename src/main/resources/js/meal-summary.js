@@ -1,50 +1,34 @@
 angular.module('mealSummary', [])
 
 
-    .filter('day', function () {
-	return function (input, filter) {
-        return _.filter(input, function (item) {
-        	// console.log("in filter");
-        	// console.log(filter.from);
-        	// console.log(filter.to);
-        	// console.log(item.date);
-
-        	if(filter.from == "all")
-        		return true;
-        	else
-        		return ((filter.from >= item.date)&&(filter.to<=item.date))? true: false;
-        });
-    }
-})
-
-.controller('MealSummaryCtrl', ['$rootScope', '$scope' , '$routeParams', '$fancyModal', 'MealService', 'NewUserService', 'NewMealService', 'TimeService', '$timeout', 'googleChartApiPromise', function ($rootScope, $scope, $routeParams, $fancyModal, MealService, NewUserService, NewMealService, TimeService, $timeout, googleChartApiPromise) {
-    console.log("In MealSummaryCtrl: " + $routeParams.mealId);
-    $scope.setProgressMessage("Load meal gaps");
-    $rootScope.showMealClock = true;    
-    $scope.showNewMealButton = false;
+    .controller('MealSummaryCtrl', ['$rootScope', '$scope' , '$routeParams', '$fancyModal', 'MealService', 'NewUserService', 'NewMealService', 'TimeService', '$timeout', 'googleChartApiPromise', function ($rootScope, $scope, $routeParams, $fancyModal, MealService, NewUserService, NewMealService, TimeService, $timeout, googleChartApiPromise) {
+	console.log("In MealSummaryCtrl: " + $routeParams.mealId);
+	$scope.setProgressMessage("Load meal gaps");
+	$rootScope.showMealClock = true;    
+	$scope.showNewMealButton = false;
     $scope.dataLoaded = false;
-    $scope.chart = {};
-    $scope.myMeals = {};
-    // For storing User model
-    $scope.um = {};
-
+	$scope.chart = {};
+	$scope.myMeals = {};
+	// For storing User model
+	$scope.um = {};
+	
     $scope.dropdownControl = {};
-    
-    TimeService.resetCurrentDate();
+	
+	TimeService.resetCurrentDate();
     $scope.$emit('headerChanged', {viewTitle:"Meal Frequency", notInRoot: false});
-
-    $scope.timeRanges = [
-	{
-	    "stat":false, 
+	
+	$scope.timeRanges = [
+	    {
+		"stat":false, 
 	    "name":"Today",
-	    "from": TimeService.getCurrentDate(), 
-	    "to": TimeService.getCurrentDate(),
-	    "format":  "", 
+		"from": TimeService.getCurrentDate(), 
+		"to": TimeService.getCurrentDate(),
+		"format":  "", 
 	    "gridCount": 7,
-	    "pointSize": 0	
-	},
-/*
-	{
+		"pointSize": 0	
+	    },
+	    /*
+	      {
 	    "stat":true, 
 	    "name":"Week",
 	    "from": TimeService.currentDate.subtractDays(6),
@@ -52,19 +36,19 @@ angular.module('mealSummary', [])
 	    "format":  "EEE",
 	    "gridCount": 6, 
 	    "pointSize": 10	
-	},
+	    },
 	{
-	    "stat": true, 
-	    "name":"Month",
+	"stat": true, 
+	"name":"Month",
 	    "from": TimeService.currentDate.subtractDays(29), 
 	    "to": TimeService.currentDate00(), 
 	    "format":  "MMM d", 
 	    "gridCount": 6,
 	    "pointSize": 0	
-	},*/
-	{
-	    "stat":true, 
-	    "name":"All",
+	    },*/
+	    {
+		"stat":true, 
+		"name":"All",
 	    "from": $scope.oldestDate,  
 	    "to": TimeService.currentDate00(), 
 	    "format":  "MMM d", 
@@ -74,6 +58,8 @@ angular.module('mealSummary', [])
     ];
 
     $scope.currSel = $scope.timeRanges[0];
+
+
     $scope.prevSel = null;
 
     $scope.changeTimeRange = function(){
@@ -242,6 +228,11 @@ angular.module('mealSummary', [])
 	googleChartApiPromise.then(chartApiSuccess);
     }
 
+    $scope.newFilter = function(sel){
+
+	return {"from": sel.from, "to": sel.to};
+    }
+    $scope.currFilter = $scope.newFilter($scope.currSel);
     function chartApiSuccess(){
 	$scope.chart.type = 'ComboChart';
 	$scope.othersData = new google.visualization.DataTable();
@@ -267,20 +258,23 @@ angular.module('mealSummary', [])
     }
     $scope.addDay = function(){
 	TimeService.daysForward(1);
-	$scope.currSel.from = TimeService.currentDate;
-	$scope.currSel.to =  TimeService.currentDate;
+	$scope.currSel.from = TimeService.getCurrentDate();
+	$scope.currSel.to =  TimeService.getCurrentDate();
 
 	$scope.currSel.name = $scope.formatDate(TimeService.getCurrentDate());
 	$scope.dropdownControl.select($scope.currSel.name);
 
+	$scope.currFilter = $scope.newFilter($scope.currSel);
     }
     $scope.subtractDay = function(){
 	TimeService.daysBack(1);
-	$scope.currSel.from = TimeService.currentDate;
-	$scope.currSel.to =  TimeService.currentDate;
+	$scope.currSel.from = TimeService.getCurrentDate();
+	$scope.currSel.to =  TimeService.getCurrentDate();
 
 	$scope.currSel.name = $scope.formatDate(TimeService.getCurrentDate());
 	$scope.dropdownControl.select($scope.currSel.name);
+	$scope.currFilter = $scope.newFilter($scope.currSel);
+
     }
     
     dataLoad = function(){

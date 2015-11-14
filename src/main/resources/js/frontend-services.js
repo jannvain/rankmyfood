@@ -86,7 +86,7 @@ angular.module('frontendServices', [])
 				 if(um.userName == meal.userName){
 					 // console.log(currentDate + " " + meal.date);
 					 if(currentDate == meal.date){
-						 var inmin = meal.time.split(":"); // in minutes
+					     var inmin = meal.time.split(":"); // in minutes
 			             var cmpMinutes = parseInt(inmin[0])*60 + parseInt(inmin[1]); // in minutes
 			                 
 			             if(currentTimeInMinutes-cmpMinutes>=0){

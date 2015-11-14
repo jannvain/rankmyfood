@@ -288,16 +288,21 @@ public class MealController {
 	//  String filePath2 = "/Users/vainio6/rankme/pic/xs/" + file.getOriginalFilename(); //Please note that I am going to remove hardcodded path to get it from resource/property file
 	
         String filePath = "/mnt/mydata/mealimages/lg/" + fileName; //Please note that I am going to remove hardcoded path to get it from resource/property file
-        String filePath2 = "/mnt/mydata/mealimages/xs/" + fileName; //Please note that I am going to remove hardcodded path to get it from resource/property file
+        String filePath2 = "/mnt/mydata/mealimages/xs/" + fileName;
+
+        String filePath3 = "/mnt/mydata/mealimages/md/" + fileName;
 
 
         File dest = new File(filePath);
         file.transferTo(dest);
         BufferedImage image = ImageIO.read( dest ); 
+
+        image = resize(image, Method.ULTRA_QUALITY /* was SPEED */, 800, OP_ANTIALIAS, OP_BRIGHTER);
+        File dest3 = new File(filePath3);
+        ImageIO.write(image, "jpg", dest3);
+
         image = resize(image, Method.ULTRA_QUALITY /* was SPEED */, 160, OP_ANTIALIAS, OP_BRIGHTER);
-        
         File dest2 = new File(filePath2);
-        
         ImageIO.write(image, "jpg", dest2);
         
         
