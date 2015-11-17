@@ -52,12 +52,20 @@
 	  <div class="pure-u-14-24">
 	   
 	    <div class="pure-g detailsHeader">
-	      <div class="pure-u-9-24">
-		<p class="p0 bigbig">{{meal.time}}</p>
+
+	      <div ng-switch on="showDate(meal.date)">
+	   	<div ng-switch-when="Today">
+		  <div class="pure-u-23-24">
+		    <p class="p0 bigbig">{{meal.time}}</p>
+		  </div>
+		</div>
+		<div ng-switch-default>
+		  <div class="pure-u-23-24">
+		    <p class="p0 bigbigright">{{showDate(meal.date)}}</p>
+		  </div>
+		</div>
 	      </div>
-	      <div class="pure-u-15-24">
-		<p class="p0 bigbigright">{{showDate(meal.date)}}</p>
-	      </div>
+
 	    </div>
 	    
 	    <div class="pure-g">
