@@ -19,27 +19,16 @@
   <div class="rightNav">
     <a  ng-click="refreshMealList()">	
       <h1>
-	  <span class="fa fa-refresh fa-1x"></span>
+	<span class="fa fa-refresh fa-1x"></span>
       </h1>
     </a>
   </div>
   
 </div>
 
-
 <tt-error-messages></tt-error-messages>
 
-<!-- div class="info-messages ng-cloak" ng-style="{'opacity': vm.infoMessages.length > 0 ? 1 : 0, 'z-index': vm.infoMessages.length > 0 ? 10 : -10,
-     display: vm.infoMessages.length>0 ? 'block' : 'none'}">
-     <img class="info-icon" src="img/info-icon.png">
-     <div class="messages-group">
-       <div ng-repeat="info in vm.infoMessages">{{info.description}}</div>
-     </div>
-</div-->
-
-
 <div class="listScroller">
-  <!-- div  ng-cloak class="rListMiddleSpOuter" ng-repeat="meal in filtered = (vm.meals | excludeDeleted | ranked:vm.currSel | rankrange: vm.currSel | limitTo : showNumOfItems)"  -->
 
   <div  ng-cloak class="rListMiddleSpOuter" ng-repeat="meal in filtered = (vm.meals | rankrange:vm.currSel | limitTo : showNumOfItems)"  >
     
@@ -71,27 +60,16 @@
 	      </div>
 	    </div>
 	    
-	    <!--div class="pure-g">
-	      <div class="pure-u-23-24"-->
-		<!--p class="p0 big">{{meal.categoryName}}</p --> 
-	      <!-- /div>
-	    </div -->
-
 	    <div class="pure-g">
 	      <div class="pure-u-18-24">
 		<p class="p0 big">{{meal.nickName | limitTo : 20}}</p>
 	      </div>
 	      <div class="pure-u-6-24">
 		<p class="p1 big">
-
-
 		  <span class="fa-stack fa-1x">
 		    <i class="fa fa-comment fa-stack-2x"></i>
 		    <strong class="fa-stack-1x fa-inverse">{{meal.voteCount}}</strong>
 		  </span>
-
-
-		  <!--span class="fa fa-comment"> {{meal.voteCount}}</span -->
 		</p>
 
 	      </div>
@@ -128,9 +106,6 @@
 	<i class="fa fa-star fa-stack-2x"></i>
 	<strong class="fa-stack-1x fa-inverse"><span style="font-size:75%;">{{meal.averageRankDisplayed}}</span></strong>
       </span>
-      
-
-    <!--  {{meal.averageRankDisplayed}} -->
     </div>
   </div>
 </script>

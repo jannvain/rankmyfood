@@ -1,6 +1,6 @@
 angular.module('loginApp', ['common'])
     .controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
-	        
+	
         $scope.demoLogin = function(){
 	    $scope.setProgressMessage("Logging in");
             $scope.vm.username = "janne";
@@ -10,8 +10,7 @@ angular.module('loginApp', ['common'])
 	    $scope.credentials = $scope.vm;
 	    $scope.newLogin($scope.vm);
         }
- 
-        
+	        
         $scope.onLogin = function () {
 	    $scope.setProgressMessage("Logging in");
             console.log('Attempting login with username ' + $scope.vm.username + ' and password ' + $scope.vm.password + "form valid:" + $scope.form.$invalid);
@@ -25,7 +24,6 @@ angular.module('loginApp', ['common'])
 
         };
     	$scope.$emit('headerChanged', {viewTitle:"Login", notInRoot: false});
-//	$scope.$emit('finishLoadingCtrl', {message: ""});
         $scope.setProgressMessage("");
 
     }]);

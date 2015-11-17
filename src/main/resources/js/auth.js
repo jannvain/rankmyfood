@@ -4,9 +4,8 @@ angular.module('auth', []).service(
     'auth', 
     
     function($http, $location, $rootScope, NewUserService) {
-
+	
 	enter = function() {
-	    // console.log("AUTH ENTER: " + auth.newUserPath + " LOC " + $location.path());
 	    if (($location.path() != auth.loginPath)&& ($location.path() != auth.newUserPath) && ($location.path() != "/")) {
 		auth.path = $location.path();
 		if (!auth.authenticated) {
@@ -17,19 +16,9 @@ angular.module('auth', []).service(
         	    $http.get('api/user')
 			.then(
 			    function (response) {
-				// console.log("Response Status " + response.status);
-				// console.log(response);
-				if (response.status == 200 && response.data.userName) {
-				    
-				    //				$location.path(auth.path);
-				
-				    
+				if (response.status == 200 && response.data.userName) {    
 				    auth.authenticated = true;
-				    
 				    NewUserService.userData = response.data;
-				    
-				    //console.log("PATH " + auth.path);
-				    // console.log("AUTH STILL VALID, JUST GO AHEAD ");
 				}
 				else {
 				    auth.authenticated = false;
@@ -37,13 +26,10 @@ angular.module('auth', []).service(
 				}
 			    },
 			    function(response){
-				// console.log(response);
 				auth.authenticated = false;
 				$location.path(auth.loginPath);
 			    }
 			);
-
-
 		}
 	    }
 	}
@@ -74,19 +60,19 @@ angular.module('auth', []).service(
 			"X-Login-Ajax-call": 'true'
                     }
 		})
-		.then(
-		    function(response) {
-			if (response.data == 'ok') {
-			    auth.authenticated = true;
-			    $location.path(auth.homePath);
-			    callback && callback(auth.authenticated);
+		    .then(
+			function(response) {
+			    if (response.data == 'ok') {
+				auth.authenticated = true;
+				$location.path(auth.homePath);
+				callback && callback(auth.authenticated);
+			    }
+			    else {
+				auth.authenticated = false;
+				callback && callback(false);
+			    }
 			}
-			else {
-			    auth.authenticated = false;
-			    callback && callback(false);
-			}
-		    }
-		);
+		    );
 	    },
 
             clear : function() {
@@ -100,22 +86,14 @@ angular.module('auth', []).service(
 		auth.loginPath = loginPath;
 		auth.logoutPath = logoutPath;
 		auth.newUserPath = newUserPath;
-/*
-		auth.authenticate({}, function(authenticated) {
-		    if (authenticated) {
-			$location.path(auth.path);
-		    }
-		});
-*/
+
 		$rootScope.$on('$routeChangeStart', function() {
 		    enter();
 		});
-
-
 	    }
 	    
 	};
 
-      return auth;
+	return auth;
 	
     });

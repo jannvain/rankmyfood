@@ -1,7 +1,6 @@
 <div class="form-messages status {{extraStyles}}" ng-show="vm.statusMessages.length > 0">
-    <!-- img class="error-icon" src="img/error-icon.png" -->
-
-    <div class="statusMessages-group">
-        <div ng-repeat="status in vm.statusMessages">{{status.description}} <span class="fa fa-refresh fa-spin fa-1x"></span></div>
-    </div>
+  <!-- img class="error-icon" src="img/error-icon.png" -->
+  <div class="statusMessages-group">
+    <div ng-repeat="status in vm.statusMessages">{{status.description}} <span class="fa fa-refresh fa-spin fa-1x"></span></div>
+  </div>
 </div>

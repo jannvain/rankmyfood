@@ -2,19 +2,18 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
     return function (input) {
         return _.filter(input, function (item) {
 	    return true;
-//	    return item.deleted == undefined || !item.deleted;
+	    //	    return item.deleted == undefined || !item.deleted;
         });
     }
 }).filter('user', function () {
     return function (input, currSel) {
         return _.filter(input, function (item) {
 	    return true;
-//	    return currSel != "ALL" && currSel!="Not ranked" ? item.nickName == currSel : true;
+	    //	    return currSel != "ALL" && currSel!="Not ranked" ? item.nickName == currSel : true;
         });
     }
 }).filter('ranked', function () {
     return function (input, currSel) {
-    	//console.log(currSel.nickName + " : " + item.hasVoted);
         return _.filter(input, function (item) {
             return currSel.name=="Not ranked" ? !item.hasVoted : true;
         });
@@ -46,7 +45,6 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
 		$scope.showNumOfItems = $scope.numOfItemsInPages * $scope.showNumOfPages;
 	    }
 	    $scope.vm.currSel.touch=true;
-	    //$filter('rankrange')($scope.vm.meals, $scope.vm.currSel);
 	}
 	
 	
@@ -82,9 +80,7 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
 	}
 	NewUserService.updateUserInfoPromise().then(function(data){
             $scope.um = data;
-	    // console.log("API/USER " + data.userName);
-	    // console.log($scope.um);
-        LoadGroupMeals($scope.um.groupName, 1); // TEST WAS USER
+            LoadGroupMeals($scope.um.groupName, 1); // TEST WAS USER
             NewUserService.loadMyGroupMembers($scope, $scope.um.groupName);
 	});
 	
@@ -96,7 +92,7 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
 	    if(gender==0)
 		return "male malecss";
 	    else
-	    return "female femalecss";
+		return "female femalecss";
 	}
 	function LoadGroupMeals(username, pageNumber) {
             MealService.searchGroupMeals(username, pageNumber)        
@@ -115,16 +111,8 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
 			meal.voteCount = meal.rank.length;
 			return meal;
                     });
-                // $scope.$emit('finishLoadingCtrl', {message: ""});
 		    $scope.setProgressMessage("");
                     $rootScope.timeSinceLastMeal = $rootScope.updateTimeSinceLastMeal( $scope.vm.meals, $scope.um);
-		    
-		    //                    $scope.vm.meals = _.cloneDeep($scope.vm.originalMeals);
-		    
-		    //                    _.each($scope.vm.meals, function (meal) {
-		    //                        meal.selected = false;
-		    //                        meal.averageRankDisplayed = $scope.plotRank(meal.averageRank, 1);
-		//                    });
 		    
                     markAppAsInitialized();
 		    
@@ -139,7 +127,7 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
                 	    for(var i=0;i<$scope.imageNames.length;i++){
                 		$scope.vm.meals[i].imageName = $scope.imageNames[i]; 
                             }	
-                    });
+			});
                     }	  
                 	       , 500); 
                     
@@ -164,7 +152,7 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
             }, 1000);
 	}
 	$scope.pages = function () {
-        return _.range(1, $scope.vm.totalPages + 1);
+            return _.range(1, $scope.vm.totalPages + 1);
 	};
 	
 	$scope.previous = function () {
@@ -173,7 +161,7 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
 		loadMealData($scope.vm.fromDate, $scope.vm.fromTime,
 			     $scope.vm.toDate, $scope.vm.toTime, $scope.vm.currentPage);
             }
-    };
+	};
 	
 	$scope.next = function () {
             if ($scope.vm.currentPage < $scope.vm.totalPages) {
@@ -182,10 +170,10 @@ angular.module('mealList', []).filter('excludeDeleted', function () {
 			     $scope.vm.toDate, $scope.vm.toTime, $scope.vm.currentPage);
             }
 	};
-    $scope.logout = function () {
-        // console.log("LOGOUT");
-        NewUserService.logout();
-    }
+	$scope.logout = function () {
+            // console.log("LOGOUT");
+            NewUserService.logout();
+	}
 	$scope.mealDetail = function(mealId){
             MealService.getMealDetails(mealId);
 	}

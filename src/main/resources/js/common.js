@@ -3,7 +3,6 @@ angular.module('common', ['ngMessages', 'auth'])
 	
         var fieldWithFocus;
 
-
 	$rootScope.showMealClock = true;
         $scope.vm = {
             submitted: false,
@@ -21,7 +20,6 @@ angular.module('common', ['ngMessages', 'auth'])
 	    console.log("IN NEW LOGIN " + credentials.username);
             auth.authenticate(credentials, function(authenticated) {
                 if (authenticated) {
-//		    $scope.setProgressMessage("");
                     console.log("Login succeeded")
 		    $scope.setStatusMessage("Login succeeded");
                     $scope.error = false;
@@ -40,7 +38,7 @@ angular.module('common', ['ngMessages', 'auth'])
             auth.clear();
         }
 	
-/*******************/
+	/*******************/
 
         $scope.focus = function (fieldName) {
             fieldWithFocus = fieldName;
@@ -97,7 +95,7 @@ angular.module('common', ['ngMessages', 'auth'])
         };
     })
 
-      .directive('ttErrorMessages', function() {
+    .directive('ttErrorMessages', function() {
         return {
             restrict: 'E',
             link: function(scope, element, attrs) {
@@ -106,7 +104,7 @@ angular.module('common', ['ngMessages', 'auth'])
             templateUrl: 'error-messages.html'
         }
     })
-      .directive('ttStatusMessages', function() {
+    .directive('ttStatusMessages', function() {
         return {
             restrict: 'E',
             link: function(scope, element, attrs) {

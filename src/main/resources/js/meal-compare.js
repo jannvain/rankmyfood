@@ -2,7 +2,6 @@ angular.module('mealCompare', []).controller('MealCompareCtrl', ['$rootScope', '
     
     console.log("In MealCompareCtrl: ");
 
-
     $scope.setProgressMessage("Load rankings");
     $scope.showNewMealButton = false;
     $scope.dataLoaded = false;
@@ -139,7 +138,7 @@ angular.module('mealCompare', []).controller('MealCompareCtrl', ['$rootScope', '
 	dataLoad();
     }	    
 
-/*********/
+    /*********/
     
     function dataLoad(){ 
 	NewUserService.updateUserInfoPromise().then(function(data){
@@ -147,7 +146,7 @@ angular.module('mealCompare', []).controller('MealCompareCtrl', ['$rootScope', '
 	    
 	    NewMealService.searchMyRanks($scope.um.userName, 1).then(function(data){
 	       	$scope.myRanks = data; 
-// console.log(data);
+		// console.log(data);
 	       	$scope.myData.addRows(data);
 	       	
 	       	
@@ -155,7 +154,7 @@ angular.module('mealCompare', []).controller('MealCompareCtrl', ['$rootScope', '
 		    $scope.groupRanks = data; 
 		    $scope.othersData.addRows(data);
 		    var dataTable = new google.visualization.data.join($scope.myData, $scope.othersData,
-			       					   'full', [[0,0]], [1], [1]);
+			       					       'full', [[0,0]], [1], [1]);
 		    
 		    var oldestStamp = $scope.myRanks[0] ? ( $scope.groupRanks[0] ? Math.min($scope.myRanks[0][0], $scope.groupRanks[0][0]) : $scope.myRanks[0][0] ) : ($scope.groupRanks[0] ? $scope.groupRanks[0][0]: null);
 		    
@@ -205,7 +204,6 @@ angular.module('mealCompare', []).controller('MealCompareCtrl', ['$rootScope', '
 		    $scope.chart.options.displayed=false;
 		    $scope.chart.data = view;
 		    $scope.dataLoaded = true;
-		    //  $scope.$emit('finishLoadingCtrl', {message: ""});
 		    $scope.setProgressMessage("");
 		    
 		});

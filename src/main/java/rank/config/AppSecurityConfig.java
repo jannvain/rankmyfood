@@ -140,7 +140,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .and()
 		    .rememberMe()
 	       ;
-	//        	.anyRequest().authenticated();
+
         if ("true".equals(System.getProperty("httpsOnly"))) {
             LOGGER.info("launching the application in HTTPS-only mode");
             http.requiresChannel().anyRequest().requiresSecure();

@@ -1,19 +1,19 @@
 /* New cleaned css */
 /*	
 	.splash {
-	  display: none !important;
+	display: none !important;
 	}
 	
 	[ng-cloak].splash {
-	  display: block !important;
+	display: block !important;
 	}
 	[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	    display: none !important;
+	display: none !important;
 	}
-*/
+	*/
 /* Another version, hasnt decided yet... 
    $fontFamily: 'Racing Sans One', cursive;
-*/
+   */
 /* Different themes */
 /* My favourite theme */
 /*#f67504;*/
@@ -28,8 +28,8 @@
 /* Red orange */
 /* Selected theme */
 /* Colors for main elements like menu bars and UI elements, and theme independent
-borders are alike
- */
+   borders are alike
+   */
 /* Light Green */
 /* Sizing issues */
 /*0.70em;*/
@@ -190,10 +190,10 @@ html .innerBody {
   margin: 0;
   padding: 0;
   text-shadow: none;
-  /*	-1px -1px 0 #666,  
-  	1px -1px 0 #666,
-  	-1px 1px 0 #666,
-  	1px 1px 0 #666;	*/
+    /*	-1px -1px 0 #666,  
+	1px -1px 0 #666,
+	-1px 1px 0 #666,
+	1px 1px 0 #666;	*/
 }
 .headerBar .left {
   float: left;
@@ -329,9 +329,9 @@ html .innerBody {
   /*float:left; */
   text-shadow: none;
   /* 	-1px -1px 0 #666,  
-    	1px -1px 0 #666,
-    	-1px 1px 0 #666,
-    	1px 1px 0 #666;	*/
+  	1px -1px 0 #666,
+  	-1px 1px 0 #666,
+  	1px 1px 0 #666;	*/
 }
 .menuBar .leftNew h1 span {
   vertical-align: middle;
@@ -392,9 +392,6 @@ html .innerBody {
   text-align: center;
   border-top-left-radius: 150px;
   border-top-right-radius: 150px;
-  /*border-bottom-left-radius: 50%;
-  border-bottom-right-radius: 50%;	
-  line-height: $footerHeight/2;*/
   width: 120px;
   padding: 0;
   margin: 0;
@@ -426,7 +423,6 @@ html .innerBody {
 .veryBad {
   background: #ffffff;
   /*ee5546;*/
-  /*	border: 3px solid #ff6e60;*/
 }
 
 .veryGoodInv {
@@ -577,10 +573,6 @@ html .innerBody {
   padding: 10px;
   position: relative;
   width: 50px;
-  /*    position: absolute;
-      top: 0;
-      left:0;
-      margin-right: $innerBodyPadding;*/
   margin: 0;
   padding: 0;
   text-shadow: none;
@@ -879,9 +871,9 @@ html .ngfSimulateElement {
 html .ngfElement {
   /*width: 100%;*/
   /*height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;	*/
+    position: absolute;
+    top: 0;
+    left: 0;	*/
   /*z-index: 10;	*/
 }
 html .mySpace {
@@ -913,21 +905,21 @@ html .view-slide-in.ng-enter {
   position: relative;
   opacity: 0.0;
   /*top:0;
-  left:0; */
+    left:0; */
 }
 html .view-slide-in.ng-enter.ng-enter-active {
   /*top:0;
-  left:0;*/
+    left:0;*/
   opacity: 1;
 }
 html .view-slide-in.ng-leave.ng-leave-active {
   /*top:5px;
-  left:5px;*/
+    left:5px;*/
   opacity: 1;
 }
 html .view-slide-in.ng-leave {
   /* top:0;
-   left:0;*/
+     left:0;*/
   opacity: 0;
 }
 html .voteTheme {
@@ -959,9 +951,9 @@ html label [type="radio"] {
 }
 html [type="radio"] + span {
   display: inline-block;
- /*padding:1em;
- 
-content: '';*/
+  /*padding:1em;
+    
+    content: '';*/
   background: #fff;
   border: 2px solid #ddd;
   display: inline-block;
@@ -1126,8 +1118,8 @@ html .listGrade {
   /*		border-radius: 3px;
   		border: 2px solid #ffffff;	*/
   text-align: center;
-  /*		padding: 5px;
-  		padding-bottom: 2px;*/
+    /*		padding: 5px;
+		padding-bottom: 2px;*/
 }
 html .listGrade.small {
   font-size: 40%;
@@ -1153,10 +1145,6 @@ html .new-user-link {
   margin-top: 1.4em;
   color: #46c8ff;
   text-shadow: none;
-  /*	   	-1px -1px 0 #000,  
-  	    1px -1px 0 #000,
-  	    -1px 1px 0 #000,
-  	   	1px 1px 0 #000;	    */
 }
 html .categoryFilterTitle {
   text-align: center;
@@ -1227,8 +1215,6 @@ html .outerSpin {
 }
 html .imgWaitSpin {
   position: absolute;
-  /*top: 45%;
-  left: 45%;*/
   top: -0.5em;
   left: -0.5em;
   color: #46c8ff;
@@ -1291,18 +1277,12 @@ html .button-transparent {
   padding: 0px;
   margin: 0px;
   text-shadow: none;
-  /*		  -1px -1px 0 #666,  
-  		  1px -1px 0 #666,
-  		  -1px 1px 0 #666,
-  		  1px 1px 0 #666;	*/
-  /*line-height: $newMenuHeight;*/
   vertical-align: middle;
 }
 html .button-transparent.white {
   color: #ffffff;
 }
 html .button-transparent.borders {
-  /* background: rgba(255, 255, 255, 0.5);*/
   border: 2px solid white;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -1314,7 +1294,6 @@ html .button-transparent.borders {
 html .button-transparent.Xs {
   padding: 0px;
   font-size: 50%;
-  /*	font-size: 40%;*/
 }
 html .pure-form input:focus:invalid, html .pure-form textarea:focus:invalid, html .pure- formselect:focus:invalid {
   border-color: #b4dc00;
