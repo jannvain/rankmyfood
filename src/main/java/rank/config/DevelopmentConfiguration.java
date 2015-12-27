@@ -39,7 +39,7 @@ public class DevelopmentConfiguration {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost/rankmyfoodtest");
         dataSource.setUsername("root");
-        dataSource.setPassword("***REMOVED***");
+        dataSource.setPassword("Torkku13Z");
         return dataSource;
     }
 
@@ -69,7 +69,7 @@ public class DevelopmentConfiguration {
 /*
  spring.datasource.url=jdbc:mysql://localhost/rankme
 spring.datasource.username=root
-spring.datasource.password=***REMOVED***
+spring.datasource.password=Torkku13Z
 spring.datasource.driverClassName=com.mysql.jdbc.Driver
 
 # Specify the DBMS

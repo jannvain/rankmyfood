@@ -39,7 +39,7 @@ public class ProductionConfiguration {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost/rankmyfood");
         dataSource.setUsername("root");
-        dataSource.setPassword("***REMOVED***");
+        dataSource.setPassword("Torkku13Z");
         return dataSource;
     }
 
